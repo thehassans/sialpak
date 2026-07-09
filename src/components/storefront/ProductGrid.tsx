@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ProductCard, { ProductType } from './ProductCard';
 
@@ -16,17 +15,17 @@ const containerVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.06,
+      staggerChildren: 0.1,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4, ease: 'easeOut' },
+    transition: { duration: 0.6, ease: 'easeOut' },
   },
 };
 
@@ -34,41 +33,34 @@ export default function ProductGrid({
   title,
   products,
   viewAllHref,
-  accentColor,
 }: ProductGridProps) {
-  return (
-    <section className="py-8">
-      <div className="max-w-[1280px] mx-auto px-6">
-        {/* Title Row */}
-        <div className="flex items-center justify-between mb-5">
-          <div>
-            <h2 className="text-xl font-extrabold text-ink">{title}</h2>
-            {accentColor && (
-              <div
-                className="h-1 w-10 rounded mt-1.5"
-                style={{ backgroundColor: accentColor }}
-              />
-            )}
-          </div>
+  // Determine an appropriate eyebrow based on the title
+  let eyebrow = "Curated Selection";
+  if (title.toLowerCase().includes("new")) eyebrow = "Latest Arrivals";
+  if (title.toLowerCase().includes("best") || title.toLowerCase().includes("offer")) eyebrow = "Exclusive Deals";
+  if (title.toLowerCase().includes("home")) eyebrow = "Living Essentials";
 
-          {viewAllHref && (
-            <Link
-              href={viewAllHref}
-              className="text-brand text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all duration-200"
-            >
-              More Products
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          )}
+  return (
+    <section className="py-16 bg-white">
+      <div className="max-w-[1280px] mx-auto px-6">
+        
+        {/* Premium Centered Header */}
+        <div className="flex flex-col items-center mb-12 text-center">
+          <span className="inline-block text-[#d4af37] text-[11px] font-bold uppercase tracking-[0.3em] mb-3">
+            {eyebrow}
+          </span>
+          <h2 className="text-[32px] md:text-[40px] font-bold text-[#0b1221] tracking-tight">
+            {title}
+          </h2>
         </div>
 
         {/* Grid */}
         <motion.div
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-40px' }}
+          viewport={{ once: true, margin: '-50px' }}
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 gap-y-12"
         >
           {products.map((product) => (
             <motion.div key={product.id} variants={itemVariants}>
@@ -76,6 +68,18 @@ export default function ProductGrid({
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Elegant 'View All' Button */}
+        {viewAllHref && (
+          <div className="mt-16 text-center">
+            <Link
+              href={viewAllHref}
+              className="inline-block border border-[#0b1221] text-[#0b1221] hover:bg-[#0b1221] hover:text-white font-bold text-[12px] uppercase tracking-[0.2em] px-10 py-4 transition-colors duration-300"
+            >
+              Discover All
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );
