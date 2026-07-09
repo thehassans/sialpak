@@ -47,12 +47,12 @@ export default function PaymentsForm({ initial }: { initial: any }) {
         badge="Pakistan"
         color="#e2001a"
         enabled={values.jazzcash.enabled}
-        onToggle={(v) => set("jazzcash.enabled", v)}
+        onToggle={(v: any) => set("jazzcash.enabled", v)}
       >
-        <Field label="Merchant ID" value={values.jazzcash.merchantId} onChange={(v) => set("jazzcash.merchantId", v)} />
-        <Field label="Password" type="password" value={values.jazzcash.password} onChange={(v) => set("jazzcash.password", v)} />
-        <Field label="Integrity Salt" type="password" value={values.jazzcash.integritySalt} onChange={(v) => set("jazzcash.integritySalt", v)} />
-        <ModeSelect value={values.jazzcash.mode} onChange={(v) => set("jazzcash.mode", v)} />
+        <Field label="Merchant ID" value={values.jazzcash.merchantId} onChange={(v: any) => set("jazzcash.merchantId", v)} />
+        <Field label="Password" type="password" value={values.jazzcash.password} onChange={(v: any) => set("jazzcash.password", v)} />
+        <Field label="Integrity Salt" type="password" value={values.jazzcash.integritySalt} onChange={(v: any) => set("jazzcash.integritySalt", v)} />
+        <ModeSelect value={values.jazzcash.mode} onChange={(v: any) => set("jazzcash.mode", v)} />
         <p className="text-[11px] text-sub sm:col-span-2">Webhook / return URL to give JazzCash: <code>{"{yourdomain}"}/api/webhooks/jazzcash</code></p>
       </GatewayCard>
 
@@ -61,12 +61,12 @@ export default function PaymentsForm({ initial }: { initial: any }) {
         badge="Pakistan"
         color="#22b04b"
         enabled={values.easypaisa.enabled}
-        onToggle={(v) => set("easypaisa.enabled", v)}
+        onToggle={(v: any) => set("easypaisa.enabled", v)}
       >
-        <Field label="Store ID" value={values.easypaisa.storeId} onChange={(v) => set("easypaisa.storeId", v)} />
-        <Field label="Account Number" value={values.easypaisa.accountNum} onChange={(v) => set("easypaisa.accountNum", v)} />
-        <Field label="Hash Key" type="password" value={values.easypaisa.hashKey} onChange={(v) => set("easypaisa.hashKey", v)} />
-        <ModeSelect value={values.easypaisa.mode} onChange={(v) => set("easypaisa.mode", v)} />
+        <Field label="Store ID" value={values.easypaisa.storeId} onChange={(v: any) => set("easypaisa.storeId", v)} />
+        <Field label="Account Number" value={values.easypaisa.accountNum} onChange={(v: any) => set("easypaisa.accountNum", v)} />
+        <Field label="Hash Key" type="password" value={values.easypaisa.hashKey} onChange={(v: any) => set("easypaisa.hashKey", v)} />
+        <ModeSelect value={values.easypaisa.mode} onChange={(v: any) => set("easypaisa.mode", v)} />
         <p className="text-[11px] text-sub sm:col-span-2">Webhook / return URL: <code>{"{yourdomain}"}/api/webhooks/easypaisa</code></p>
       </GatewayCard>
 
@@ -75,11 +75,11 @@ export default function PaymentsForm({ initial }: { initial: any }) {
         badge="Pakistan"
         color="#1f6fdb"
         enabled={values.payfast.enabled}
-        onToggle={(v) => set("payfast.enabled", v)}
+        onToggle={(v: any) => set("payfast.enabled", v)}
       >
-        <Field label="Merchant ID" value={values.payfast.merchantId} onChange={(v) => set("payfast.merchantId", v)} />
-        <Field label="Secure Key" type="password" value={values.payfast.secureKey} onChange={(v) => set("payfast.secureKey", v)} />
-        <ModeSelect value={values.payfast.mode} onChange={(v) => set("payfast.mode", v)} />
+        <Field label="Merchant ID" value={values.payfast.merchantId} onChange={(v: any) => set("payfast.merchantId", v)} />
+        <Field label="Secure Key" type="password" value={values.payfast.secureKey} onChange={(v: any) => set("payfast.secureKey", v)} />
+        <ModeSelect value={values.payfast.mode} onChange={(v: any) => set("payfast.mode", v)} />
       </GatewayCard>
 
       <GatewayCard
@@ -87,12 +87,12 @@ export default function PaymentsForm({ initial }: { initial: any }) {
         badge="Manual"
         color="#122043"
         enabled={values.bankTransfer.enabled}
-        onToggle={(v) => set("bankTransfer.enabled", v)}
+        onToggle={(v: any) => set("bankTransfer.enabled", v)}
       >
-        <Field label="Account Title" value={values.bankTransfer.accountTitle} onChange={(v) => set("bankTransfer.accountTitle", v)} />
-        <Field label="Account Number" value={values.bankTransfer.accountNumber} onChange={(v) => set("bankTransfer.accountNumber", v)} />
-        <Field label="Bank Name" value={values.bankTransfer.bankName} onChange={(v) => set("bankTransfer.bankName", v)} />
-        <Field label="IBAN" value={values.bankTransfer.iban} onChange={(v) => set("bankTransfer.iban", v)} />
+        <Field label="Account Title" value={values.bankTransfer.accountTitle} onChange={(v: any) => set("bankTransfer.accountTitle", v)} />
+        <Field label="Account Number" value={values.bankTransfer.accountNumber} onChange={(v: any) => set("bankTransfer.accountNumber", v)} />
+        <Field label="Bank Name" value={values.bankTransfer.bankName} onChange={(v: any) => set("bankTransfer.bankName", v)} />
+        <Field label="IBAN" value={values.bankTransfer.iban} onChange={(v: any) => set("bankTransfer.iban", v)} />
       </GatewayCard>
 
       <button onClick={save} disabled={saving} className="btn-primary">{saving ? "Saving..." : "Save Payment Settings"}</button>
