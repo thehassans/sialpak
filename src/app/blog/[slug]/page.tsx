@@ -69,7 +69,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         <div className="max-w-[700px] mx-auto px-6">
           <div 
             className="prose prose-lg max-w-none prose-headings:font-extrabold prose-headings:text-ink prose-p:text-sub prose-p:leading-relaxed prose-a:text-brand prose-img:rounded-xl"
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: article.content || "<p>Content coming soon...</p>" }}
           />
         </div>
 

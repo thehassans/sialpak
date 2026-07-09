@@ -26,10 +26,10 @@ export const DEFAULT_SETTINGS = {
   pixels: { ga4Id: "", metaPixelId: "", tiktokPixelId: "", snapPixelId: "", gtmId: "" },
   payments: {
     codEnabled: true,
-    jazzcash: { enabled: false, merchantId: "", password: "", integritySalt: "", mode: "sandbox" },
-    easypaisa: { enabled: false, storeId: "", accountNum: "", hashKey: "", mode: "sandbox" },
+    jazzcash: { enabled: false, merchantId: "", password: "", integritySalt: "", mode: "sandbox", displayNumber: "", displayName: "" },
+    easypaisa: { enabled: false, storeId: "", accountNum: "", hashKey: "", mode: "sandbox", displayNumber: "", displayName: "" },
     payfast: { enabled: false, merchantId: "", secureKey: "", mode: "sandbox" },
-    bankTransfer: { enabled: false, accountTitle: "", accountNumber: "", bankName: "", iban: "" }
+    bankTransfer: { enabled: false, accountTitle: "", accountNumber: "", bankName: "", iban: "", displayInstructions: "" }
   },
   logistics: {
     defaultCourier: "leopards",

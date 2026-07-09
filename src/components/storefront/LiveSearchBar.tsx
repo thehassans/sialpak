@@ -4,7 +4,7 @@ import { Search, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function LiveSearchBar() {
+export default function LiveSearchBar({ isMobile = false }: { isMobile?: boolean }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -55,7 +55,7 @@ export default function LiveSearchBar() {
   }
 
   return (
-    <div ref={wrapperRef} className="flex-1 hidden md:flex max-w-[500px] relative mx-auto z-50">
+    <div ref={wrapperRef} className={`flex-1 relative mx-auto z-50 w-full ${isMobile ? 'block' : 'hidden lg:block max-w-[500px]'}`}>
       <form onSubmit={handleSubmit} className="w-full flex border border-[#e2e8f0] rounded-full overflow-hidden bg-[#f8fafc] h-12 items-center px-4 transition-all focus-within:border-[#0b1221] focus-within:bg-white focus-within:shadow-sm">
         <Search className="w-4 h-4 text-[#94a3b8]" strokeWidth={2} />
         <input 

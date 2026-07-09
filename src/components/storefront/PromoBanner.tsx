@@ -9,25 +9,25 @@ import { fmtCurrency } from "@/lib/utils";
 // Ultra Premium Mini Countdown
 function MiniCountdown() {
   return (
-    <div className="flex items-center gap-6 mt-8 mb-10 text-white">
+    <div className="flex items-center justify-center md:justify-end gap-3 md:gap-6 mt-8 mb-10 text-white w-full">
       <div className="flex flex-col items-center">
-        <span className="text-3xl md:text-4xl font-light tracking-wider">177</span>
-        <span className="text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Days</span>
+        <span className="text-2xl md:text-4xl font-light tracking-wider">177</span>
+        <span className="text-[10px] md:text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Days</span>
       </div>
-      <span className="text-2xl font-light text-white/20 -mt-5">:</span>
+      <span className="text-xl md:text-2xl font-light text-white/20 -mt-5">:</span>
       <div className="flex flex-col items-center">
-        <span className="text-3xl md:text-4xl font-light tracking-wider">09</span>
-        <span className="text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Hours</span>
+        <span className="text-2xl md:text-4xl font-light tracking-wider">09</span>
+        <span className="text-[10px] md:text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Hours</span>
       </div>
-      <span className="text-2xl font-light text-white/20 -mt-5">:</span>
+      <span className="text-xl md:text-2xl font-light text-white/20 -mt-5">:</span>
       <div className="flex flex-col items-center">
-        <span className="text-3xl md:text-4xl font-light tracking-wider">21</span>
-        <span className="text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Mins</span>
+        <span className="text-2xl md:text-4xl font-light tracking-wider">21</span>
+        <span className="text-[10px] md:text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Mins</span>
       </div>
-      <span className="text-2xl font-light text-white/20 -mt-5">:</span>
+      <span className="text-xl md:text-2xl font-light text-white/20 -mt-5">:</span>
       <div className="flex flex-col items-center">
-        <span className="text-3xl md:text-4xl font-light tracking-wider">56</span>
-        <span className="text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Secs</span>
+        <span className="text-2xl md:text-4xl font-light tracking-wider">56</span>
+        <span className="text-[10px] md:text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Secs</span>
       </div>
     </div>
   );
@@ -59,24 +59,24 @@ export default function PromoBanner({ banner, products = [] }: { banner: any, pr
             />
             {/* Gradient mask to seamlessly blend the image into the dark background on the right */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#0b1221]/80 to-[#0b1221]" style={{ background: `linear-gradient(to right, transparent, ${banner.bgColorTo}80, ${banner.bgColorTo})` }}></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0b1221]/90 via-transparent to-transparent md:hidden" style={{ background: `linear-gradient(to top, ${banner.bgColorTo}E6, transparent, transparent)` }}></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0b1221]/90 via-[#0b1221]/60 to-transparent md:hidden" style={{ background: `linear-gradient(to top, ${banner.bgColorTo}F2, ${banner.bgColorTo}99, transparent)` }}></div>
           </div>
 
           {/* Right Side - Content */}
-          <div className="relative z-10 flex flex-col justify-center h-full min-h-[500px] px-8 py-12 md:px-16 w-full md:w-[55%] ml-auto text-left">
+          <div className="relative z-10 flex flex-col justify-center h-full min-h-[500px] px-6 py-12 md:px-16 w-full md:w-[55%] mx-auto md:ml-auto md:mx-0 text-center md:text-left mt-32 md:mt-0">
             
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="flex flex-col items-end text-right ml-auto max-w-xl"
+              className="flex flex-col items-center md:items-end text-center md:text-right mx-auto md:ml-auto max-w-xl w-full"
             >
-              {banner.eyebrow && <span className="uppercase text-[11px] font-bold tracking-[0.3em] text-[#d4af37] mb-4 drop-shadow-md">{banner.eyebrow}</span>}
-              <h2 className="text-4xl md:text-6xl font-black mb-6 leading-[1.1] tracking-tight drop-shadow-lg" style={{ color: banner.textColor }}>
+              {banner.eyebrow && <span className="uppercase text-[10px] md:text-[11px] font-bold tracking-[0.3em] text-[#d4af37] mb-4 drop-shadow-md">{banner.eyebrow}</span>}
+              <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 leading-[1.15] md:leading-[1.1] tracking-tight drop-shadow-lg" style={{ color: banner.textColor }}>
                 {banner.title}
               </h2>
               {banner.subtitle && (
-                <p className="text-lg md:text-xl font-medium leading-relaxed drop-shadow opacity-90" style={{ color: banner.textColor }}>
+                <p className="text-base md:text-xl font-medium leading-relaxed drop-shadow opacity-90" style={{ color: banner.textColor }}>
                   {banner.subtitle}
                 </p>
               )}
@@ -95,7 +95,7 @@ export default function PromoBanner({ banner, products = [] }: { banner: any, pr
 
         {/* Bottom Overlapping Cards - Ultra Premium Styling */}
         {displayProducts.length > 0 && (
-          <div className="relative -mt-20 z-30 mx-4 md:mx-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 pb-6">
+          <div className="relative -mt-10 md:-mt-20 z-30 mx-4 md:mx-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 pb-6">
             {displayProducts.map((p, i) => {
               const imageList: string[] = (() => {
                 try { return JSON.parse(p.images); } catch { return []; }

@@ -7,7 +7,9 @@ export default function StorefrontSettingsForm({ initialSettings }: { initialSet
     heading_best_offers: initialSettings.heading_best_offers || "The Best Offers",
     heading_new_goods: initialSettings.heading_new_goods || "New Goods",
     marquee_text: initialSettings.marquee_text || "FOLLOW US AND GET A CHANCE TO WIN 80% OFF",
-    marquee_speed: initialSettings.marquee_speed || "20"
+    marquee_speed: initialSettings.marquee_speed || "20",
+    advance_payment_discount: initialSettings.advance_payment_discount || "200",
+    company_whatsapp: initialSettings.company_whatsapp || "+923001234567",
   });
   const [saving, setSaving] = useState(false);
 
@@ -69,8 +71,35 @@ export default function StorefrontSettingsForm({ initialSettings }: { initialSet
           <p className="text-xs text-sub mt-1">Lower is faster. Default is 20.</p>
         </div>
         
+        <div className="pt-4 border-t border-line">
+          <h3 className="admin-label text-ink font-black mb-4 text-sm">💳 Advance Payment Settings</h3>
+          <div className="space-y-4">
+            <div>
+              <label className="admin-label">Advance Payment Discount (PKR)</label>
+              <input 
+                type="number"
+                className="admin-input" 
+                value={settings.advance_payment_discount} 
+                onChange={e => setSettings({ ...settings, advance_payment_discount: e.target.value })} 
+                min="0"
+              />
+              <p className="text-xs text-sub mt-1">This amount will be deducted when a customer pays via JazzCash, EasyPaisa, or Bank Transfer.</p>
+            </div>
+            <div>
+              <label className="admin-label">Company WhatsApp Number (for payment receipts)</label>
+              <input 
+                className="admin-input" 
+                value={settings.company_whatsapp} 
+                placeholder="+923001234567"
+                onChange={e => setSettings({ ...settings, company_whatsapp: e.target.value })} 
+              />
+              <p className="text-xs text-sub mt-1">Customers will be directed to this number to send their payment screenshot after placing an advance order.</p>
+            </div>
+          </div>
+        </div>
+        
         <button onClick={save} disabled={saving} className="btn-primary mt-4">
-          {saving ? "Saving..." : "Save Headings"}
+          {saving ? "Saving..." : "Save Settings"}
         </button>
       </div>
     </div>

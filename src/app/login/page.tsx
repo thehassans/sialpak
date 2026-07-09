@@ -74,14 +74,23 @@ export default function StorefrontLoginPage() {
         </div>
       </div>
 
-      {/* Right side - Abstract Banner */}
-      <div className="hidden lg:block lg:w-1/2 relative bg-[#f4f6fa] overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&q=80")' }} />
-        <div className="absolute inset-0 bg-brand/20 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0b1221]/90 to-transparent flex flex-col justify-end p-16">
-          <h2 className="text-white text-3xl font-extrabold mb-4 leading-tight">Elevate your<br/>shopping experience.</h2>
-          <p className="text-white/80 text-lg max-w-md">Join BuySial to manage your orders, track shipments, and save your details for faster checkout.</p>
+      {/* Right side - Premium Banner */}
+      <div className="hidden lg:block lg:w-1/2 relative bg-[#0b1221] overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center opacity-50 mix-blend-luminosity" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=2564&auto=format&fit=crop")' }} />
+        
+        {/* Complex gradients to give it that ultra-premium feel */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#0b1221] via-transparent to-brand/20 mix-blend-color" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0b1221] via-[#0b1221]/50 to-transparent" />
+        
+        <div className="absolute inset-0 flex flex-col justify-end p-20 z-10">
+          <div className="w-16 h-1 bg-brand mb-8 rounded-full"></div>
+          <h2 className="text-white text-4xl font-black mb-6 leading-tight tracking-tight">Elevate your<br/>shopping experience.</h2>
+          <p className="text-[#94a3b8] text-lg max-w-lg leading-relaxed">Join BuySial to manage your orders, track shipments, and unlock exclusive VIP access to our curated collections.</p>
         </div>
+        
+        {/* Subtle decorative elements */}
+        <div className="absolute top-20 right-20 w-64 h-64 bg-brand/30 rounded-full blur-[100px]"></div>
+        <div className="absolute bottom-40 -left-20 w-80 h-80 bg-blue-500/20 rounded-full blur-[120px]"></div>
       </div>
     </div>
   );

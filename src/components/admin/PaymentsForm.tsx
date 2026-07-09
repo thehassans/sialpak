@@ -53,6 +53,13 @@ export default function PaymentsForm({ initial }: { initial: any }) {
         <Field label="Password" type="password" value={values.jazzcash.password} onChange={(v: any) => set("jazzcash.password", v)} />
         <Field label="Integrity Salt" type="password" value={values.jazzcash.integritySalt} onChange={(v: any) => set("jazzcash.integritySalt", v)} />
         <ModeSelect value={values.jazzcash.mode} onChange={(v: any) => set("jazzcash.mode", v)} />
+        <div className="sm:col-span-2 border-t border-dashed border-line pt-4 mt-2">
+          <p className="text-[11px] font-black uppercase tracking-wider text-sub mb-3">📱 Customer-Facing Display (shown at checkout)</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Field label="Display Account Number" value={values.jazzcash.displayNumber || ""} onChange={(v: any) => set("jazzcash.displayNumber", v)} />
+            <Field label="Account Holder Name" value={values.jazzcash.displayName || ""} onChange={(v: any) => set("jazzcash.displayName", v)} />
+          </div>
+        </div>
         <p className="text-[11px] text-sub sm:col-span-2">Webhook / return URL to give JazzCash: <code>{"{yourdomain}"}/api/webhooks/jazzcash</code></p>
       </GatewayCard>
 
@@ -67,6 +74,13 @@ export default function PaymentsForm({ initial }: { initial: any }) {
         <Field label="Account Number" value={values.easypaisa.accountNum} onChange={(v: any) => set("easypaisa.accountNum", v)} />
         <Field label="Hash Key" type="password" value={values.easypaisa.hashKey} onChange={(v: any) => set("easypaisa.hashKey", v)} />
         <ModeSelect value={values.easypaisa.mode} onChange={(v: any) => set("easypaisa.mode", v)} />
+        <div className="sm:col-span-2 border-t border-dashed border-line pt-4 mt-2">
+          <p className="text-[11px] font-black uppercase tracking-wider text-sub mb-3">📱 Customer-Facing Display (shown at checkout)</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Field label="Display Account Number" value={values.easypaisa.displayNumber || ""} onChange={(v: any) => set("easypaisa.displayNumber", v)} />
+            <Field label="Account Holder Name" value={values.easypaisa.displayName || ""} onChange={(v: any) => set("easypaisa.displayName", v)} />
+          </div>
+        </div>
         <p className="text-[11px] text-sub sm:col-span-2">Webhook / return URL: <code>{"{yourdomain}"}/api/webhooks/easypaisa</code></p>
       </GatewayCard>
 
@@ -93,6 +107,15 @@ export default function PaymentsForm({ initial }: { initial: any }) {
         <Field label="Account Number" value={values.bankTransfer.accountNumber} onChange={(v: any) => set("bankTransfer.accountNumber", v)} />
         <Field label="Bank Name" value={values.bankTransfer.bankName} onChange={(v: any) => set("bankTransfer.bankName", v)} />
         <Field label="IBAN" value={values.bankTransfer.iban} onChange={(v: any) => set("bankTransfer.iban", v)} />
+        <div className="sm:col-span-2 border-t border-dashed border-line pt-4 mt-2">
+          <label className="admin-label">Customer Instructions (shown at checkout)</label>
+          <textarea
+            className="admin-input w-full min-h-[80px] resize-y"
+            value={values.bankTransfer.displayInstructions || ""}
+            onChange={(e) => set("bankTransfer.displayInstructions", e.target.value)}
+            placeholder="e.g. Transfer to Meezan Bank. Account: 0123456789. Title: BuySial Store."
+          />
+        </div>
       </GatewayCard>
 
       <button onClick={save} disabled={saving} className="btn-primary">{saving ? "Saving..." : "Save Payment Settings"}</button>

@@ -14,9 +14,19 @@ export async function createOrder(data: {
   total: number;
   couponCode?: string;
   discountAmount?: number;
+  paymentMethod?: string; // 'cod' | 'advance'
 }) {
   const orderNumber = "ORD-" + Math.floor(100000 + Math.random() * 900000);
   const session = await getCustomerSession();
+
+  // Resolve advance payment discount from DB settings
+  let finalTotal = data.total;
+  const paymentMethod = data.paymentMethod || "cod";
+  if (paymentMethod === "advance") {
+    const setting = await prisma.setting.findUnique({ where: { key: "advance_payment_discount" } });
+    const discount = setting ? parseFloat(setting.value) || 0 : 200;
+    finalTotal = Math.max(0, finalTotal - discount);
+  }
   
   const order = await prisma.order.create({
     data: {
@@ -30,11 +40,11 @@ export async function createOrder(data: {
       province: data.province,
       postalCode: data.postalCode,
       subtotal: data.total,
-      total: data.total,
-      paymentMethod: "cod",
+      total: finalTotal,
+      paymentMethod: paymentMethod,
       items: {
         create: [
-          { name: "Premium Curated Item", price: data.total, qty: 1 }
+          { name: "Premium Curated Item", price: finalTotal, qty: 1 }
         ]
       }
     }

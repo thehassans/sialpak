@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 
-function AdminLoginForm() {
+export default function AdminLoginPage() {
   const router = useRouter();
-  const params = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -22,66 +22,79 @@ function AdminLoginForm() {
     });
     setLoading(false);
     if (res.ok) {
-      router.push(params.get("next") || "/admin/dashboard");
+      router.push("/admin");
       router.refresh();
     } else {
-      const data = await res.json().catch(() => ({}));
-      setError(data.error || "Invalid email or password");
+      setError("Invalid credentials");
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden bg-[#f8f9fa]">
-      {/* Light Premium Image Background */}
-      <div 
-        className="absolute inset-0 w-full h-full bg-cover bg-center opacity-70"
-        style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1600164318721-a39cce6d2890?auto=format&fit=crop&q=80")' }}
-      />
-      <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]" />
-
-      <div className="relative w-full max-w-[440px] z-10">
-        <div className="flex flex-col items-center mb-10">
-          <div className="w-16 h-16 bg-white/70 backdrop-blur-xl border border-white rounded-2xl flex items-center justify-center mb-6 shadow-xl">
-            <img src="/uploads/logo.png" alt="BuySial Logo" className="h-10 w-auto object-contain" />
+    <div className="min-h-screen bg-[#0b1221] flex">
+      {/* Left side - Login Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12 relative z-10 bg-white">
+        <div className="w-full max-w-[420px]">
+          <Link href="/" className="inline-block mb-12">
+            <img src="/uploads/logo.png" alt="BuySial" className="h-10 w-auto object-contain" />
+          </Link>
+          
+          <div className="flex items-center gap-3 mb-3">
+            <ShieldCheck className="text-brand w-8 h-8" />
+            <h1 className="text-3xl md:text-4xl font-extrabold text-ink leading-tight">Admin Portal</h1>
           </div>
-          <h1 className="text-2xl font-light text-[#0b1221] tracking-[0.2em] uppercase">Control Panel</h1>
+          <p className="text-sub text-[14px] mb-8 font-medium">Please enter your credentials to access the command center.</p>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {error && <div className="bg-red-50 border border-red-100 text-red-500 text-[13px] rounded-lg px-4 py-3 font-medium">{error}</div>}
+
+            <div>
+              <label className="block text-[12px] uppercase tracking-wider text-ink font-bold mb-2">Email Address</label>
+              <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} 
+                className="w-full bg-[#f8f9fa] border border-[#e2e8f0] rounded-xl px-4 py-3.5 text-ink text-[14px] outline-none focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10 transition-all placeholder:text-gray-400 font-mono" 
+                placeholder="admin@buysial.com" 
+              />
+            </div>
+
+            <div>
+              <label className="block text-[12px] uppercase tracking-wider text-ink font-bold mb-2">Password</label>
+              <input required type="password" value={password} onChange={(e) => setPassword(e.target.value)} 
+                className="w-full bg-[#f8f9fa] border border-[#e2e8f0] rounded-xl px-4 py-3.5 text-ink text-[14px] outline-none focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10 transition-all placeholder:text-gray-400 font-mono" 
+                placeholder="••••••••" 
+              />
+            </div>
+
+            <button disabled={loading} className="w-full bg-[#0b1221] text-white font-bold text-[14px] py-4 rounded-xl hover:bg-[#1a2942] transition-all shadow-[0_10px_20px_-10px_rgba(11,18,33,0.5)] hover:shadow-[0_15px_25px_-10px_rgba(11,18,33,0.6)] hover:-translate-y-0.5 flex items-center justify-center gap-2 group">
+              {loading ? "Authenticating..." : (
+                <>Secure Login <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></>
+              )}
+            </button>
+          </form>
+
+          <div className="mt-8 text-center text-[12px] text-sub font-mono">
+            &copy; {new Date().getFullYear()} BuySial Commerce OS. All rights reserved.
+          </div>
         </div>
+      </div>
 
-        <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-2xl border border-white rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] p-10">
-          <h2 className="text-xl font-bold text-[#0b1221] mb-2">Welcome back</h2>
-          <p className="text-[#64748b] text-[13px] mb-8 font-medium">Sign in to manage your premium storefront.</p>
-
-          {error && <div className="bg-red-50 border border-red-100 text-red-500 text-[13px] rounded-lg px-4 py-3 mb-6 font-medium">{error}</div>}
-
-          <div className="mb-5">
-            <label className="block text-[11px] uppercase tracking-widest text-[#64748b] font-bold mb-2">Email</label>
-            <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} 
-              className="w-full bg-white/80 border border-gray-200 rounded-xl px-4 py-3 text-[#0b1221] text-[14px] outline-none focus:border-[#d4af37] focus:bg-white transition-all placeholder:text-gray-400 shadow-sm" 
-              placeholder="admin@buysial.com" 
-            />
-          </div>
-
-          <div className="mb-8">
-            <label className="block text-[11px] uppercase tracking-widest text-[#64748b] font-bold mb-2">Password</label>
-            <input required type="password" value={password} onChange={(e) => setPassword(e.target.value)} 
-              className="w-full bg-white/80 border border-gray-200 rounded-xl px-4 py-3 text-[#0b1221] text-[14px] outline-none focus:border-[#d4af37] focus:bg-white transition-all placeholder:text-gray-400 shadow-sm" 
-              placeholder="••••••••" 
-            />
-          </div>
-
-          <button disabled={loading} className="w-full bg-[#0b1221] text-white font-bold text-[13px] uppercase tracking-widest py-4 rounded-xl hover:bg-[#d4af37] transition-colors shadow-lg">
-            {loading ? "Authenticating..." : "Sign In"}
-          </button>
-        </form>
+      {/* Right side - Abstract Banner */}
+      <div className="hidden lg:block lg:w-1/2 relative bg-[#0b1221] overflow-hidden">
+        {/* We use an ultra premium abstract Unsplash image here since the image generator quota is exhausted */}
+        <div className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-luminosity" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop")' }} />
+        
+        {/* Complex gradients to give it that ultra-premium feel */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#0b1221] via-transparent to-brand/20 mix-blend-color" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0b1221] via-[#0b1221]/50 to-transparent" />
+        
+        <div className="absolute inset-0 flex flex-col justify-end p-20 z-10">
+          <div className="w-16 h-1 bg-brand mb-8 rounded-full"></div>
+          <h2 className="text-white text-4xl font-black mb-6 leading-tight tracking-tight">Command Center<br/>Operations & Analytics</h2>
+          <p className="text-[#94a3b8] text-lg max-w-lg leading-relaxed">Manage your storefront, track inventory, and analyze customer behaviors from one unified, powerful dashboard designed for scale.</p>
+        </div>
+        
+        {/* Subtle decorative elements */}
+        <div className="absolute top-20 right-20 w-64 h-64 bg-brand/30 rounded-full blur-[100px]"></div>
+        <div className="absolute bottom-40 -left-20 w-80 h-80 bg-blue-500/20 rounded-full blur-[120px]"></div>
       </div>
     </div>
-  );
-}
-
-export default function AdminLoginPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-[#f8f9fa]" />}>
-      <AdminLoginForm />
-    </Suspense>
   );
 }

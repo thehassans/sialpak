@@ -1,6 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import ProductGrid from "@/components/storefront/ProductGrid";
 import SearchFilters from "@/components/storefront/SearchFilters";
+import Header from "@/components/storefront/Header";
+import Footer from "@/components/storefront/Footer";
+import { getSetting, DEFAULT_SETTINGS } from "@/lib/settings";
 
 const prisma = new PrismaClient();
 
@@ -52,8 +55,17 @@ export default async function SearchPage({ searchParams }: { searchParams: { q?:
     orderBy: { sortOrder: "asc" }
   });
 
+  const general = await getSetting("general", DEFAULT_SETTINGS.general);
+
   return (
-    <main className="min-h-screen bg-bg">
+    <>
+      <Header
+        storeName={general.storeName}
+        tagline={general.tagline}
+        supportPhone={general.supportPhone}
+        freeShippingText={general.freeShippingText}
+      />
+      <main className="min-h-screen bg-[#f8f9fa]">
       <div className="bg-[#0b1221] py-16 text-center border-b border-[#1f2937]">
         <h1 className="text-white text-3xl font-extrabold mb-4">
           {query ? `Search Results for "${query}"` : "All Premium Products"}
@@ -80,5 +92,7 @@ export default async function SearchPage({ searchParams }: { searchParams: { q?:
 
       </div>
     </main>
+    <Footer storeName={general.storeName} />
+    </>
   );
 }
