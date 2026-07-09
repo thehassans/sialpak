@@ -12,7 +12,9 @@ const NAV = [
   { href: "/admin/seo", label: "SEO & Pixels", icon: "M10 21a9 9 0 100-18 9 9 0 000 18zm0 0v-9m0 0L4 6m6 6l6-6" },
   { href: "/admin/payments", label: "Payments", icon: "M2 7h20v13H2zM2 11h20" },
   { href: "/admin/logistics", label: "Logistics", icon: "M3 16V6h11v10M14 9h4l3 3v4h-7M6 19a2 2 0 100-4 2 2 0 000 4zm12 0a2 2 0 100-4 2 2 0 000 4z" },
-  { href: "/admin/settings", label: "Settings", icon: "M12 15a3 3 0 100-6 3 3 0 000 6z" }
+  { href: "/admin/settings", label: "Settings", icon: "M12 15a3 3 0 100-6 3 3 0 000 6z" },
+  { href: "/admin/settings/storefront", label: "Storefront UI", icon: "M4 5h16v14H4z M4 10h16" },
+  { href: "/admin/settings/email", label: "Email (Brevo)", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" }
 ];
 
 export default function Sidebar({ storeName, userName }: { storeName: string; userName: string }) {
@@ -33,7 +35,7 @@ export default function Sidebar({ storeName, userName }: { storeName: string; us
       </div>
       <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
         {NAV.map((item) => {
-          const active = pathname?.startsWith(item.href);
+          const active = pathname === item.href || (item.href !== "/admin/settings" && pathname?.startsWith(item.href));
           return (
             <Link
               key={item.href}

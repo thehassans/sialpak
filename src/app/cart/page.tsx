@@ -9,6 +9,29 @@ export default function CartPage() {
   const [step, setStep] = useState<"cart" | "checkout" | "success">("cart");
   const [loading, setLoading] = useState(false);
   const [orderNumber, setOrderNumber] = useState("");
+  const [selectedProvince, setSelectedProvince] = useState("Punjab");
+  const [citySearch, setCitySearch] = useState("");
+  const [showCityDropdown, setShowCityDropdown] = useState(false);
+
+  const provinceCities: Record<string, string[]> = {
+    "Punjab": [
+      "Lahore", "Faisalabad", "Rawalpindi", "Multan", "Gujranwala", "Sialkot", "Sargodha", 
+      "Bahawalpur", "Sheikhupura", "Jhang", "Gujrat", "Kasur", "Sahiwal", "Okara", "Wah Cantonment", 
+      "Dera Ghazi Khan", "Chiniot", "Kamoke", "Sadiqabad", "Burewala", "Vehari", "Muridke"
+    ],
+    "Sindh": [
+      "Karachi", "Hyderabad", "Sukkur", "Larkana", "Nawabshah", "Mirpur Khas", "Jacobabad", 
+      "Shikarpur", "Khairpur", "Dadu", "Tando Adam", "Tando Allahyar", "Umerkot", "Badin"
+    ],
+    "KPK": [
+      "Peshawar", "Mardan", "Mingora", "Kohat", "Abbottabad", "Swat", "Dera Ismail Khan", 
+      "Nowshera", "Charsadda", "Mansehra", "Swabi", "Timargara", "Bannu", "Batkhela"
+    ],
+    "Balochistan": [
+      "Quetta", "Gwadar", "Khuzdar", "Chaman", "Turbat", "Sibi", "Hub", "Zhob", "Dera Murad Jamali"
+    ],
+    "Islamabad": ["Islamabad"]
+  };
 
   const mockCartItem = {
     id: "1",
@@ -106,18 +129,63 @@ export default function CartPage() {
                     <label className="block text-[11px] font-bold uppercase tracking-widest text-[#64748b] mb-2">Complete Address</label>
                     <input name="address" required className="w-full border border-[#e2e8f0] rounded-lg p-3 text-[14px] outline-none focus:border-[#0b1221]" placeholder="House No, Street, Area" />
                   </div>
-                  <div className="col-span-2 md:col-span-1">
+                  <div className="col-span-2 md:col-span-1 relative">
                     <label className="block text-[11px] font-bold uppercase tracking-widest text-[#64748b] mb-2">City</label>
-                    <input name="city" required className="w-full border border-[#e2e8f0] rounded-lg p-3 text-[14px] outline-none focus:border-[#0b1221]" placeholder="Lahore" />
+                    <input 
+                      type="hidden"
+                      name="city"
+                      value={citySearch}
+                    />
+                    <input 
+                      required 
+                      autoComplete="off"
+                      value={citySearch}
+                      onChange={(e) => {
+                        setCitySearch(e.target.value);
+                        setShowCityDropdown(true);
+                      }}
+                      onFocus={() => setShowCityDropdown(true)}
+                      onBlur={() => setTimeout(() => setShowCityDropdown(false), 200)}
+                      className="w-full border border-[#e2e8f0] rounded-lg p-3 text-[14px] outline-none focus:border-[#0b1221]" 
+                      placeholder="Search or select city" 
+                    />
+                    
+                    {showCityDropdown && (
+                      <div className="absolute z-10 w-full mt-1 bg-white border border-[#e2e8f0] rounded-lg shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] max-h-60 overflow-y-auto">
+                        {(provinceCities[selectedProvince] || [])
+                          .filter(city => city.toLowerCase().includes(citySearch.toLowerCase()))
+                          .map(city => (
+                            <div 
+                              key={city}
+                              className="px-4 py-3 text-[14px] text-[#0b1221] hover:bg-[#f8f9fa] hover:text-[#d4af37] cursor-pointer transition-colors border-b border-[#f0f0f0] last:border-0"
+                              onClick={() => {
+                                setCitySearch(city);
+                                setShowCityDropdown(false);
+                              }}
+                            >
+                              {city}
+                            </div>
+                          ))}
+                        {(provinceCities[selectedProvince] || []).filter(city => city.toLowerCase().includes(citySearch.toLowerCase())).length === 0 && (
+                          <div className="px-4 py-3 text-[13px] text-[#94a3b8] italic">No cities found</div>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <div className="col-span-2 md:col-span-1">
                     <label className="block text-[11px] font-bold uppercase tracking-widest text-[#64748b] mb-2">Province</label>
-                    <select name="province" className="w-full border border-[#e2e8f0] rounded-lg p-3 text-[14px] outline-none focus:border-[#0b1221]">
-                      <option>Punjab</option>
-                      <option>Sindh</option>
-                      <option>KPK</option>
-                      <option>Balochistan</option>
-                      <option>Islamabad</option>
+                    <select 
+                      name="province" 
+                      value={selectedProvince}
+                      onChange={(e) => {
+                        setSelectedProvince(e.target.value);
+                        setCitySearch(""); // Reset city when province changes
+                      }}
+                      className="w-full border border-[#e2e8f0] rounded-lg p-3 text-[14px] outline-none focus:border-[#0b1221]"
+                    >
+                      {Object.keys(provinceCities).map(prov => (
+                        <option key={prov} value={prov}>{prov}</option>
+                      ))}
                     </select>
                   </div>
                 </div>

@@ -17,7 +17,7 @@ const EMPTY: Omit<Banner, "id"> = {
 
 export default function BannerManager({ initialBanners }: { initialBanners: Banner[] }) {
   const [banners, setBanners] = useState<Banner[]>(initialBanners);
-  const [editing, setEditing] = useState<Banner | (Omit<Banner, "id"> & { id?: string }) | null>(null);
+  const [editing, setEditing] = useState<Banner | (Omit<Banner, "id"> & { id?: string }) | null>(initialBanners[0] || null);
   const [saving, setSaving] = useState(false);
 
   function startNew() {
