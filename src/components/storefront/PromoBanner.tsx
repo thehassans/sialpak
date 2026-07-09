@@ -14,17 +14,17 @@ export default function PromoBanner() {
           <motion.div 
             animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }} 
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute left-[5%] top-[10%] md:left-[10%] md:top-[15%] opacity-40 mix-blend-screen w-32 h-32 md:w-48 md:h-48 hidden sm:block"
+            className="absolute left-[5%] top-[10%] md:left-[10%] md:top-[15%] w-32 h-32 md:w-48 md:h-48 hidden sm:block shadow-2xl rounded-full border-4 border-white/20"
           >
-            <Image src="/uploads/promo_float1_1783568790973.png" alt="Decoration" fill className="object-cover rounded-full blur-[2px]" />
+            <Image src="/uploads/promo_float1_1783568790973.png" alt="Decoration" fill className="object-cover rounded-full" />
           </motion.div>
           
           <motion.div 
             animate={{ y: [10, -10, 10], rotate: [0, -5, 0] }} 
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute right-[5%] bottom-[10%] md:right-[10%] md:bottom-[15%] opacity-40 mix-blend-screen w-24 h-24 md:w-40 md:h-40 hidden sm:block"
+            className="absolute right-[5%] bottom-[10%] md:right-[10%] md:bottom-[15%] w-24 h-24 md:w-40 md:h-40 hidden sm:block shadow-xl rounded-full border-4 border-white/20"
           >
-            <Image src="/uploads/promo_float2_1783568798438.png" alt="Decoration" fill className="object-cover rounded-full blur-[1px]" />
+            <Image src="/uploads/promo_float2_1783568798438.png" alt="Decoration" fill className="object-cover rounded-full" />
           </motion.div>
 
           <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto">

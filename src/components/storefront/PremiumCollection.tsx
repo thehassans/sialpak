@@ -19,9 +19,10 @@ export default function PremiumCollection({ products }: { products: ProductType[
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="rounded-2xl overflow-hidden relative bg-gradient-to-br from-brand to-navy min-h-[400px] flex items-center justify-center p-10 text-center"
+            className="rounded-2xl overflow-hidden relative bg-navy min-h-[400px] flex items-center justify-center p-10 text-center shadow-lg"
           >
-            <div className="absolute inset-0 bg-[url('/uploads/banner_skincare_1783568776197.png')] opacity-10 mix-blend-overlay object-cover bg-center"></div>
+            <div className="absolute inset-0 bg-[url('/uploads/banner_skincare_1783568776197.png')] opacity-60 object-cover bg-center mix-blend-luminosity"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/50 to-transparent"></div>
             
             <div className="relative z-10 flex flex-col items-center">
               <span className="inline-block px-3 py-1 bg-white/20 text-white text-[10px] font-extrabold tracking-widest uppercase rounded-full mb-6 backdrop-blur-sm">
