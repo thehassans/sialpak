@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import { Globe, MessageCircle, Camera, Video } from "lucide-react";
 import { FOOTER_LINKS } from "@/lib/mock-data";
 
 export default function Footer({ storeName }: { storeName: string }) {
@@ -19,10 +19,10 @@ export default function Footer({ storeName }: { storeName: string }) {
               Your everyday shopping destination for beauty, fashion, electronics and more — delivered fast, worldwide. Experience the best in online retail.
             </p>
             <div className="flex items-center gap-4">
-              <a href="#" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand transition-colors"><Facebook className="w-4 h-4" /></a>
-              <a href="#" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand transition-colors"><Twitter className="w-4 h-4" /></a>
-              <a href="#" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand transition-colors"><Instagram className="w-4 h-4" /></a>
-              <a href="#" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand transition-colors"><Youtube className="w-4 h-4" /></a>
+              <a href="#" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand transition-colors"><Globe className="w-4 h-4" /></a>
+              <a href="#" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand transition-colors"><MessageCircle className="w-4 h-4" /></a>
+              <a href="#" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand transition-colors"><Camera className="w-4 h-4" /></a>
+              <a href="#" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand transition-colors"><Video className="w-4 h-4" /></a>
             </div>
           </div>
 
