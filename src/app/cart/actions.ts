@@ -12,6 +12,8 @@ export async function createOrder(data: {
   province: string;
   postalCode: string;
   total: number;
+  couponCode?: string;
+  discountAmount?: number;
 }) {
   const orderNumber = "ORD-" + Math.floor(100000 + Math.random() * 900000);
   const session = await getCustomerSession();
@@ -37,6 +39,18 @@ export async function createOrder(data: {
       }
     }
   });
+
+  // If a coupon was used, increment its usageCount
+  if (data.couponCode) {
+    try {
+      await prisma.coupon.update({
+        where: { code: data.couponCode },
+        data: { usageCount: { increment: 1 } }
+      });
+    } catch (e) {
+      console.error("Failed to increment coupon usage:", e);
+    }
+  }
 
   // Delete any abandoned cart drafts for this email now that they purchased!
   if (data.email) {

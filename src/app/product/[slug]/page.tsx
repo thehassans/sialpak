@@ -3,6 +3,7 @@ import { getSetting, DEFAULT_SETTINGS } from "@/lib/settings";
 import Header from "@/components/storefront/Header";
 import Footer from "@/components/storefront/Footer";
 import ProductReviews from "@/components/storefront/ProductReviews";
+import VariantSelector from "@/components/storefront/VariantSelector";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { fmtCurrency } from "@/lib/utils";
@@ -25,6 +26,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
     where: { slug: params.slug }, 
     include: { 
       category: true,
+      variants: true,
       reviews: {
         where: { status: "published" },
         include: { customer: { select: { name: true } } },
@@ -73,12 +75,9 @@ export default async function ProductPage({ params }: { params: { slug: string }
             </span>
           </div>
 
-          <div className="text-2xl font-extrabold mb-4">
-            {p.comparePrice && <span className="line-through text-sub font-medium text-lg mr-2">{fmtCurrency(p.comparePrice, general.currency)}</span>}
-            {fmtCurrency(p.price, general.currency)}
-          </div>
           <p className="text-sub leading-relaxed mb-6">{p.description}</p>
-          <button className="btn-primary">Add To Cart</button>
+          
+          <VariantSelector product={p as any} general={general} />
         </div>
       </main>
       

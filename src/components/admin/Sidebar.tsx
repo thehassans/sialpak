@@ -18,7 +18,8 @@ import {
   Store, 
   Mail,
   LogOut,
-  History
+  History,
+  Ticket
 } from "lucide-react";
 
 const NAV = [
@@ -30,6 +31,7 @@ const NAV = [
   { href: "/admin/banners", label: "Banners", icon: <ImageIcon size={18} /> },
   { href: "/admin/seo", label: "SEO & Pixels", icon: <Search size={18} /> },
   { href: "/admin/articles", label: "Articles", icon: <FileText size={18} /> },
+  { href: "/admin/discounts", label: "Discounts", icon: <Ticket size={18} /> },
   { href: "/admin/payments", label: "Payments", icon: <CreditCard size={18} /> },
   { href: "/admin/recovery", label: "Cart Recovery", icon: <History size={18} /> },
   { href: "/admin/reviews", label: "Reviews", icon: <Star size={18} /> },

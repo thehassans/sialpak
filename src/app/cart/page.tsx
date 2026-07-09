@@ -12,6 +12,10 @@ export default function CartPage() {
   const [selectedProvince, setSelectedProvince] = useState("Punjab");
   const [citySearch, setCitySearch] = useState("");
   const [showCityDropdown, setShowCityDropdown] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discountAmount: number } | null>(null);
+  const [couponLoading, setCouponLoading] = useState(false);
+  const [couponError, setCouponError] = useState("");
 
   const provinceCities: Record<string, string[]> = {
     "Punjab": [
@@ -40,6 +44,28 @@ export default function CartPage() {
     qty: 1,
     image: "/uploads/banner_skincare_1783568776197.png"
   };
+  const subtotal = mockCartItem.price;
+  const shipping = subtotal >= 2500 ? 0 : 250;
+  const total = subtotal + shipping - (appliedCoupon?.discountAmount || 0);
+
+  async function handleApplyCoupon() {
+    if (!couponCode) return;
+    setCouponLoading(true);
+    setCouponError("");
+    const res = await fetch("/api/checkout/apply-coupon", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: couponCode, cartTotal: subtotal })
+    });
+    setCouponLoading(false);
+    const data = await res.json();
+    if (res.ok) {
+      setAppliedCoupon({ code: data.coupon.code, discountAmount: data.discountAmount });
+      setCouponCode("");
+    } else {
+      setCouponError(data.error);
+    }
+  }
 
   async function handleCheckout(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -53,7 +79,9 @@ export default function CartPage() {
       city: fd.get("city") as string,
       province: fd.get("province") as string,
       postalCode: fd.get("postal") as string,
-      total: mockCartItem.price,
+      total: total,
+      couponCode: appliedCoupon?.code || undefined,
+      discountAmount: appliedCoupon?.discountAmount || undefined
     });
     if (res.success) {
       setOrderNumber(res.orderNumber);
@@ -134,9 +162,9 @@ export default function CartPage() {
                     <label className="block text-[11px] font-bold uppercase tracking-widest text-[#64748b] mb-2">Full Name</label>
                     <input name="name" required className="w-full border border-[#e2e8f0] rounded-lg p-3 text-[14px] outline-none focus:border-[#0b1221]" placeholder="John Doe" />
                   </div>
-                  <div className="col-span-2 md:col-span-1">
-                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#64748b] mb-2">Phone Number</label>
-                    <input name="phone" required className="w-full border border-[#e2e8f0] rounded-lg p-3 text-[14px] outline-none focus:border-[#0b1221]" placeholder="+92 300 1234567" />
+                    <div className="md:col-span-2">
+                    <label className="block text-xs font-bold text-ink mb-1.5 uppercase tracking-wider">Phone Number *</label>
+                    <input required type="text" name="phone" defaultValue="+92 " className="w-full bg-white border border-line rounded-lg px-4 py-3 outline-none focus:border-brand transition-colors text-sm" placeholder="+92 300 1234567" />
                   </div>
                     <div className="md:col-span-2">
                       <label className="block text-xs font-bold text-ink mb-1.5 uppercase tracking-wider">Email Address *</label>
@@ -215,21 +243,85 @@ export default function CartPage() {
 
           {/* Order Summary Sidebar */}
           <div className="w-full md:w-[380px] shrink-0">
-            <div className="bg-[#0b1221] text-white rounded-2xl p-8 sticky top-8">
-              <h3 className="text-[18px] font-bold mb-6">Order Summary</h3>
-              <div className="flex justify-between text-[#cbd5e1] mb-3 text-[14px]">
-                <span>Subtotal</span>
-                <span>PKR {mockCartItem.price.toFixed(2)}</span>
+            <div className="bg-[#f8f9fa] p-6 lg:p-8 rounded-2xl flex flex-col h-full border border-[#e2e8f0]">
+              <h2 className="text-[15px] font-black uppercase tracking-widest text-[#0b1221] mb-6">Order Summary</h2>
+
+              <div className="flex-1 space-y-6">
+                <div className="flex gap-4">
+                  <div className="relative w-20 h-20 bg-white rounded-xl border border-[#e2e8f0] flex items-center justify-center overflow-hidden shrink-0">
+                    <Image src={mockCartItem.image} alt={mockCartItem.name} fill className="object-cover" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-[13px] text-[#0b1221] mb-1 leading-snug">{mockCartItem.name}</div>
+                    <div className="text-[12px] text-[#64748b]">Qty: {mockCartItem.qty}</div>
+                    <div className="font-black text-[#0b1221] text-[14px] mt-1">Rs. {mockCartItem.price.toLocaleString()}</div>
+                  </div>
+                </div>
               </div>
-              <div className="flex justify-between text-[#cbd5e1] mb-6 text-[14px]">
-                <span>Shipping</span>
-                <span className="text-[#d4af37] font-semibold">Free</span>
+
+              {/* Promo Code Section */}
+              <div className="pt-6 mt-6 border-t border-[#e2e8f0]">
+                <div className="flex gap-2">
+                  <input 
+                    type="text" 
+                    value={couponCode} 
+                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())} 
+                    placeholder="Gift card or discount code" 
+                    className="flex-1 border border-[#e2e8f0] rounded-lg p-3 text-[14px] outline-none focus:border-brand font-mono uppercase" 
+                  />
+                  <button 
+                    type="button" 
+                    onClick={handleApplyCoupon} 
+                    disabled={couponLoading || !couponCode}
+                    className="bg-ink text-white font-bold text-[12px] uppercase tracking-widest px-6 rounded-lg hover:bg-brand transition-colors disabled:opacity-50"
+                  >
+                    {couponLoading ? "Applying..." : "Apply"}
+                  </button>
+                </div>
+                {couponError && <p className="text-red-500 text-[12px] font-bold mt-2">{couponError}</p>}
+                
+                {appliedCoupon && (
+                  <div className="mt-3 bg-brand/5 border border-brand/20 rounded-lg p-3 flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-brand">
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span className="font-mono font-bold text-[13px]">{appliedCoupon.code}</span>
+                    </div>
+                    <button type="button" onClick={() => setAppliedCoupon(null)} className="text-[11px] font-bold uppercase tracking-wider text-sub hover:text-red-500">
+                      Remove
+                    </button>
+                  </div>
+                )}
               </div>
-              <div className="w-full h-px bg-white/10 mb-6"></div>
-              <div className="flex justify-between text-white mb-8 text-[18px] font-bold">
-                <span>Total</span>
-                <span>PKR {mockCartItem.price.toFixed(2)}</span>
+
+              <div className="pt-6 mt-6 border-t border-[#e2e8f0] space-y-3">
+                <div className="flex justify-between text-[14px]">
+                  <span className="text-[#64748b]">Subtotal</span>
+                  <span className="font-semibold text-[#0b1221]">Rs. {subtotal.toLocaleString()}</span>
+                </div>
+                {appliedCoupon && (
+                  <div className="flex justify-between text-[14px] text-brand font-bold">
+                    <span>Discount</span>
+                    <span>- Rs. {appliedCoupon.discountAmount.toLocaleString()}</span>
+                  </div>
+                )}
+                <div className="flex justify-between text-[14px]">
+                  <span className="text-[#64748b]">Shipping</span>
+                  <span className={shipping === 0 ? "font-bold text-brand" : "font-semibold text-[#0b1221]"}>
+                    {shipping === 0 ? "Free" : `Rs. ${shipping.toLocaleString()}`}
+                  </span>
+                </div>
               </div>
+
+              <div className="pt-6 mt-6 border-t border-[#e2e8f0]">
+                <div className="flex justify-between items-end mb-1">
+                  <span className="text-[13px] font-bold uppercase tracking-widest text-[#0b1221]">Total</span>
+                  <div className="text-right">
+                    <span className="text-[11px] text-[#64748b] mr-2">PKR</span>
+                    <span className="text-2xl font-black text-[#0b1221]">Rs. {total.toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
               
               <div className="space-y-4">
                 <div className="flex items-start gap-3 text-[12px] text-[#94a3b8]">
@@ -246,6 +338,5 @@ export default function CartPage() {
 
         </div>
       </div>
-    </div>
   );
 }

@@ -99,12 +99,41 @@ model Product {
   isFeatured      Boolean             @default(false)
   rating          Float               @default(4.5)
   reviewsCount    Int                 @default(0)
+  hasVariants     Boolean             @default(false) // New
+  options         String?             // New: JSON array of options e.g. [{"name":"Size", "values":["S","M"]}]
   seoTitle        String?
   seoDescription  String?
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
   orderItems      OrderItem[]
   reviews         Review[]
+  variants        ProductVariant[]    // New
+}
+
+model ProductVariant {
+  id              String   @id @default(cuid())
+  productId       String
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku             String?
+  price           Float
+  comparePrice    Float?
+  stock           Int      @default(0)
+  optionChoices   String   // JSON object e.g. {"Size": "M", "Color": "Red"}
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Coupon {
+  id              String   @id @default(cuid())
+  code            String   @unique
+  type            String   // "percentage" | "fixed"
+  value           Float    // 20 for 20% or 500 for $500
+  minSpend        Float?
+  usageLimit      Int?
+  usageCount      Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model ProductCollection {

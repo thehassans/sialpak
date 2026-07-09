@@ -33,8 +33,18 @@ export async function POST(req: NextRequest) {
       isFeatured: !!data.isFeatured,
       seoTitle: data.seoTitle || null,
       seoDescription: data.seoDescription || null,
+      hasVariants: !!data.hasVariants,
+      options: data.hasVariants ? JSON.stringify(data.options || []) : null,
       collections: {
         create: (data.collectionIds || []).map((id: string) => ({ collectionId: id }))
+      },
+      variants: {
+        create: (data.hasVariants && data.variants ? data.variants : []).map((v: any) => ({
+          sku: v.sku || null,
+          price: Number(v.price) || 0,
+          stock: Number(v.stock) || 0,
+          optionChoices: JSON.stringify(v.optionChoices || {})
+        }))
       }
     }
   });
