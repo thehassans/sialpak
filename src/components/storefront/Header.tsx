@@ -67,9 +67,9 @@ export default function Header({ storeName, tagline, supportPhone, freeShippingT
               <Link href="/" className="text-[13px] font-bold text-[#0b1221] uppercase tracking-widest relative py-4 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#d4af37]">
                 Home
               </Link>
-              <Link href="/#offers" className="text-[13px] font-medium text-[#64748b] uppercase tracking-widest hover:text-[#0b1221] transition-colors py-4">Shop</Link>
+              <Link href="/search" className="text-[13px] font-medium text-[#64748b] uppercase tracking-widest hover:text-[#0b1221] transition-colors py-4">Shop</Link>
               <Link href="/wishlist" className="text-[13px] font-medium text-[#64748b] uppercase tracking-widest hover:text-[#0b1221] transition-colors py-4">My Favorites</Link>
-              <Link href="/#footer" className="text-[13px] font-medium text-[#64748b] uppercase tracking-widest hover:text-[#0b1221] transition-colors py-4">Contacts</Link>
+              <Link href="/contact" className="text-[13px] font-medium text-[#64748b] uppercase tracking-widest hover:text-[#0b1221] transition-colors py-4">Contacts</Link>
             </div>
             
             <div className="flex items-center gap-2 cursor-pointer text-[#64748b] hover:text-[#0b1221] transition-colors">

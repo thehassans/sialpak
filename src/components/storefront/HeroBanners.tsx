@@ -46,7 +46,7 @@ export default function HeroBanners({ banners }: { banners: BannerType[] }) {
                 {leftBanner.subtitle}
               </p>
               <div>
-                <Link href={leftBanner.link || "/#offers"} className="inline-block bg-white text-[#0b1221] hover:bg-[#d4af37] hover:text-white font-bold text-[13px] uppercase tracking-widest px-10 py-4 rounded-sm transition-all duration-300">
+                <Link href={leftBanner.link !== "#" ? leftBanner.link : "/search"} className="inline-block bg-white text-[#0b1221] hover:bg-[#d4af37] hover:text-white font-bold text-[13px] uppercase tracking-widest px-10 py-4 rounded-sm transition-all duration-300">
                   {leftBanner.buttonText || "Shop Now"}
                 </Link>
               </div>
@@ -83,7 +83,7 @@ export default function HeroBanners({ banners }: { banners: BannerType[] }) {
                 <p className="text-[14px] text-[#cbd5e1] mb-8 font-light max-w-[250px] mx-auto">
                   {rightBanner.subtitle}
                 </p>
-                <Link href={rightBanner.link || "/#offers"} className="inline-block bg-transparent border border-white text-white hover:bg-white hover:text-[#0b1221] font-bold text-[12px] uppercase tracking-widest px-8 py-3 rounded-sm transition-all duration-300">
+                <Link href={rightBanner.link !== "#" ? rightBanner.link : "/search"} className="inline-block bg-transparent border border-white text-white hover:bg-white hover:text-[#0b1221] font-bold text-[12px] uppercase tracking-widest px-8 py-3 rounded-sm transition-all duration-300">
                   {rightBanner.buttonText || "Discover"}
                 </Link>
               </div>

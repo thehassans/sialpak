@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import type { CategoryType } from "@/lib/types";
 
-export default function CategoryGrid({ categories }: { categories: CategoryType[] }) {
+export default function CategoryGrid({ categories, title }: { categories: CategoryType[], title?: string }) {
   if (categories.length === 0) return null;
 
   return (
@@ -15,7 +15,7 @@ export default function CategoryGrid({ categories }: { categories: CategoryType[
             Explore Collections
           </span>
           <h2 className="text-[32px] md:text-[40px] font-bold text-[#0b1221] tracking-tight">
-            Popular Categories
+            {title || "Popular Categories"}
           </h2>
         </div>
         

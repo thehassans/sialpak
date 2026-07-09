@@ -17,7 +17,7 @@ export const revalidate = 0;
 export default async function HomePage() {
   const general = await getSetting("general", DEFAULT_SETTINGS.general);
 
-  const [banners, categories, allProducts] = await Promise.all([
+  const [banners, categories, allProducts, rawSettings] = await Promise.all([
     prisma.banner.findMany({ where: { isActive: true, position: "hero" }, orderBy: { sortOrder: "asc" } }),
     prisma.category.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" }, include: { _count: { select: { products: true } } } }),
     prisma.product.findMany({
@@ -27,8 +27,12 @@ export default async function HomePage() {
         category: true,
         collections: { include: { collection: true } }
       }
-    })
+    }),
+    prisma.setting.findMany({ where: { key: { in: ['heading_best_offers', 'heading_new_goods', 'heading_categories'] } } })
   ]);
+
+  const settingsMap = rawSettings.reduce((acc, s) => { acc[s.key] = s.value; return acc; }, {} as Record<string, string>);
+
 
   // Group products by collection
   const bestOffers = allProducts.filter(p =>
@@ -58,10 +62,10 @@ export default async function HomePage() {
       />
       <main className="bg-bg">
         <HeroBanners banners={banners as any} />
-        <CategoryGrid categories={categories as any} />
-        <ProductGrid title="The Best Offers" products={displayBestOffers as any} viewAllHref="/#offers" accentColor="#1f6fdb" />
+        <CategoryGrid categories={categories as any} title={settingsMap['heading_categories']} />
+        <ProductGrid title={settingsMap['heading_best_offers'] || "The Best Offers"} products={displayBestOffers as any} viewAllHref="/search" accentColor="#1f6fdb" />
         {newGoods.length > 0 && (
-          <ProductGrid title="New Goods" products={newGoods as any} viewAllHref="/#new" accentColor="#2fa84f" />
+          <ProductGrid title={settingsMap['heading_new_goods'] || "New Goods"} products={newGoods as any} viewAllHref="/search" accentColor="#2fa84f" />
         )}
         <PromoBanner products={beautySale as any} />
         <ProductGrid title="Home Appliance" products={allProducts.slice(0, 5) as any} accentColor="#f5921f" />
