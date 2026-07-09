@@ -29,10 +29,10 @@ export default function Sidebar({ storeName, userName }: { storeName: string; us
   }
 
   return (
-    <aside className="w-64 shrink-0 bg-navy text-white flex flex-col h-screen sticky top-0">
-      <div className="flex items-center justify-between px-6 py-6 border-b border-white/10">
-        <img src="/uploads/logo.png" alt="BuySial Logo" className="h-8 w-auto object-contain bg-white/10 p-1 rounded" />
-        <span className="text-[10px] font-bold bg-gold text-navy px-1.5 py-0.5 rounded">ADMIN</span>
+    <aside className="w-64 shrink-0 bg-[#0a0a0a] text-white flex flex-col h-screen sticky top-0 border-r border-white/5">
+      <div className="flex items-center justify-between px-6 py-6 border-b border-white/5 relative">
+        <img src="/uploads/logo.png" alt="BuySial Logo" className="h-8 w-auto object-contain brightness-0 invert opacity-90" />
+        <span className="text-[9px] font-black tracking-[0.2em] uppercase text-white/50">Admin</span>
       </div>
       <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
         {NAV.map((item) => {
@@ -42,8 +42,10 @@ export default function Sidebar({ storeName, userName }: { storeName: string; us
               key={item.href}
               href={item.href}
               className={cx(
-                "flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-semibold transition",
-                active ? "bg-brand text-white" : "text-[#c9d4ea] hover:bg-white/10 hover:text-white"
+                "flex items-center gap-3.5 px-4 py-3 rounded-xl text-[13px] font-semibold transition-all duration-300",
+                active 
+                  ? "bg-white text-black shadow-lg" 
+                  : "text-[#8e9bb0] hover:bg-white/5 hover:text-white"
               )}
             >
               <svg viewBox="0 0 24 24" className="w-[18px] h-[18px] shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8"><path d={item.icon} /></svg>
@@ -52,16 +54,17 @@ export default function Sidebar({ storeName, userName }: { storeName: string; us
           );
         })}
       </nav>
-      <div className="border-t border-white/10 p-4">
-        <div className="flex items-center gap-2.5 mb-3">
-          <div className="w-8 h-8 rounded-full bg-brand flex items-center justify-center text-xs font-bold">{userName?.[0] || "A"}</div>
-          <div className="text-xs">
-            <div className="font-bold">{userName}</div>
-            <Link href="/" target="_blank" className="text-[#c9d4ea] hover:text-white">View store ↗</Link>
+      <div className="border-t border-white/5 p-4">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold shadow-inner">{userName?.[0] || "A"}</div>
+          <div className="text-[13px]">
+            <div className="font-semibold">{userName}</div>
+            <Link href="/" target="_blank" className="text-[11px] text-[#8e9bb0] uppercase tracking-wider hover:text-white transition-colors">View store ↗</Link>
           </div>
         </div>
-        <button onClick={handleLogout} className="w-full text-center bg-white/10 hover:bg-white/20 rounded-lg py-2 text-xs font-bold transition">
-          Log Out
+        <button onClick={handleLogout} className="w-full text-left px-4 py-2.5 rounded-lg text-[13px] font-semibold text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-2">
+          <svg viewBox="0 0 24 24" className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          Sign Out
         </button>
       </div>
     </aside>

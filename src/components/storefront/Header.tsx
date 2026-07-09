@@ -11,9 +11,7 @@ export default function Header({
       {/* Top Utility Bar - Ultra Premium Dark */}
       <div className="hidden md:block bg-[#0b1221] text-[#94a3b8] text-[12px] uppercase tracking-widest font-medium overflow-hidden">
         <div className="max-w-[1280px] mx-auto px-6 h-[40px] flex items-center justify-between relative">
-          <div className="flex gap-4 items-center z-10 bg-[#0b1221] pr-4">
-            <span>{tagline}</span>
-          </div>
+
           
           <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
             <div 

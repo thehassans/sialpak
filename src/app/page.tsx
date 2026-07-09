@@ -68,20 +68,42 @@ export default async function HomePage() {
           <ProductGrid title={settingsMap['heading_new_goods'] || "New Goods"} products={newGoods as any} viewAllHref="/search" accentColor="#2fa84f" />
         )}
         
-        {promoBanners.map((banner, i) => {
+        {promoBanners.length > 0 ? promoBanners.map((banner, i) => {
           const bannerProducts = banner.collection ? banner.collection.products.map((p: any) => p.product) : [];
           return <PromoBanner key={banner.id} banner={banner} products={bannerProducts as any} />;
-        })}
+        }) : (
+          <PromoBanner banner={{
+            title: "Discount on all Skin Care products up to 25%",
+            subtitle: "Shop great deals on serums, cleansers, creams and more.",
+            eyebrow: "Skin Care",
+            buttonText: "Shop The Collection",
+            image: "/uploads/banner_skincare_1783568776197.png",
+            bgColorFrom: "transparent",
+            bgColorTo: "#0b1221",
+            textColor: "#ffffff"
+          }} products={allProducts.filter(p => p.collections.some(c => c.collection.slug === "beauty-essentials-sale")) as any} />
+        )}
         
         <ProductGrid title="Home Appliance" products={allProducts.slice(0, 5) as any} accentColor="#f5921f" />
         
-        {stripBanners.map((banner, i) => {
+        {stripBanners.length > 0 ? stripBanners.map((banner, i) => {
           const bannerProducts = banner.collection ? banner.collection.products.map((p: any) => p.product) : allProducts.slice(0, 4);
           return <PremiumCollection key={banner.id} banner={banner} products={bannerProducts as any} />;
-        })}
+        }) : (
+          <PremiumCollection banner={{
+            title: "Premium Cat Care",
+            subtitle: "Countdown deal — limited time only.",
+            eyebrow: "Pet Care",
+            buttonText: "Shop Now",
+            image: "/uploads/banner_petcare_1783568784398.png",
+            bgColorFrom: "#1f2937",
+            textColor: "#ffffff",
+            link: "/search"
+          }} products={allProducts.filter(p => p.collections.some(c => c.collection.slug === "premium-collection")).length > 0 ? allProducts.filter(p => p.collections.some(c => c.collection.slug === "premium-collection")) as any : allProducts.slice(0, 4) as any} />
+        )}
         
         <RecentlyViewed products={displayRecentlyViewed as any} />
-        <Articles articles={articles.map(a => ({ ...a, date: a.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) })) as any} />
+        <Articles articles={articles.length > 0 ? articles.map(a => ({ ...a, date: a.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) })) as any : MOCK_ARTICLES} />
         <TrustBadges />
       </main>
       <Footer storeName={general.storeName} />
