@@ -17,7 +17,7 @@ export const revalidate = 0;
 export default async function HomePage() {
   const general = await getSetting("general", DEFAULT_SETTINGS.general);
 
-  const [banners, categories, allProducts, rawSettings] = await Promise.all([
+  const [banners, categories, allProducts, rawSettings, articles] = await Promise.all([
     prisma.banner.findMany({ where: { isActive: true, position: "hero" }, orderBy: { sortOrder: "asc" } }),
     prisma.category.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" }, include: { _count: { select: { products: true } } } }),
     prisma.product.findMany({
@@ -28,7 +28,8 @@ export default async function HomePage() {
         collections: { include: { collection: true } }
       }
     }),
-    prisma.setting.findMany({ where: { key: { in: ['heading_best_offers', 'heading_new_goods', 'heading_categories'] } } })
+    prisma.setting.findMany({ where: { key: { in: ['heading_best_offers', 'heading_new_goods', 'heading_categories', 'marquee_text', 'marquee_speed'] } } }),
+    prisma.article.findMany({ where: { published: true }, orderBy: { createdAt: "desc" }, take: 3 })
   ]);
 
   const settingsMap = rawSettings.reduce((acc, s) => { acc[s.key] = s.value; return acc; }, {} as Record<string, string>);
@@ -41,16 +42,12 @@ export default async function HomePage() {
   const newGoods = allProducts.filter(p =>
     p.collections.some(c => c.collection.slug === "new-goods")
   );
-  const beautySale = allProducts.filter(p =>
-    p.collections.some(c => c.collection.slug === "beauty-essentials-sale")
-  );
-  const premiumProducts = allProducts.filter(p =>
-    p.collections.some(c => c.collection.slug === "premium-collection")
-  );
-
-  // Fallback: if no collection products, show all products
   const displayBestOffers = bestOffers.length > 0 ? bestOffers : allProducts.slice(0, 5);
   const displayRecentlyViewed = allProducts.slice(0, 8);
+
+  const heroBanners = banners.filter(b => b.position === "hero");
+  const promoBanners = banners.filter(b => b.position === "promo");
+  const stripBanners = banners.filter(b => b.position === "strip");
 
   return (
     <>
@@ -59,19 +56,32 @@ export default async function HomePage() {
         tagline={general.tagline}
         supportPhone={general.supportPhone}
         freeShippingText={general.freeShippingText}
+        marqueeText={settingsMap['marquee_text'] || "FOLLOW US AND GET A CHANCE TO WIN 80% OFF"}
+        marqueeSpeed={Number(settingsMap['marquee_speed']) || 20}
       />
       <main className="bg-bg">
-        <HeroBanners banners={banners as any} />
+        <HeroBanners banners={heroBanners as any} />
         <CategoryGrid categories={categories as any} title={settingsMap['heading_categories']} />
         <ProductGrid title={settingsMap['heading_best_offers'] || "The Best Offers"} products={displayBestOffers as any} viewAllHref="/search" accentColor="#1f6fdb" />
+        
         {newGoods.length > 0 && (
           <ProductGrid title={settingsMap['heading_new_goods'] || "New Goods"} products={newGoods as any} viewAllHref="/search" accentColor="#2fa84f" />
         )}
-        <PromoBanner products={beautySale as any} />
+        
+        {promoBanners.map((banner, i) => {
+          const bannerProducts = banner.collection ? banner.collection.products.map((p: any) => p.product) : [];
+          return <PromoBanner key={banner.id} banner={banner} products={bannerProducts as any} />;
+        })}
+        
         <ProductGrid title="Home Appliance" products={allProducts.slice(0, 5) as any} accentColor="#f5921f" />
-        <PremiumCollection products={(premiumProducts.length > 0 ? premiumProducts : allProducts.slice(0, 4)) as any} />
+        
+        {stripBanners.map((banner, i) => {
+          const bannerProducts = banner.collection ? banner.collection.products.map((p: any) => p.product) : allProducts.slice(0, 4);
+          return <PremiumCollection key={banner.id} banner={banner} products={bannerProducts as any} />;
+        })}
+        
         <RecentlyViewed products={displayRecentlyViewed as any} />
-        <Articles articles={MOCK_ARTICLES} />
+        <Articles articles={articles.map(a => ({ ...a, date: a.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) })) as any} />
         <TrustBadges />
       </main>
       <Footer storeName={general.storeName} />

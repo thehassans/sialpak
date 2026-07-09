@@ -33,54 +33,57 @@ function MiniCountdown() {
   );
 }
 
-export default function PromoBanner({ products = [] }: { products?: ProductType[] }) {
+export default function PromoBanner({ banner, products = [] }: { banner: any, products?: ProductType[] }) {
   const displayProducts = products.slice(0, 4);
+
+  if (!banner) return null;
 
   return (
     <section className="py-16 relative overflow-hidden bg-bg">
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
         
         {/* Main Ultra Premium Banner */}
-        <div className="relative min-h-[500px] rounded-2xl overflow-hidden shadow-2xl bg-[#0b1221]">
+        <div 
+          className="relative min-h-[500px] rounded-2xl overflow-hidden shadow-2xl"
+          style={{ background: `linear-gradient(90deg, ${banner.bgColorFrom}, ${banner.bgColorTo})`, color: banner.textColor }}
+        >
           
           {/* Background Image spanning the whole banner but fading out towards the right */}
           <div className="absolute inset-0 w-full h-full md:w-[65%] z-0">
             <Image 
-              src="/uploads/banner_skincare_1783568776197.png" 
-              alt="Premium Skincare" 
+              src={banner.image || "/placeholder.png"} 
+              alt={banner.title} 
               fill 
               className="object-cover object-center" 
               priority
             />
             {/* Gradient mask to seamlessly blend the image into the dark background on the right */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#0b1221]/80 to-[#0b1221]"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0b1221]/90 via-transparent to-transparent md:hidden"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#0b1221]/80 to-[#0b1221]" style={{ background: `linear-gradient(to right, transparent, ${banner.bgColorTo}80, ${banner.bgColorTo})` }}></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0b1221]/90 via-transparent to-transparent md:hidden" style={{ background: `linear-gradient(to top, ${banner.bgColorTo}E6, transparent, transparent)` }}></div>
           </div>
 
           {/* Right Side - Content */}
           <div className="relative z-10 flex flex-col justify-center h-full min-h-[500px] px-8 py-12 md:px-16 w-full md:w-[55%] ml-auto text-left">
             
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
+              className="flex flex-col items-end text-right ml-auto max-w-xl"
             >
-              <span className="inline-block text-[#d4af37] text-[11px] uppercase tracking-[0.3em] font-bold mb-4">
-                Limited Time Exclusives
-              </span>
-              
-              <h2 className="text-[42px] md:text-[52px] font-bold text-white leading-[1.1] mb-5 tracking-tight">
-                Beauty Essentials Sale
+              {banner.eyebrow && <span className="uppercase text-[11px] font-bold tracking-[0.3em] text-[#d4af37] mb-4 drop-shadow-md">{banner.eyebrow}</span>}
+              <h2 className="text-4xl md:text-6xl font-black mb-6 leading-[1.1] tracking-tight drop-shadow-lg" style={{ color: banner.textColor }}>
+                {banner.title}
               </h2>
-              
-              <p className="text-[16px] md:text-[18px] text-[#94a3b8] mb-2 font-light leading-relaxed max-w-[450px]">
-                Indulge in our curated selection of premium skincare and personal care. Discover exclusive deals up to <span className="text-white font-medium">20% off</span>.
-              </p>
+              {banner.subtitle && (
+                <p className="text-lg md:text-xl font-medium leading-relaxed drop-shadow opacity-90" style={{ color: banner.textColor }}>
+                  {banner.subtitle}
+                </p>
+              )}
               
               <MiniCountdown />
 
               <div>
-                <Link href="/search" className="group inline-flex items-center gap-3 bg-white text-[#0b1221] font-bold text-[13px] uppercase tracking-widest px-8 py-4 rounded-sm hover:bg-[#d4af37] hover:text-white transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
                   Shop The Collection
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>

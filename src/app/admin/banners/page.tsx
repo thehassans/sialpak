@@ -6,10 +6,11 @@ export const dynamic = "force-dynamic";
 
 export default async function BannersPage() {
   const banners = await prisma.banner.findMany({ orderBy: { sortOrder: "asc" } });
+  const collections = await prisma.collection.findMany({ orderBy: { name: "asc" } });
   return (
     <div>
       <PageHeader title="Banners" subtitle="Manage homepage banners with instant live preview." />
-      <BannerManager initialBanners={banners as any} />
+      <BannerManager initialBanners={banners as any} collections={collections as any} />
     </div>
   );
 }

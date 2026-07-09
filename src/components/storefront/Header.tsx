@@ -1,17 +1,29 @@
 import Link from "next/link";
 import { Search, Heart, ShoppingCart, ChevronDown, Menu } from "lucide-react";
 
-export default function Header({ storeName, tagline, supportPhone, freeShippingText }: { storeName: string; tagline: string; supportPhone: string; freeShippingText: string; }) {
+export default function Header({ 
+  storeName, tagline, supportPhone, freeShippingText, marqueeText = "Follow us and get a chance to win 80% off", marqueeSpeed = 20
+}: { 
+  storeName: string; tagline: string; supportPhone: string; freeShippingText: string; marqueeText?: string; marqueeSpeed?: number;
+}) {
   return (
     <>
       {/* Top Utility Bar - Ultra Premium Dark */}
-      <div className="hidden md:block bg-[#0b1221] text-[#94a3b8] text-[12px] uppercase tracking-widest font-medium">
-        <div className="max-w-[1280px] mx-auto px-6 h-[40px] flex items-center justify-between">
-          <div className="flex gap-4 items-center">
+      <div className="hidden md:block bg-[#0b1221] text-[#94a3b8] text-[12px] uppercase tracking-widest font-medium overflow-hidden">
+        <div className="max-w-[1280px] mx-auto px-6 h-[40px] flex items-center justify-between relative">
+          <div className="flex gap-4 items-center z-10 bg-[#0b1221] pr-4">
             <span>{tagline}</span>
           </div>
-          <div className="flex gap-2 items-center text-[#d4af37]">
-            <span>Follow us and get a chance to win 80% off</span>
+          
+          <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
+            <div 
+              className="text-[#d4af37] whitespace-nowrap inline-block animate-marquee"
+              style={{ animationDuration: `${marqueeSpeed}s` }}
+            >
+              <span className="mr-12">{marqueeText}</span>
+              <span className="mr-12">{marqueeText}</span>
+              <span className="mr-12">{marqueeText}</span>
+            </div>
           </div>
         </div>
       </div>

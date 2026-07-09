@@ -25,7 +25,8 @@ export async function POST(req: NextRequest) {
       textColor: data.textColor || "#ffffff",
       buttonText: data.buttonText || "Shop Now",
       sortOrder: Number(data.sortOrder) || 0,
-      isActive: data.isActive !== false
+      isActive: data.isActive !== false,
+      collectionId: data.collectionId || null
     }
   });
   return NextResponse.json(banner, { status: 201 });

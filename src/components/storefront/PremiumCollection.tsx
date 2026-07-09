@@ -6,11 +6,11 @@ import { Star, ArrowRight, ShoppingCart } from "lucide-react";
 import { fmtCurrency } from "@/lib/utils";
 import type { ProductType } from "@/lib/types";
 
-export default function PremiumCollection({ products }: { products: ProductType[] }) {
-  if (!products || products.length < 4) return null;
-
-  const featuredProduct = products[0];
-  const subProducts = products.slice(1, 4);
+export default function PremiumCollection({ banner, products = [] }: { banner: any, products?: ProductType[] }) {
+  if (!banner) return null;
+  const displayProducts = products.slice(0, 4);
+  const featuredProduct = displayProducts[0];
+  const subProducts = displayProducts.slice(1, 4);
 
   // Helper to parse images
   const getPrimaryImage = (p: ProductType) => {
@@ -47,29 +47,28 @@ export default function PremiumCollection({ products }: { products: ProductType[
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="bg-[#f8f9fa] rounded-xl overflow-hidden flex flex-col md:flex-row h-auto md:h-[320px] border border-[#f0f0f0]"
+              style={{ backgroundColor: banner.bgColorFrom }}
             >
               <div className="w-full md:w-[45%] relative h-[250px] md:h-full bg-white">
                 <Image 
-                  src="/uploads/banner_petcare_1783568784398.png" 
-                  alt="Premium Lifestyle" 
+                  src={banner.image || "/placeholder.png"} 
+                  alt={banner.title} 
                   fill 
                   className="object-cover" 
                 />
               </div>
               <div className="w-full md:w-[55%] p-8 md:p-10 flex flex-col justify-center">
-                <h3 className="text-[32px] md:text-[42px] font-bold text-[#0b1221] leading-[1.1] mb-4 tracking-tight">
-                  Premium<br />Collection
+                <h3 className="text-[32px] md:text-[42px] font-bold leading-[1.1] mb-4 tracking-tight" style={{ color: banner.textColor }}>
+                  {banner.title}
                 </h3>
-                <p className="text-[#64748b] text-[14px] leading-relaxed mb-8 max-w-[400px]">
-                  Discover premium products across beauty, fashion, electronics, pet supplies, and more all in one place.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {['Beauty', 'Fashion', 'Electronics', 'Lifestyle'].map(tag => (
-                    <span key={tag} className="bg-white border border-[#e2e8f0] text-[#0b1221] text-[11px] uppercase tracking-widest font-semibold px-4 py-2 rounded-sm">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                {banner.subtitle && (
+                  <p className="text-[14px] leading-relaxed mb-6 max-w-[300px]" style={{ color: banner.textColor, opacity: 0.9 }}>
+                    {banner.subtitle}
+                  </p>
+                )}
+                <Link href={banner.link || "/search"} className="inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-widest hover:underline" style={{ color: banner.textColor }}>
+                  {banner.buttonText} <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </motion.div>
 

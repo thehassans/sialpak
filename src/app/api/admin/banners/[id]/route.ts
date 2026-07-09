@@ -20,7 +20,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       textColor: data.textColor,
       buttonText: data.buttonText,
       sortOrder: Number(data.sortOrder) || 0,
-      isActive: data.isActive !== false
+      isActive: data.isActive !== false,
+      collectionId: data.collectionId || null
     }
   });
   return NextResponse.json(banner);

@@ -39,6 +39,7 @@ model Collection {
   sortOrder Int                 @default(0)
   createdAt DateTime            @default(now())
   products  ProductCollection[]
+  banners   Banner[]
 }
 
 model Product {
@@ -93,6 +94,22 @@ model Banner {
   isActive    Boolean   @default(true)
   startsAt    DateTime?
   endsAt      DateTime?
+  collectionId String?
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Article {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  content     String    // HTML or Markdown
+  excerpt     String?
+  image       String?
+  category    String    @default("Blog")
+  author      String    @default("BuySial")
+  published   Boolean   @default(true)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }

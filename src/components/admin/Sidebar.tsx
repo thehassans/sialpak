@@ -10,6 +10,7 @@ const NAV = [
   { href: "/admin/categories", label: "Categories", icon: "M4 6h16M4 12h16M4 18h16" },
   { href: "/admin/banners", label: "Banners", icon: "M3 5h18v14H3zM3 9h18" },
   { href: "/admin/seo", label: "SEO & Pixels", icon: "M10 21a9 9 0 100-18 9 9 0 000 18zm0 0v-9m0 0L4 6m6 6l6-6" },
+  { href: "/admin/articles", label: "Articles", icon: "M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" },
   { href: "/admin/payments", label: "Payments", icon: "M2 7h20v13H2zM2 11h20" },
   { href: "/admin/logistics", label: "Logistics", icon: "M3 16V6h11v10M14 9h4l3 3v4h-7M6 19a2 2 0 100-4 2 2 0 000 4zm12 0a2 2 0 100-4 2 2 0 000 4z" },
   { href: "/admin/settings", label: "Settings", icon: "M12 15a3 3 0 100-6 3 3 0 000 6z" },

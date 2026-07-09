@@ -22,7 +22,16 @@ const config: Config = {
         card: "0 2px 10px rgba(18,32,67,.06)",
         lg2: "0 12px 32px rgba(18,32,67,.14)"
       },
-      borderRadius: { xl2: "14px" }
+      borderRadius: { xl2: "14px" },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-33.3333%)' }
+        }
+      },
+      animation: {
+        marquee: 'marquee linear infinite'
+      }
     }
   },
   plugins: []
