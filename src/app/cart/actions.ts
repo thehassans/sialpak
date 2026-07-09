@@ -1,6 +1,7 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/mailer";
+import { getCustomerSession } from "@/lib/auth";
 
 export async function createOrder(data: {
   customerName: string;
@@ -13,10 +14,12 @@ export async function createOrder(data: {
   total: number;
 }) {
   const orderNumber = "ORD-" + Math.floor(100000 + Math.random() * 900000);
+  const session = await getCustomerSession();
   
   const order = await prisma.order.create({
     data: {
       orderNumber,
+      customerId: session ? session.sub : null,
       customerName: data.customerName,
       phone: data.phone,
       email: data.email,

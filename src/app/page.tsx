@@ -69,7 +69,7 @@ export default async function HomePage() {
         )}
         
         {promoBanners.length > 0 ? promoBanners.map((banner, i) => {
-          const bannerProducts = banner.collection ? banner.collection.products.map((p: any) => p.product) : [];
+          const bannerProducts = (banner as any).collection ? (banner as any).collection.products.map((p: any) => p.product) : [];
           return <PromoBanner key={banner.id} banner={banner} products={bannerProducts as any} />;
         }) : (
           <PromoBanner banner={{
@@ -87,8 +87,8 @@ export default async function HomePage() {
         <ProductGrid title="Home Appliance" products={allProducts.slice(0, 5) as any} accentColor="#f5921f" />
         
         {stripBanners.length > 0 ? stripBanners.map((banner, i) => {
-          const bannerProducts = banner.collection ? banner.collection.products.map((p: any) => p.product) : allProducts.slice(0, 4);
-          return <PremiumCollection key={banner.id} banner={banner} products={bannerProducts as any} />;
+          const bannerProducts = (banner as any).collection ? (banner as any).collection.products.map((p: any) => p.product) : [];
+          return <PremiumCollection key={banner.id} banner={banner as any} products={bannerProducts as any} />;
         }) : (
           <PremiumCollection banner={{
             title: "Premium Cat Care",

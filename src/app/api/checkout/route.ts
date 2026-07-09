@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { genOrderNumber } from "@/lib/utils";
 import { z } from "zod";
+import { getCustomerSession } from "@/lib/auth";
 
 const itemSchema = z.object({ productId: z.string(), name: z.string(), image: z.string().optional(), price: z.number(), qty: z.number().min(1) });
 const schema = z.object({
@@ -31,9 +32,12 @@ export async function POST(req: NextRequest) {
   const subtotal = d.items.reduce((s, i) => s + i.price * i.qty, 0);
   const total = subtotal + d.shippingFee - d.discount;
 
+  const session = await getCustomerSession();
+
   const order = await prisma.order.create({
     data: {
       orderNumber: genOrderNumber(),
+      customerId: session ? session.sub : null,
       customerName: d.customerName,
       phone: d.phone,
       email: d.email || null,

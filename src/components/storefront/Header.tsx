@@ -1,11 +1,14 @@
 import Link from "next/link";
-import { Search, Heart, ShoppingCart, ChevronDown, Menu } from "lucide-react";
+import { Search, Heart, ShoppingCart, ChevronDown, Menu, User } from "lucide-react";
+import { getCustomerSession } from "@/lib/auth";
 
-export default function Header({ 
+export default async function Header({ 
   storeName, tagline, supportPhone, freeShippingText, marqueeText = "Follow us and get a chance to win 80% off", marqueeSpeed = 20
 }: { 
   storeName: string; tagline: string; supportPhone: string; freeShippingText: string; marqueeText?: string; marqueeSpeed?: number;
 }) {
+  const session = await getCustomerSession();
+
   return (
     <>
       {/* Top Utility Bar - Ultra Premium Dark */}
@@ -52,6 +55,10 @@ export default function Header({
             </div>
 
             <div className="flex items-center gap-6">
+              <Link href={session ? "/account" : "/login"} className="relative text-[#0b1221] hover:text-[#d4af37] transition-colors flex items-center gap-2" aria-label="Account">
+                <User className="w-6 h-6" strokeWidth={1.5} />
+                <span className="hidden sm:block text-[13px] font-bold">{session ? "Account" : "Sign In"}</span>
+              </Link>
               <Link href="/wishlist" className="relative text-[#0b1221] hover:text-[#d4af37] transition-colors" aria-label="Wishlist">
                 <Heart className="w-6 h-6" strokeWidth={1.5} />
                 <span className="absolute -top-1.5 -right-2 bg-[#d4af37] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">0</span>
