@@ -4,90 +4,81 @@ import { Search, Heart, ShoppingCart, ChevronDown, Menu } from "lucide-react";
 export default function Header({ storeName, tagline, supportPhone, freeShippingText }: { storeName: string; tagline: string; supportPhone: string; freeShippingText: string; }) {
   return (
     <>
-      {/* Top Utility Bar */}
-      <div className="hidden md:block bg-navy text-[#c9d4ea] text-[13px]">
-        <div className="max-w-[1280px] mx-auto px-6 h-[38px] flex items-center justify-between">
+      {/* Top Utility Bar - Ultra Premium Dark */}
+      <div className="hidden md:block bg-[#0b1221] text-[#94a3b8] text-[12px] uppercase tracking-widest font-medium">
+        <div className="max-w-[1280px] mx-auto px-6 h-[40px] flex items-center justify-between">
           <div className="flex gap-4 items-center">
             <span>{tagline}</span>
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center text-[#d4af37]">
             <span>Follow us and get a chance to win 80% off</span>
           </div>
         </div>
       </div>
 
       {/* Main Header */}
-      <header className="bg-white border-b border-line">
-        <div className="max-w-[1280px] mx-auto px-6 flex items-center gap-6 py-4">
-          <button className="md:hidden text-ink shrink-0">
-            <Menu className="w-6 h-6" />
+      <header className="bg-white border-b border-[#f0f0f0] sticky top-0 z-50">
+        <div className="max-w-[1280px] mx-auto px-6 flex items-center gap-8 py-5">
+          <button className="md:hidden text-[#0b1221] shrink-0 hover:text-[#d4af37] transition-colors">
+            <Menu className="w-6 h-6" strokeWidth={1.5} />
           </button>
           
           <Link href="/" className="flex items-center shrink-0">
-            <img src="/uploads/logo.png" alt="BuySial" className="h-20 w-auto object-contain" />
+            <img src="/uploads/logo.png" alt="BuySial" className="h-16 w-auto object-contain" />
           </Link>
 
-          <form action="/search" className="flex-1 hidden md:flex max-w-[640px] border-2 border-brand rounded-full overflow-hidden bg-white h-11 items-center px-2">
-            <input name="q" placeholder="Search products..." className="flex-1 border-none px-4 py-2 text-sm outline-none min-w-0" />
-            <button className="bg-brand hover:bg-brand-dark text-white rounded-full p-2 transition flex items-center justify-center shrink-0">
-              <Search className="w-5 h-5" />
-            </button>
+          {/* Minimalist Search Bar */}
+          <form action="/search" className="flex-1 hidden md:flex max-w-[500px] border border-[#e2e8f0] rounded-full overflow-hidden bg-[#f8fafc] h-12 items-center px-4 transition-all focus-within:border-[#0b1221] focus-within:bg-white focus-within:shadow-sm mx-auto">
+            <Search className="w-4 h-4 text-[#94a3b8]" strokeWidth={2} />
+            <input name="q" placeholder="Search for premium products..." className="flex-1 bg-transparent border-none px-3 py-2 text-[14px] text-[#0b1221] placeholder:text-[#94a3b8] outline-none min-w-0" />
           </form>
 
-          <div className="flex items-center gap-6 shrink-0 ml-auto">
+          <div className="flex items-center gap-8 shrink-0 ml-auto">
             <div className="hidden lg:flex items-center gap-3">
               <div className="text-right">
-                <span className="text-[12px] text-sub block">24 Support</span>
-                <b className="block text-ink text-[14px]">{supportPhone}</b>
+                <span className="text-[11px] text-[#64748b] uppercase tracking-widest block mb-0.5">24/7 Support</span>
+                <b className="block text-[#0b1221] text-[14px] font-semibold tracking-wide">{supportPhone}</b>
               </div>
+            </div>
+
+            <div className="flex items-center gap-6">
+              <Link href="/wishlist" className="relative text-[#0b1221] hover:text-[#d4af37] transition-colors" aria-label="Wishlist">
+                <Heart className="w-6 h-6" strokeWidth={1.5} />
+                <span className="absolute -top-1.5 -right-2 bg-[#d4af37] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">0</span>
+              </Link>
+              <Link href="/cart" className="flex items-center gap-3 text-[#0b1221] group" aria-label="Cart">
+                <div className="relative group-hover:text-[#d4af37] transition-colors">
+                  <ShoppingCart className="w-6 h-6" strokeWidth={1.5} />
+                  <span className="absolute -top-1.5 -right-2 bg-[#d4af37] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">0</span>
+                </div>
+                <div className="hidden sm:block text-left">
+                  <span className="text-[#64748b] block text-[11px] uppercase tracking-widest mb-0.5">Cart</span>
+                  <span className="font-bold text-[14px] group-hover:text-[#d4af37] transition-colors tracking-wide">PKR 0.00</span>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation Bar - Clean & Minimal */}
+        <nav className="hidden md:block border-t border-[#f8fafc]">
+          <div className="max-w-[1280px] mx-auto px-6 h-[50px] flex items-center justify-between">
+            <div className="flex items-center gap-10">
+              <Link href="/" className="text-[13px] font-bold text-[#0b1221] uppercase tracking-widest relative py-4 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#d4af37]">
+                Home
+              </Link>
+              <Link href="/#offers" className="text-[13px] font-medium text-[#64748b] uppercase tracking-widest hover:text-[#0b1221] transition-colors py-4">Shop</Link>
+              <Link href="/wishlist" className="text-[13px] font-medium text-[#64748b] uppercase tracking-widest hover:text-[#0b1221] transition-colors py-4">My Favorites</Link>
+              <Link href="/#footer" className="text-[13px] font-medium text-[#64748b] uppercase tracking-widest hover:text-[#0b1221] transition-colors py-4">Contacts</Link>
             </div>
             
-            <div className="hidden lg:flex items-center gap-3">
-              <div className="text-right">
-                <span className="text-[12px] text-sub block">Worldwide</span>
-                <b className="block text-ink text-[14px]">{freeShippingText}</b>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 border-l border-line pl-6">
-              <Link href="/wishlist" className="relative text-ink hover:text-brand transition" aria-label="Wishlist">
-                <Heart className="w-6 h-6" />
-                <span className="absolute -top-1.5 -right-2 bg-brand text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
-              </Link>
-              <Link href="/cart" className="flex items-center gap-2 text-ink hover:text-brand transition group" aria-label="Cart">
-                <div className="relative">
-                  <ShoppingCart className="w-6 h-6" />
-                  <span className="absolute -top-1.5 -right-2 bg-brand text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
-                </div>
-                <div className="hidden sm:block text-sm">
-                  <span className="text-sub block text-[11px]">Your Cart</span>
-                  <span className="font-extrabold group-hover:text-brand transition">PKR 0.00</span>
-                </div>
-              </Link>
+            <div className="flex items-center gap-2 cursor-pointer text-[#64748b] hover:text-[#0b1221] transition-colors">
+              <span className="text-[12px] font-semibold uppercase tracking-widest">PKR</span>
+              <ChevronDown className="w-4 h-4" strokeWidth={1.5} />
             </div>
           </div>
-        </div>
+        </nav>
       </header>
-
-      {/* Navigation Bar */}
-      <nav className="bg-brand-pale border-b border-line hidden md:block">
-        <div className="max-w-[1280px] mx-auto px-6 h-[46px] flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <Link href="/" className="text-[14px] font-bold text-brand relative pb-[13px] pt-[13px]">
-              Home
-              <span className="absolute bottom-0 left-0 w-full h-[3px] bg-brand rounded-t-md"></span>
-            </Link>
-            <Link href="/#offers" className="text-[14px] font-semibold text-ink hover:text-brand transition">Shop</Link>
-            <Link href="/wishlist" className="text-[14px] font-semibold text-ink hover:text-brand transition">My Favorites</Link>
-            <Link href="/#footer" className="text-[14px] font-semibold text-ink hover:text-brand transition">Contacts</Link>
-          </div>
-          
-          <div className="flex items-center gap-2 cursor-pointer hover:bg-white/50 px-2 py-1 rounded transition">
-            <span className="text-[13px] font-bold text-ink">PKR</span>
-            <ChevronDown className="w-4 h-4 text-sub" />
-          </div>
-        </div>
-      </nav>
     </>
   );
 }
