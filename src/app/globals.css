@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; }
+body { -webkit-font-smoothing: antialiased; }
+
+@layer components {
+  .btn-primary { @apply inline-flex items-center gap-2 bg-brand hover:bg-brand-dark text-white font-bold text-sm px-5 py-2.5 rounded-md transition; }
+  .btn-secondary { @apply inline-flex items-center gap-2 bg-white border border-line hover:bg-bg text-ink font-semibold text-sm px-5 py-2.5 rounded-md transition; }
+  .btn-danger { @apply inline-flex items-center gap-2 bg-danger hover:opacity-90 text-white font-bold text-sm px-5 py-2.5 rounded-md transition; }
+  .admin-card { @apply bg-white border border-line rounded-xl shadow-card p-5; }
+  .admin-input { @apply w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand transition bg-white; }
+  .admin-label { @apply block text-xs font-bold text-sub uppercase tracking-wide mb-1.5; }
+  .admin-select { @apply w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand transition bg-white; }
+}

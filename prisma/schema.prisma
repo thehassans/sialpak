@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String   @default("owner") // owner | manager | support
+  createdAt    DateTime @default(now())
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  image       String?
+  description String?
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
+}
+
+// Marketing collections e.g. "Beauty Essentials Sale", "The Best Offers", "New Goods"
+model Collection {
+  id        String              @id @default(cuid())
+  name      String
+  slug      String              @unique
+  color     String              @default("#1f6fdb")
+  isActive  Boolean             @default(true)
+  sortOrder Int                 @default(0)
+  createdAt DateTime            @default(now())
+  products  ProductCollection[]
+}
+
+model Product {
+  id              String              @id @default(cuid())
+  name            String
+  slug            String              @unique
+  description     String              @default("")
+  price           Float
+  comparePrice    Float?
+  costPrice       Float?
+  sku             String?
+  stock           Int                 @default(0)
+  images          String              @default("[]") // JSON array of URLs
+  categoryId      String?
+  category        Category?           @relation(fields: [categoryId], references: [id])
+  collections     ProductCollection[]
+  status          String              @default("active") // active | draft | archived
+  isFeatured      Boolean             @default(false)
+  rating          Float               @default(4.5)
+  reviewsCount    Int                 @default(0)
+  seoTitle        String?
+  seoDescription  String?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  orderItems      OrderItem[]
+}
+
+model ProductCollection {
+  id           String     @id @default(cuid())
+  productId    String
+  collectionId String
+  product      Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, collectionId])
+}
+
+model Banner {
+  id          String    @id @default(cuid())
+  title       String
+  subtitle    String?
+  eyebrow     String?
+  image       String
+  mobileImage String?
+  link        String    @default("#")
+  position    String    @default("hero") // hero | promo | strip | sale
+  bgColorFrom String    @default("#0f2542")
+  bgColorTo   String    @default("#173963")
+  textColor   String    @default("#ffffff")
+  buttonText  String    @default("Shop Now")
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  startsAt    DateTime?
+  endsAt      DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique
+  customerName    String
+  phone           String
+  email           String?
+  address         String
+  city            String
+  province        String?
+  postalCode      String?
+  notes           String?
+  items           OrderItem[]
+  subtotal        Float
+  shippingFee     Float       @default(0)
+  discount        Float       @default(0)
+  total           Float
+  paymentMethod   String      @default("cod") // cod | jazzcash | easypaisa | payfast | bank
+  paymentStatus   String      @default("pending") // pending | paid | failed | refunded
+  paymentRef      String?
+  orderStatus     String      @default("processing") // processing | confirmed | packed | shipped | delivered | cancelled | returned
+  courierProvider String?     // leopards | tcs | postex | mnp | trax
+  trackingNumber  String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id])
+  name      String
+  image     String?
+  price     Float
+  qty       Int
+}
+
+// Singleton-style key/value settings store (JSON-stringified values)
+model Setting {
+  key   String @id
+  value String
+}
