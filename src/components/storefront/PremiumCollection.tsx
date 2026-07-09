@@ -21,7 +21,7 @@ export default function PremiumCollection({ products }: { products: ProductType[
             viewport={{ once: true }}
             className="rounded-2xl overflow-hidden relative bg-gradient-to-br from-brand to-navy min-h-[400px] flex items-center justify-center p-10 text-center"
           >
-            <div className="absolute inset-0 bg-[url('https://picsum.photos/seed/premiumbg/800/800')] opacity-10 mix-blend-overlay object-cover"></div>
+            <div className="absolute inset-0 bg-[url('/uploads/banner_skincare_1783568776197.png')] opacity-10 mix-blend-overlay object-cover bg-center"></div>
             
             <div className="relative z-10 flex flex-col items-center">
               <span className="inline-block px-3 py-1 bg-white/20 text-white text-[10px] font-extrabold tracking-widest uppercase rounded-full mb-6 backdrop-blur-sm">

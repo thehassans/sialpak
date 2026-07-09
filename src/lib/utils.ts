@@ -1,4 +1,4 @@
-export function fmtCurrency(value: number, currency = "USD") {
+export function fmtCurrency(value: number, currency = "PKR") {
   const symbols: Record<string, string> = { USD: "$", SAR: "SAR ", PKR: "PKR " };
   const symbol = symbols[currency] ?? `${currency} `;
   return `${symbol}${value.toFixed(2)}`;
