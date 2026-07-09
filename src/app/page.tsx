@@ -63,10 +63,7 @@ export default async function HomePage() {
         {newGoods.length > 0 && (
           <ProductGrid title="New Goods" products={newGoods as any} viewAllHref="/#new" accentColor="#2fa84f" />
         )}
-        <PromoBanner />
-        {beautySale.length > 0 && (
-          <ProductGrid title="Beauty Essentials Sale" products={beautySale as any} accentColor="#e0362c" />
-        )}
+        <PromoBanner products={beautySale as any} />
         <ProductGrid title="Home Appliance" products={allProducts.slice(0, 5) as any} accentColor="#f5921f" />
         <PremiumCollection products={(premiumProducts.length > 0 ? premiumProducts : allProducts.slice(0, 4)) as any} />
         <RecentlyViewed products={displayRecentlyViewed as any} />

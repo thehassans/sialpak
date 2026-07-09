@@ -2,73 +2,132 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import CountdownTimer from "./CountdownTimer";
+import { Star } from "lucide-react";
+import type { ProductType } from "./ProductCard";
+import { fmtCurrency } from "@/lib/utils";
 
-export default function PromoBanner() {
+// Mini Countdown component to match screenshot
+function MiniCountdown() {
   return (
-    <section className="py-12 relative overflow-hidden">
+    <div className="flex items-center gap-6 mt-6 mb-8 text-[#1b2436]">
+      <div className="flex flex-col items-center">
+        <span className="text-3xl font-medium tracking-tight">177</span>
+        <span className="text-[13px] text-gray-500 font-medium">Days</span>
+      </div>
+      <div className="flex flex-col items-center">
+        <span className="text-3xl font-medium tracking-tight">09</span>
+        <span className="text-[13px] text-gray-500 font-medium">Hr</span>
+      </div>
+      <div className="flex flex-col items-center">
+        <span className="text-3xl font-medium tracking-tight">21</span>
+        <span className="text-[13px] text-gray-500 font-medium">Min</span>
+      </div>
+      <div className="flex flex-col items-center">
+        <span className="text-3xl font-medium tracking-tight">56</span>
+        <span className="text-[13px] text-gray-500 font-medium">Sc</span>
+      </div>
+    </div>
+  );
+}
+
+export default function PromoBanner({ products = [] }: { products?: ProductType[] }) {
+  const displayProducts = products.slice(0, 4);
+
+  return (
+    <section className="py-12 relative overflow-hidden bg-bg">
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
-        <div className="rounded-3xl overflow-hidden relative bg-gradient-to-r from-brand to-navy min-h-[380px] flex items-center justify-center py-16 px-6">
+        
+        {/* Main Banner Area */}
+        <div className="relative bg-gradient-to-br from-[#e0f1ff] to-[#a4d4ff] min-h-[460px] rounded-lg overflow-hidden flex flex-col md:flex-row pb-12">
           
-          {/* Decorative floating elements */}
-          <motion.div 
-            animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }} 
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute left-[5%] top-[10%] md:left-[10%] md:top-[15%] w-32 h-32 md:w-48 md:h-48 hidden sm:block shadow-2xl rounded-full border-4 border-white/20"
-          >
-            <Image src="/uploads/promo_float1_1783568790973.png" alt="Decoration" fill className="object-cover rounded-full" />
-          </motion.div>
-          
-          <motion.div 
-            animate={{ y: [10, -10, 10], rotate: [0, -5, 0] }} 
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute right-[5%] bottom-[10%] md:right-[10%] md:bottom-[15%] w-24 h-24 md:w-40 md:h-40 hidden sm:block shadow-xl rounded-full border-4 border-white/20"
-          >
-            <Image src="/uploads/promo_float2_1783568798438.png" alt="Decoration" fill className="object-cover rounded-full" />
-          </motion.div>
+          {/* Decorative Waves */}
+          <div className="absolute inset-0 opacity-40 pointer-events-none">
+            <svg viewBox="0 0 1440 320" className="absolute bottom-0 w-full" preserveAspectRatio="none">
+              <path fill="#ffffff" fillOpacity="0.2" d="M0,128L48,138.7C96,149,192,171,288,176C384,181,480,171,576,144C672,117,768,75,864,85.3C960,96,1056,160,1152,181.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+          </div>
 
-          <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4 tracking-tight"
-            >
+          {/* Left Side - Product Cluster */}
+          <div className="w-full md:w-[45%] relative min-h-[300px] md:min-h-full flex items-end justify-center pt-8">
+            <div className="relative w-[90%] h-[120%] -bottom-4 z-10">
+              <Image 
+                src="/uploads/banner_skincare_1783568776197.png" 
+                alt="Skincare Bundle" 
+                fill 
+                className="object-contain object-bottom drop-shadow-2xl" 
+                priority
+              />
+            </div>
+          </div>
+
+          {/* Right Side - Text and CTA */}
+          <div className="w-full md:w-[55%] relative z-20 flex flex-col justify-center px-8 md:pl-0 md:pr-16 pt-8 md:pt-0">
+            <h2 className="text-[40px] md:text-[46px] font-semibold text-[#2c323f] leading-[1.1] mb-4 tracking-tight">
               Beauty Essentials Sale
-            </motion.h2>
+            </h2>
             
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-white/80 text-sm md:text-base mb-8 max-w-lg mx-auto"
-            >
-              Get a discount on skincare essentials and beauty products up to 25%. Limited time offer!
-            </motion.p>
+            <p className="text-[17px] text-[#485363] mb-2 max-w-[500px]">
+              Exclusive deals on skincare and personal care up to 20%
+            </p>
             
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="mb-8"
-            >
-              <CountdownTimer />
-            </motion.div>
+            <MiniCountdown />
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-            >
-              <Link href="/#offers" className="inline-flex bg-white text-brand hover:bg-brand-pale font-extrabold text-sm px-8 py-3.5 rounded-full shadow-lg transition-transform hover:scale-105">
-                Shop Now
+            <div>
+              <Link href="/#offers" className="inline-flex items-center gap-2 bg-[#1f6fdb] text-white font-medium text-[15px] px-6 py-2.5 rounded hover:bg-[#1856ac] transition-colors shadow-sm">
+                Go Shopping 
+                <span className="text-[12px] opacity-80">&gt;</span>
               </Link>
-            </motion.div>
+            </div>
           </div>
         </div>
+
+        {/* Bottom Overlapping Cards */}
+        {displayProducts.length > 0 && (
+          <div className="relative -mt-16 z-30 mx-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pb-6">
+            {displayProducts.map((p, i) => {
+              const imageList: string[] = (() => {
+                try { return JSON.parse(p.images); } catch { return []; }
+              })();
+              const primaryImage = imageList[0] || "/placeholder.png";
+
+              return (
+                <Link href={`/product/${p.slug}`} key={p.id}>
+                  <motion.div 
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    whileHover={{ y: -4, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" }}
+                    className="bg-white rounded-lg p-3 flex gap-3 items-center shadow-[0_4px_12px_rgba(0,0,0,0.06)] border border-[#f0f0f0] transition-all"
+                  >
+                    <div className="w-[60px] h-[75px] shrink-0 bg-[#f8f9fa] rounded flex items-center justify-center p-1">
+                      <Image 
+                        src={primaryImage} 
+                        alt={p.name} 
+                        width={50} 
+                        height={65} 
+                        className="object-contain h-full mix-blend-multiply" 
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-[13px] font-semibold text-[#1b2436] truncate mb-1">
+                        {p.name}
+                      </h4>
+                      <div className="flex gap-[1px] mb-1.5">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star key={i} className={`w-[10px] h-[10px] ${i < Math.floor(p.rating) ? "text-[#f2b23c] fill-[#f2b23c]" : "text-gray-300"}`} />
+                        ))}
+                      </div>
+                      <div className="text-[14px] font-bold text-[#1f6fdb]">
+                        {fmtCurrency(p.price)}
+                      </div>
+                    </div>
+                  </motion.div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );

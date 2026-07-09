@@ -4,35 +4,49 @@ import { FOOTER_LINKS } from "@/lib/mock-data";
 
 export default function Footer({ storeName }: { storeName: string }) {
   return (
-    <footer className="bg-navy pt-16" id="footer">
-      <div className="max-w-[1280px] mx-auto px-6">
+    <footer className="bg-[#0b1221] pt-20 relative overflow-hidden" id="footer">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#1f6fdb] to-transparent opacity-50"></div>
+      <div className="absolute -top-[300px] -right-[300px] w-[600px] h-[600px] rounded-full bg-[#1f6fdb] opacity-[0.03] blur-3xl pointer-events-none"></div>
+      
+      <div className="max-w-[1280px] mx-auto px-6 relative z-10">
         
         {/* Main Footer Links */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 lg:gap-8 pb-14">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 lg:gap-12 pb-16">
           
           {/* Column 1: Brand Info */}
-          <div className="md:col-span-1">
-            <Link href="/" className="block mb-5">
-              <img src="/uploads/logo.png" alt="BuySial" className="h-14 w-auto object-contain brightness-0 invert" />
+          <div className="md:col-span-2 lg:col-span-1 pr-4">
+            <Link href="/" className="block mb-6">
+              {/* Keeping original logo but removing brightness-0 invert so its natural premium colors shine, unless it's dark text on dark bg. We will add a very subtle glow behind it just in case it has dark text. */}
+              <div className="relative inline-block">
+                <div className="absolute inset-0 bg-white opacity-20 blur-xl rounded-full"></div>
+                <img src="/uploads/logo.png" alt="BuySial" className="h-16 w-auto object-contain relative z-10" />
+              </div>
             </Link>
-            <p className="text-[13.5px] leading-relaxed text-[#8b98b8] mb-6">
+            <p className="text-[14px] leading-relaxed text-[#94a3b8] mb-8 font-light">
               Your everyday shopping destination for beauty, fashion, electronics and more — delivered fast, worldwide. Experience the best in online retail.
             </p>
-            <div className="flex items-center gap-4">
-              <a href="#" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand transition-colors"><Globe className="w-4 h-4" /></a>
-              <a href="#" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand transition-colors"><MessageCircle className="w-4 h-4" /></a>
-              <a href="#" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand transition-colors"><Camera className="w-4 h-4" /></a>
-              <a href="#" className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand transition-colors"><Video className="w-4 h-4" /></a>
+            <div className="flex items-center gap-3">
+              <a href="#" className="w-10 h-10 rounded bg-[#1e293b]/50 border border-[#334155]/50 flex items-center justify-center text-white hover:bg-[#1f6fdb] hover:border-[#1f6fdb] transition-all duration-300 shadow-sm"><Globe className="w-4 h-4" /></a>
+              <a href="#" className="w-10 h-10 rounded bg-[#1e293b]/50 border border-[#334155]/50 flex items-center justify-center text-white hover:bg-[#1f6fdb] hover:border-[#1f6fdb] transition-all duration-300 shadow-sm"><MessageCircle className="w-4 h-4" /></a>
+              <a href="#" className="w-10 h-10 rounded bg-[#1e293b]/50 border border-[#334155]/50 flex items-center justify-center text-white hover:bg-[#1f6fdb] hover:border-[#1f6fdb] transition-all duration-300 shadow-sm"><Camera className="w-4 h-4" /></a>
+              <a href="#" className="w-10 h-10 rounded bg-[#1e293b]/50 border border-[#334155]/50 flex items-center justify-center text-white hover:bg-[#1f6fdb] hover:border-[#1f6fdb] transition-all duration-300 shadow-sm"><Video className="w-4 h-4" /></a>
             </div>
           </div>
 
           {/* Column 2: Categories */}
           <div>
-            <h5 className="text-white font-extrabold text-[13px] uppercase tracking-wider mb-5">Categories</h5>
-            <ul className="space-y-3">
+            <h5 className="text-white font-bold text-[14px] uppercase tracking-widest mb-6 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#1f6fdb]"></span>
+              Categories
+            </h5>
+            <ul className="space-y-3.5">
               {FOOTER_LINKS.categories.map((link, i) => (
                 <li key={i}>
-                  <Link href={link.href} className="text-[#a9b6d3] hover:text-brand transition-colors text-[13.5px] font-medium">{link.label}</Link>
+                  <Link href={link.href} className="text-[#94a3b8] hover:text-white transition-colors text-[14px] font-light flex items-center group">
+                    <span className="w-0 overflow-hidden group-hover:w-3 transition-all duration-300 text-[#1f6fdb]">&rsaquo;</span>
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">{link.label}</span>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -40,11 +54,17 @@ export default function Footer({ storeName }: { storeName: string }) {
 
           {/* Column 3: Useful Links */}
           <div>
-            <h5 className="text-white font-extrabold text-[13px] uppercase tracking-wider mb-5">Useful Links</h5>
-            <ul className="space-y-3">
+            <h5 className="text-white font-bold text-[14px] uppercase tracking-widest mb-6 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#1f6fdb]"></span>
+              Useful Links
+            </h5>
+            <ul className="space-y-3.5">
               {FOOTER_LINKS.useful.map((link, i) => (
                 <li key={i}>
-                  <Link href={link.href} className="text-[#a9b6d3] hover:text-brand transition-colors text-[13.5px] font-medium">{link.label}</Link>
+                  <Link href={link.href} className="text-[#94a3b8] hover:text-white transition-colors text-[14px] font-light flex items-center group">
+                    <span className="w-0 overflow-hidden group-hover:w-3 transition-all duration-300 text-[#1f6fdb]">&rsaquo;</span>
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">{link.label}</span>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -52,11 +72,17 @@ export default function Footer({ storeName }: { storeName: string }) {
 
           {/* Column 4: Support */}
           <div>
-            <h5 className="text-white font-extrabold text-[13px] uppercase tracking-wider mb-5">Support</h5>
-            <ul className="space-y-3">
+            <h5 className="text-white font-bold text-[14px] uppercase tracking-widest mb-6 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#1f6fdb]"></span>
+              Support
+            </h5>
+            <ul className="space-y-3.5">
               {FOOTER_LINKS.support.map((link, i) => (
                 <li key={i}>
-                  <Link href={link.href} className="text-[#a9b6d3] hover:text-brand transition-colors text-[13.5px] font-medium">{link.label}</Link>
+                  <Link href={link.href} className="text-[#94a3b8] hover:text-white transition-colors text-[14px] font-light flex items-center group">
+                    <span className="w-0 overflow-hidden group-hover:w-3 transition-all duration-300 text-[#1f6fdb]">&rsaquo;</span>
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">{link.label}</span>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -64,38 +90,41 @@ export default function Footer({ storeName }: { storeName: string }) {
 
           {/* Column 5: Newsletter */}
           <div>
-            <h5 className="text-white font-extrabold text-[13px] uppercase tracking-wider mb-5">Newsletter</h5>
-            <p className="text-[#a9b6d3] text-[13.5px] mb-4 leading-relaxed">
-              Subscribe to our newsletter and get 10% off your first purchase.
+            <h5 className="text-white font-bold text-[14px] uppercase tracking-widest mb-6 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#1f6fdb]"></span>
+              Newsletter
+            </h5>
+            <p className="text-[#94a3b8] text-[14px] mb-5 font-light leading-relaxed">
+              Subscribe to our newsletter and get <strong className="text-white font-medium">10% off</strong> your first purchase.
             </p>
             <form className="flex flex-col gap-3">
-              <input 
-                type="email" 
-                placeholder="Your email address" 
-                className="w-full bg-white/10 border border-white/20 rounded-md px-4 py-3 text-[14px] text-white outline-none focus:border-brand transition-colors"
-                required
-              />
-              <button type="submit" className="w-full bg-brand hover:bg-brand-dark text-white font-bold py-3 rounded-md transition-colors text-[14px]">
-                Subscribe
+              <div className="relative">
+                <input 
+                  type="email" 
+                  placeholder="Your email address" 
+                  className="w-full bg-[#1e293b]/30 border border-[#334155]/50 rounded px-4 py-3.5 text-[14px] text-white outline-none focus:border-[#1f6fdb] transition-colors shadow-inner"
+                  required
+                />
+              </div>
+              <button type="submit" className="w-full bg-gradient-to-r from-[#1f6fdb] to-[#1856ac] hover:from-[#1856ac] hover:to-[#124282] text-white font-semibold py-3.5 rounded transition-all duration-300 text-[14px] shadow-lg shadow-[#1f6fdb]/20">
+                Subscribe Now
               </button>
             </form>
           </div>
 
         </div>
         
-        {/* Bottom Bar */}
-        <div className="border-t border-white/10 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-[13px] text-[#8b98b8]">
-            © {new Date().getFullYear()} {storeName}. All rights reserved.
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="bg-white rounded px-2.5 py-1 text-xs font-bold text-navy">Visa</span>
-            <span className="bg-white rounded px-2.5 py-1 text-xs font-bold text-navy">MasterCard</span>
-            <span className="bg-white rounded px-2.5 py-1 text-xs font-bold text-navy">JazzCash</span>
-            <span className="bg-white rounded px-2.5 py-1 text-xs font-bold text-navy">EasyPaisa</span>
+        {/* Footer Bottom */}
+        <div className="border-t border-[#1e293b] py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-[#64748b] text-[13px] font-light">
+            &copy; {new Date().getFullYear()} {storeName}. All rights reserved.
+          </p>
+          <div className="flex items-center gap-6">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="Mastercard" className="h-5 object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" className="h-4 object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png" alt="PayPal" className="h-4 object-contain opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer" />
           </div>
         </div>
-        
       </div>
     </footer>
   );
