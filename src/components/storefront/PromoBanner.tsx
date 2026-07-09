@@ -2,29 +2,32 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { Star, ChevronRight } from "lucide-react";
 import type { ProductType } from "./ProductCard";
 import { fmtCurrency } from "@/lib/utils";
 
-// Mini Countdown component to match screenshot
+// Ultra Premium Mini Countdown
 function MiniCountdown() {
   return (
-    <div className="flex items-center gap-6 mt-6 mb-8 text-[#1b2436]">
+    <div className="flex items-center gap-6 mt-8 mb-10 text-white">
       <div className="flex flex-col items-center">
-        <span className="text-3xl font-medium tracking-tight">177</span>
-        <span className="text-[13px] text-gray-500 font-medium">Days</span>
+        <span className="text-3xl md:text-4xl font-light tracking-wider">177</span>
+        <span className="text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Days</span>
       </div>
+      <span className="text-2xl font-light text-white/20 -mt-5">:</span>
       <div className="flex flex-col items-center">
-        <span className="text-3xl font-medium tracking-tight">09</span>
-        <span className="text-[13px] text-gray-500 font-medium">Hr</span>
+        <span className="text-3xl md:text-4xl font-light tracking-wider">09</span>
+        <span className="text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Hours</span>
       </div>
+      <span className="text-2xl font-light text-white/20 -mt-5">:</span>
       <div className="flex flex-col items-center">
-        <span className="text-3xl font-medium tracking-tight">21</span>
-        <span className="text-[13px] text-gray-500 font-medium">Min</span>
+        <span className="text-3xl md:text-4xl font-light tracking-wider">21</span>
+        <span className="text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Mins</span>
       </div>
+      <span className="text-2xl font-light text-white/20 -mt-5">:</span>
       <div className="flex flex-col items-center">
-        <span className="text-3xl font-medium tracking-tight">56</span>
-        <span className="text-[13px] text-gray-500 font-medium">Sc</span>
+        <span className="text-3xl md:text-4xl font-light tracking-wider">56</span>
+        <span className="text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Secs</span>
       </div>
     </div>
   );
@@ -34,56 +37,61 @@ export default function PromoBanner({ products = [] }: { products?: ProductType[
   const displayProducts = products.slice(0, 4);
 
   return (
-    <section className="py-12 relative overflow-hidden bg-bg">
+    <section className="py-16 relative overflow-hidden bg-bg">
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
         
-        {/* Main Banner Area */}
-        <div className="relative bg-gradient-to-br from-[#e0f1ff] to-[#a4d4ff] min-h-[460px] rounded-lg overflow-hidden flex flex-col md:flex-row pb-12">
+        {/* Main Ultra Premium Banner */}
+        <div className="relative min-h-[500px] rounded-2xl overflow-hidden shadow-2xl bg-[#0b1221]">
           
-          {/* Decorative Waves */}
-          <div className="absolute inset-0 opacity-40 pointer-events-none">
-            <svg viewBox="0 0 1440 320" className="absolute bottom-0 w-full" preserveAspectRatio="none">
-              <path fill="#ffffff" fillOpacity="0.2" d="M0,128L48,138.7C96,149,192,171,288,176C384,181,480,171,576,144C672,117,768,75,864,85.3C960,96,1056,160,1152,181.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-            </svg>
+          {/* Background Image spanning the whole banner but fading out towards the right */}
+          <div className="absolute inset-0 w-full h-full md:w-[65%] z-0">
+            <Image 
+              src="/uploads/banner_skincare_1783568776197.png" 
+              alt="Premium Skincare" 
+              fill 
+              className="object-cover object-center" 
+              priority
+            />
+            {/* Gradient mask to seamlessly blend the image into the dark background on the right */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#0b1221]/80 to-[#0b1221]"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0b1221]/90 via-transparent to-transparent md:hidden"></div>
           </div>
 
-          {/* Left Side - Product Cluster */}
-          <div className="w-full md:w-[45%] relative min-h-[300px] md:min-h-full flex items-end justify-center pt-8">
-            <div className="relative w-[90%] h-[120%] -bottom-4 z-10">
-              <Image 
-                src="/uploads/banner_skincare_1783568776197.png" 
-                alt="Skincare Bundle" 
-                fill 
-                className="object-contain object-bottom drop-shadow-2xl" 
-                priority
-              />
-            </div>
-          </div>
-
-          {/* Right Side - Text and CTA */}
-          <div className="w-full md:w-[55%] relative z-20 flex flex-col justify-center px-8 md:pl-0 md:pr-16 pt-8 md:pt-0">
-            <h2 className="text-[40px] md:text-[46px] font-semibold text-[#2c323f] leading-[1.1] mb-4 tracking-tight">
-              Beauty Essentials Sale
-            </h2>
+          {/* Right Side - Content */}
+          <div className="relative z-10 flex flex-col justify-center h-full min-h-[500px] px-8 py-12 md:px-16 w-full md:w-[55%] ml-auto text-left">
             
-            <p className="text-[17px] text-[#485363] mb-2 max-w-[500px]">
-              Exclusive deals on skincare and personal care up to 20%
-            </p>
-            
-            <MiniCountdown />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <span className="inline-block text-[#d4af37] text-[11px] uppercase tracking-[0.3em] font-bold mb-4">
+                Limited Time Exclusives
+              </span>
+              
+              <h2 className="text-[42px] md:text-[52px] font-bold text-white leading-[1.1] mb-5 tracking-tight">
+                Beauty Essentials Sale
+              </h2>
+              
+              <p className="text-[16px] md:text-[18px] text-[#94a3b8] mb-2 font-light leading-relaxed max-w-[450px]">
+                Indulge in our curated selection of premium skincare and personal care. Discover exclusive deals up to <span className="text-white font-medium">20% off</span>.
+              </p>
+              
+              <MiniCountdown />
 
-            <div>
-              <Link href="/#offers" className="inline-flex items-center gap-2 bg-[#1f6fdb] text-white font-medium text-[15px] px-6 py-2.5 rounded hover:bg-[#1856ac] transition-colors shadow-sm">
-                Go Shopping 
-                <span className="text-[12px] opacity-80">&gt;</span>
-              </Link>
-            </div>
+              <div>
+                <Link href="/#offers" className="group inline-flex items-center gap-3 bg-white text-[#0b1221] font-bold text-[13px] uppercase tracking-widest px-8 py-4 rounded-sm hover:bg-[#d4af37] hover:text-white transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                  Shop The Collection
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </motion.div>
           </div>
         </div>
 
-        {/* Bottom Overlapping Cards */}
+        {/* Bottom Overlapping Cards - Ultra Premium Styling */}
         {displayProducts.length > 0 && (
-          <div className="relative -mt-16 z-30 mx-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pb-6">
+          <div className="relative -mt-20 z-30 mx-4 md:mx-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 pb-6">
             {displayProducts.map((p, i) => {
               const imageList: string[] = (() => {
                 try { return JSON.parse(p.images); } catch { return []; }
@@ -93,32 +101,31 @@ export default function PromoBanner({ products = [] }: { products?: ProductType[
               return (
                 <Link href={`/product/${p.slug}`} key={p.id}>
                   <motion.div 
-                    initial={{ opacity: 0, y: 15 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    whileHover={{ y: -4, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" }}
-                    className="bg-white rounded-lg p-3 flex gap-3 items-center shadow-[0_4px_12px_rgba(0,0,0,0.06)] border border-[#f0f0f0] transition-all"
+                    transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
+                    whileHover={{ y: -6 }}
+                    className="bg-white rounded-xl p-4 flex gap-4 items-center shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] hover:shadow-[0_30px_50px_-15px_rgba(0,0,0,0.2)] border border-[#f0f0f0] transition-all duration-300"
                   >
-                    <div className="w-[60px] h-[75px] shrink-0 bg-[#f8f9fa] rounded flex items-center justify-center p-1">
+                    <div className="w-[70px] h-[70px] shrink-0 rounded-lg overflow-hidden relative bg-[#f8f9fa]">
                       <Image 
                         src={primaryImage} 
                         alt={p.name} 
-                        width={50} 
-                        height={65} 
-                        className="object-contain h-full mix-blend-multiply" 
+                        fill
+                        className="object-cover mix-blend-multiply" 
                       />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-[13px] font-semibold text-[#1b2436] truncate mb-1">
+                    <div className="flex-1 min-w-0 flex flex-col justify-center">
+                      <h4 className="text-[13.5px] font-bold text-[#0b1221] truncate mb-1.5">
                         {p.name}
                       </h4>
-                      <div className="flex gap-[1px] mb-1.5">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star key={i} className={`w-[10px] h-[10px] ${i < Math.floor(p.rating) ? "text-[#f2b23c] fill-[#f2b23c]" : "text-gray-300"}`} />
+                      <div className="flex gap-[2px] mb-2">
+                        {Array.from({ length: 5 }).map((_, idx) => (
+                          <Star key={idx} className={`w-[11px] h-[11px] ${idx < Math.floor(p.rating) ? "text-[#d4af37] fill-[#d4af37]" : "text-gray-200"}`} />
                         ))}
                       </div>
-                      <div className="text-[14px] font-bold text-[#1f6fdb]">
+                      <div className="text-[14px] font-extrabold text-[#0b1221]">
                         {fmtCurrency(p.price)}
                       </div>
                     </div>
