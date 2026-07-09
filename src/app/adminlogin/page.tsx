@@ -30,7 +30,6 @@ export default function AdminLoginPage() {
   }
 
   return (
-  return (
     <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden bg-[#f8f9fa]">
       {/* Light Premium Image Background */}
       <div 
