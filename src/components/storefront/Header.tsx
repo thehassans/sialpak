@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Search, Heart, ShoppingCart, ChevronDown, Menu, User } from "lucide-react";
 import { getCustomerSession } from "@/lib/auth";
+import LiveSearchBar from "./LiveSearchBar";
 
 export default async function Header({ 
   storeName, tagline, supportPhone, freeShippingText, marqueeText = "Follow us and get a chance to win 80% off", marqueeSpeed = 20
@@ -41,10 +42,7 @@ export default async function Header({
           </Link>
 
           {/* Minimalist Search Bar */}
-          <form action="/search" className="flex-1 hidden md:flex max-w-[500px] border border-[#e2e8f0] rounded-full overflow-hidden bg-[#f8fafc] h-12 items-center px-4 transition-all focus-within:border-[#0b1221] focus-within:bg-white focus-within:shadow-sm mx-auto">
-            <Search className="w-4 h-4 text-[#94a3b8]" strokeWidth={2} />
-            <input name="q" placeholder="Search for premium products..." className="flex-1 bg-transparent border-none px-3 py-2 text-[14px] text-[#0b1221] placeholder:text-[#94a3b8] outline-none min-w-0" />
-          </form>
+          <LiveSearchBar />
 
           <div className="flex items-center gap-8 shrink-0 ml-auto">
             <div className="hidden lg:flex items-center gap-3">

@@ -1,41 +1,83 @@
 import { PrismaClient } from "@prisma/client";
 import ProductGrid from "@/components/storefront/ProductGrid";
+import SearchFilters from "@/components/storefront/SearchFilters";
 
 const prisma = new PrismaClient();
 
-export default async function SearchPage({ searchParams }: { searchParams: { q?: string } }) {
+export default async function SearchPage({ searchParams }: { searchParams: { q?: string; category?: string; minPrice?: string; maxPrice?: string; sort?: string } }) {
   const query = searchParams.q || "";
+  const category = searchParams.category || "";
+  const minPrice = searchParams.minPrice ? parseFloat(searchParams.minPrice) : undefined;
+  const maxPrice = searchParams.maxPrice ? parseFloat(searchParams.maxPrice) : undefined;
+  const sort = searchParams.sort || "featured";
 
-  // Perform a simple search on product name and description
+  // Build the Prisma where clause dynamically based on filters
+  const where: any = { status: "active" };
+  
+  if (query) {
+    where.OR = [
+      { name: { contains: query } },
+      { description: { contains: query } }
+    ];
+  }
+  
+  if (category) {
+    where.category = { slug: category };
+  }
+  
+  if (minPrice !== undefined || maxPrice !== undefined) {
+    where.price = {};
+    if (minPrice !== undefined) where.price.gte = minPrice;
+    if (maxPrice !== undefined) where.price.lte = maxPrice;
+  }
+
+  // Determine sort order
+  let orderBy: any = { createdAt: "desc" };
+  if (sort === "price_asc") orderBy = { price: "asc" };
+  if (sort === "price_desc") orderBy = { price: "desc" };
+  if (sort === "newest") orderBy = { createdAt: "desc" };
+
   const products = await prisma.product.findMany({
-    where: {
-      status: "active",
-      OR: [
-        { name: { contains: query } },
-        { description: { contains: query } }
-      ]
-    },
-    take: 40
+    where,
+    orderBy,
+    take: 50,
+    include: {
+      category: true,
+      collections: { include: { collection: true } }
+    }
+  });
+
+  const categories = await prisma.category.findMany({
+    where: { isActive: true },
+    orderBy: { sortOrder: "asc" }
   });
 
   return (
     <main className="min-h-screen bg-bg">
-      <div className="bg-[#0b1221] py-16 text-center">
-        <h1 className="text-white text-3xl font-bold mb-4">
-          {query ? `Search Results for "${query}"` : "All Products"}
+      <div className="bg-[#0b1221] py-16 text-center border-b border-[#1f2937]">
+        <h1 className="text-white text-3xl font-extrabold mb-4">
+          {query ? `Search Results for "${query}"` : "All Premium Products"}
         </h1>
-        <p className="text-[#94a3b8]">Found {products.length} products</p>
+        <p className="text-[#94a3b8] font-medium tracking-wide uppercase text-[12px]">Found {products.length} products</p>
       </div>
 
-      <div className="max-w-[1280px] mx-auto px-6 py-12">
-        {products.length > 0 ? (
-          <ProductGrid title={query ? "Search Results" : "Shop All"} products={products as any} />
-        ) : (
-          <div className="text-center py-20">
-            <h2 className="text-2xl font-bold text-ink mb-4">No products found</h2>
-            <p className="text-sub">Try adjusting your search query.</p>
-          </div>
-        )}
+      <div className="max-w-[1280px] mx-auto px-6 py-12 flex flex-col md:flex-row gap-10">
+        
+        {/* Sidebar Filters */}
+        <SearchFilters categories={categories} />
+
+        {/* Product Grid */}
+        <div className="flex-1">
+          {products.length > 0 ? (
+            <ProductGrid title="" products={products as any} />
+          ) : (
+            <div className="text-center py-20 bg-white rounded-2xl border border-line shadow-sm">
+              <h2 className="text-2xl font-bold text-ink mb-2">No products found</h2>
+              <p className="text-sub text-[14px]">Try adjusting your filters or search query.</p>
+            </div>
+          )}
+        </div>
+
       </div>
     </main>
   );
