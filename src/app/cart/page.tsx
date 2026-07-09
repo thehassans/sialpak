@@ -58,8 +58,25 @@ export default function CartPage() {
     if (res.success) {
       setOrderNumber(res.orderNumber);
       setStep("success");
+    } else {
+      alert("Checkout failed");
     }
     setLoading(false);
+  }
+
+  async function handleEmailBlur(e: React.FocusEvent<HTMLInputElement>) {
+    const email = e.target.value;
+    if (!email || !email.includes("@")) return;
+
+    // Track abandoned cart
+    await fetch("/api/cart/abandoned", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        cartData: [mockCartItem]
+      })
+    }).catch(console.error);
   }
 
   if (step === "success") {
@@ -121,11 +138,11 @@ export default function CartPage() {
                     <label className="block text-[11px] font-bold uppercase tracking-widest text-[#64748b] mb-2">Phone Number</label>
                     <input name="phone" required className="w-full border border-[#e2e8f0] rounded-lg p-3 text-[14px] outline-none focus:border-[#0b1221]" placeholder="+92 300 1234567" />
                   </div>
-                  <div className="col-span-2">
-                    <label className="block text-[11px] font-bold uppercase tracking-widest text-[#64748b] mb-2">Email Address</label>
-                    <input name="email" type="email" required className="w-full border border-[#e2e8f0] rounded-lg p-3 text-[14px] outline-none focus:border-[#0b1221]" placeholder="john@example.com" />
-                  </div>
-                  <div className="col-span-2">
+                    <div className="md:col-span-2">
+                      <label className="block text-xs font-bold text-ink mb-1.5 uppercase tracking-wider">Email Address *</label>
+                      <input required type="email" name="email" onBlur={handleEmailBlur} className="w-full bg-white border border-line rounded-lg px-4 py-3 outline-none focus:border-brand transition-colors text-sm" placeholder="For order updates" />
+                    </div>
+                    <div className="md:col-span-2">
                     <label className="block text-[11px] font-bold uppercase tracking-widest text-[#64748b] mb-2">Complete Address</label>
                     <input name="address" required className="w-full border border-[#e2e8f0] rounded-lg p-3 text-[14px] outline-none focus:border-[#0b1221]" placeholder="House No, Street, Area" />
                   </div>

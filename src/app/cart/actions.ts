@@ -38,6 +38,13 @@ export async function createOrder(data: {
     }
   });
 
+  // Delete any abandoned cart drafts for this email now that they purchased!
+  if (data.email) {
+    await prisma.abandonedCart.deleteMany({
+      where: { email: data.email }
+    });
+  }
+
   // Send transactional email if user provided an email
   if (data.email) {
     await sendEmail({
