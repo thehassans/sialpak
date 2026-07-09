@@ -2,21 +2,39 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cx } from "@/lib/utils";
+import { 
+  LayoutDashboard, 
+  LineChart,
+  ShoppingBag, 
+  Package, 
+  Tags, 
+  ImageIcon, 
+  Search, 
+  FileText, 
+  CreditCard, 
+  Star, 
+  Truck, 
+  Settings, 
+  Store, 
+  Mail,
+  LogOut
+} from "lucide-react";
 
 const NAV = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: "M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" },
-  { href: "/admin/orders", label: "Orders", icon: "M4 4h16v4H4zM4 10h16v10H4z" },
-  { href: "/admin/products", label: "Products", icon: "M21 8L12 3 3 8m18 0-9 5m9-5v9l-9 5m0-9L3 8m9 5v9M3 8v9l9 5" },
-  { href: "/admin/categories", label: "Categories", icon: "M4 6h16M4 12h16M4 18h16" },
-  { href: "/admin/banners", label: "Banners", icon: "M3 5h18v14H3zM3 9h18" },
-  { href: "/admin/seo", label: "SEO & Pixels", icon: "M10 21a9 9 0 100-18 9 9 0 000 18zm0 0v-9m0 0L4 6m6 6l6-6" },
-  { href: "/admin/articles", label: "Articles", icon: "M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" },
-  { href: "/admin/payments", label: "Payments", icon: "M2 7h20v13H2zM2 11h20" },
-  { href: "/admin/reviews", label: "Reviews", icon: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" },
-  { href: "/admin/logistics", label: "Logistics", icon: "M3 16V6h11v10M14 9h4l3 3v4h-7M6 19a2 2 0 100-4 2 2 0 000 4zm12 0a2 2 0 100-4 2 2 0 000 4z" },
-  { href: "/admin/settings", label: "Settings", icon: "M12 15a3 3 0 100-6 3 3 0 000 6z" },
-  { href: "/admin/settings/storefront", label: "Storefront UI", icon: "M4 5h16v14H4z M4 10h16" },
-  { href: "/admin/settings/email", label: "Email (Brevo)", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" }
+  { href: "/admin/dashboard", label: "Dashboard", icon: <LayoutDashboard size={18} /> },
+  { href: "/admin/analytics", label: "Analytics", icon: <LineChart size={18} /> },
+  { href: "/admin/orders", label: "Orders", icon: <ShoppingBag size={18} /> },
+  { href: "/admin/products", label: "Products", icon: <Package size={18} /> },
+  { href: "/admin/categories", label: "Categories", icon: <Tags size={18} /> },
+  { href: "/admin/banners", label: "Banners", icon: <ImageIcon size={18} /> },
+  { href: "/admin/seo", label: "SEO & Pixels", icon: <Search size={18} /> },
+  { href: "/admin/articles", label: "Articles", icon: <FileText size={18} /> },
+  { href: "/admin/payments", label: "Payments", icon: <CreditCard size={18} /> },
+  { href: "/admin/reviews", label: "Reviews", icon: <Star size={18} /> },
+  { href: "/admin/logistics", label: "Logistics", icon: <Truck size={18} /> },
+  { href: "/admin/settings", label: "Settings", icon: <Settings size={18} /> },
+  { href: "/admin/settings/storefront", label: "Storefront UI", icon: <Store size={18} /> },
+  { href: "/admin/settings/email", label: "Email (Brevo)", icon: <Mail size={18} /> }
 ];
 
 export default function Sidebar({ storeName, userName }: { storeName: string; userName: string }) {
@@ -49,7 +67,7 @@ export default function Sidebar({ storeName, userName }: { storeName: string; us
                   : "text-[#8e9bb0] hover:bg-white/5 hover:text-white"
               )}
             >
-              <svg viewBox="0 0 24 24" className="w-[18px] h-[18px] shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8"><path d={item.icon} /></svg>
+              <div className="w-[18px] h-[18px] shrink-0">{item.icon}</div>
               {item.label}
             </Link>
           );
@@ -65,7 +83,7 @@ export default function Sidebar({ storeName, userName }: { storeName: string; us
           </div>
         </div>
         <button onClick={handleLogout} className="w-full text-left px-4 py-2.5 rounded-lg text-[13px] font-semibold text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-2">
-          <svg viewBox="0 0 24 24" className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <LogOut className="w-4 h-4 shrink-0" />
           Sign Out
         </button>
       </div>
