@@ -83,8 +83,9 @@ export default function PromoBanner({ banner, products = [] }: { banner: any, pr
               
               <MiniCountdown />
 
-              <div>
-                  Shop The Collection
+              <div className="mt-8">
+                <Link href={banner.link || "/search"} className="group inline-flex items-center gap-3 bg-white text-[#0b1221] font-bold text-[13px] uppercase tracking-widest px-8 py-4 rounded-sm hover:bg-[#d4af37] hover:text-white transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                  {banner.buttonText}
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
