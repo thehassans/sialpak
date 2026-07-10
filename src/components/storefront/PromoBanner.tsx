@@ -39,7 +39,7 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
   if (!banner) return null;
 
   const handleTextUpdate = async (field: string, value: string) => {
-    if (!isEditMode || banner.id === 'demo-promo') return;
+    if (!isEditMode) return;
     try {
       await fetch(`/api/admin/banners/${banner.id}`, {
         credentials: "include",
@@ -54,7 +54,7 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file || !isEditMode || banner.id === 'demo-promo') return;
+    if (!file || !isEditMode) return;
     const fd = new FormData();
     fd.append("file", file);
     try {
@@ -75,7 +75,7 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
   };
 
   const handleDrop = async (e: React.DragEvent) => {
-    if (!isEditMode || banner.id === 'demo-promo') return;
+    if (!isEditMode) return;
     e.preventDefault();
     let url = e.dataTransfer.getData("text/plain");
     if (url && url.startsWith("http")) { try { url = new URL(url).pathname; } catch (e) {} }
@@ -137,13 +137,13 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
               className="flex flex-col items-center md:items-end text-center md:text-right mx-auto md:ml-auto max-w-xl w-full"
             >
               {banner.eyebrow && <span 
-                contentEditable={isEditMode && banner.id !== 'demo-promo'}
+                contentEditable={isEditMode}
                 suppressContentEditableWarning
                 onBlur={(e) => handleTextUpdate('eyebrow', e.currentTarget.textContent || "")}
                 className={`uppercase text-[10px] md:text-[11px] font-bold tracking-[0.3em] text-[#d4af37] mb-4 drop-shadow-md ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
               >{banner.eyebrow}</span>}
               <h2 
-                contentEditable={isEditMode && banner.id !== 'demo-promo'}
+                contentEditable={isEditMode}
                 suppressContentEditableWarning
                 onBlur={(e) => handleTextUpdate('title', e.currentTarget.textContent || "")}
                 className={`text-3xl md:text-6xl font-black mb-4 md:mb-6 leading-[1.15] md:leading-[1.1] tracking-tight drop-shadow-lg ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`} style={{ color: banner.textColor }}>
@@ -151,7 +151,7 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
               </h2>
               {banner.subtitle && (
                 <p 
-                  contentEditable={isEditMode && banner.id !== 'demo-promo'}
+                  contentEditable={isEditMode}
                   suppressContentEditableWarning
                   onBlur={(e) => handleTextUpdate('subtitle', e.currentTarget.textContent || "")}
                   className={`text-base md:text-xl font-medium leading-relaxed drop-shadow opacity-90 ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`} style={{ color: banner.textColor }}>
@@ -164,7 +164,7 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
               <div className="mt-8">
                 <Link href={banner.link || "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="group inline-flex items-center gap-3 bg-white text-[#0b1221] font-bold text-[13px] uppercase tracking-widest px-8 py-4 rounded-sm hover:bg-[#d4af37] hover:text-white transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
                   <span
-                    contentEditable={isEditMode && banner.id !== 'demo-promo'}
+                    contentEditable={isEditMode}
                     suppressContentEditableWarning
                     onBlur={(e) => handleTextUpdate('buttonText', e.currentTarget.textContent || "")}
                     className={isEditMode ? 'outline-dashed outline-1 outline-black/30 hover:outline-black p-1' : ''}

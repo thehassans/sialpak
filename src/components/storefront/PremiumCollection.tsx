@@ -17,7 +17,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
   };
 
   const handleTextUpdate = async (field: string, value: string) => {
-    if (!isEditMode || banner.id === 'demo-strip') return;
+    if (!isEditMode) return;
     try {
       await fetch(`/api/admin/banners/${banner.id}`, {
         credentials: "include",
@@ -32,7 +32,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file || !isEditMode || banner.id === 'demo-strip') return;
+    if (!file || !isEditMode) return;
     const fd = new FormData();
     fd.append("file", file);
     try {
@@ -53,7 +53,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
   };
 
   const handleDrop = async (e: React.DragEvent) => {
-    if (!isEditMode || banner.id === 'demo-strip') return;
+    if (!isEditMode) return;
     e.preventDefault();
     let url = e.dataTransfer.getData("text/plain");
     if (url && url.startsWith("http")) { try { url = new URL(url).pathname; } catch (e) {} }
@@ -113,7 +113,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
             {/* Overlay Text */}
             <div className="absolute inset-0 bg-black/20 flex flex-col justify-end p-10 md:p-16">
               <h3 
-                contentEditable={isEditMode && banner.id !== 'demo-strip'}
+                contentEditable={isEditMode}
                 suppressContentEditableWarning
                 onBlur={(e) => handleTextUpdate('title', e.currentTarget.textContent || "")}
                 className={`text-white text-4xl md:text-5xl font-medium tracking-tight mb-4 ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
@@ -122,7 +122,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
               </h3>
               {banner.subtitle && (
                 <p 
-                  contentEditable={isEditMode && banner.id !== 'demo-strip'}
+                  contentEditable={isEditMode}
                   suppressContentEditableWarning
                   onBlur={(e) => handleTextUpdate('subtitle', e.currentTarget.textContent || "")}
                   className={`text-white/90 text-sm tracking-wide mb-8 max-w-md font-light ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
@@ -132,7 +132,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
               )}
               <Link href={banner.link || "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="inline-flex items-center gap-4 text-white text-xs font-semibold uppercase tracking-[0.2em] hover:opacity-70 transition-opacity">
                 <span
-                  contentEditable={isEditMode && banner.id !== 'demo-strip'}
+                  contentEditable={isEditMode}
                   suppressContentEditableWarning
                   onBlur={(e) => handleTextUpdate('buttonText', e.currentTarget.textContent || "")}
                   className={isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}
