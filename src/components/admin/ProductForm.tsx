@@ -2,10 +2,27 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ImageUploader from "./ImageUploader";
-import { Trash2, Plus } from "lucide-react";
+import { Trash2, Plus, ArrowUp, ArrowDown } from "lucide-react";
 
 interface Category { id: string; name: string }
 interface Collection { id: string; name: string; color: string }
+
+export interface CompRow {
+  label: string;
+  ourValue: string;
+  comp1Value: string;
+  comp2Value: string;
+}
+
+export interface HowStep {
+  title: string;
+  desc: string;
+}
+
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
 
 export interface ProductFormValues {
   id?: string;
@@ -27,6 +44,35 @@ export interface ProductFormValues {
   variants: { sku: string; price: string; stock: string; optionChoices: Record<string, string> }[];
   seoTitle: string;
   seoDescription: string;
+
+  // Custom premium sections toggles
+  showBundleSave: boolean;
+  showComparison: boolean;
+  showHowItWorks: boolean;
+  showFaqs: boolean;
+
+  // Structured fields
+  descContent: string;
+  descIngredients: string;
+  descHowToUse: string;
+  descBenefits: string;
+  descTagline: string;
+
+  // Comparison section
+  compTitle: string;
+  compSubtitle: string;
+  compOurBrand: string;
+  compCompetitor1: string;
+  compCompetitor2: string;
+  compRows: CompRow[];
+
+  // How it works section
+  howTitle: string;
+  howSubtitle: string;
+  howSteps: HowStep[];
+
+  // FAQs section
+  faqs: FaqItem[];
 }
 
 export default function ProductForm({
@@ -39,6 +85,17 @@ export default function ProductForm({
   initial?: Partial<ProductFormValues>;
 }) {
   const router = useRouter();
+  
+  // Safely parse initial JSON description if exists
+  let parsedDesc: any = {};
+  try {
+    if (initial?.description) {
+      parsedDesc = JSON.parse(initial.description);
+    }
+  } catch {
+    parsedDesc = {};
+  }
+
   const [values, setValues] = useState<ProductFormValues>({
     name: initial?.name || "",
     slug: initial?.slug || "",
@@ -58,7 +115,44 @@ export default function ProductForm({
     variants: initial?.variants || [],
     seoTitle: initial?.seoTitle || "",
     seoDescription: initial?.seoDescription || "",
-    id: initial?.id
+    id: initial?.id,
+
+    // Premium custom sections
+    showBundleSave: parsedDesc.showBundleSave || false,
+    showComparison: parsedDesc.showComparison || false,
+    showHowItWorks: parsedDesc.showHowItWorks || false,
+    showFaqs: parsedDesc.showFaqs || false,
+
+    // Structured fields
+    descContent: parsedDesc.content || initial?.description || "",
+    descIngredients: parsedDesc.ingredients || "",
+    descHowToUse: parsedDesc.howToUse || "",
+    descBenefits: Array.isArray(parsedDesc.benefits) ? parsedDesc.benefits.join(", ") : "",
+    descTagline: parsedDesc.tagline || "",
+
+    // Comparison section
+    compTitle: parsedDesc.compTitle || "WHY IT BEATS SALON & BOX DYE",
+    compSubtitle: parsedDesc.compSubtitle || "Same natural color — far less cost, time & hassle",
+    compOurBrand: parsedDesc.compOurBrand || "THE HAIR FACTORY",
+    compCompetitor1: parsedDesc.compCompetitor1 || "SALON",
+    compCompetitor2: parsedDesc.compCompetitor2 || "BOX DYE",
+    compRows: parsedDesc.compRows || [
+      { label: "Cost / use", ourValue: "≈Rs.255", comp1Value: "Rs.2,000", comp2Value: "Rs.1,500" },
+      { label: "Time", ourValue: "15 min", comp1Value: "60 min", comp2Value: "30-45m" }
+    ],
+
+    // How it works section
+    howTitle: parsedDesc.howTitle || "How It Works",
+    howSubtitle: parsedDesc.howSubtitle || "Follow these simple steps to get started",
+    howSteps: parsedDesc.howSteps || [
+      { title: "Apply to Wet Hair", desc: "Apply the shampoo evenly from roots to tips." },
+      { title: "Massage Gently", desc: "Massage the shampoo into your scalp and hair for 2-3 minutes to activate the color formula." }
+    ],
+
+    // FAQs section
+    faqs: parsedDesc.faqs || [
+      { question: "Do I need a patch test?", answer: "Yes — do a 24-hour patch test before first use." }
+    ]
   });
 
   const [saving, setSaving] = useState(false);
@@ -68,8 +162,6 @@ export default function ProductForm({
   // Auto-generate variants when options change
   useEffect(() => {
     if (!values.hasVariants || values.options.length === 0) return;
-    
-    // Check if options have actual values
     if (values.options.every(o => o.values.length === 0)) return;
 
     const generateCombinations = (options: {name: string; values: string[]}[]) => {
@@ -89,7 +181,6 @@ export default function ProductForm({
 
     const combinations = generateCombinations(values.options);
     
-    // Merge with existing variants to preserve inputted prices/stocks
     const newVariants = combinations.map(combo => {
       const existing = values.variants.find(v => JSON.stringify(v.optionChoices) === JSON.stringify(combo));
       if (existing) return existing;
@@ -97,7 +188,7 @@ export default function ProductForm({
     });
 
     setValues(prev => ({ ...prev, variants: newVariants }));
-  }, [values.options, values.hasVariants]); // We don't include values.variants in dep array intentionally!
+  }, [values.options, values.hasVariants]);
 
   function toggleCollection(id: string) {
     if (values.collectionIds.includes(id)) {
@@ -127,11 +218,41 @@ export default function ProductForm({
     const url = values.id ? `/api/admin/products/${values.id}` : "/api/admin/products";
     const method = values.id ? "PUT" : "POST";
 
+    // Format description as a structured JSON object
+    const structuredDesc = {
+      content: values.descContent,
+      ingredients: values.descIngredients,
+      howToUse: values.descHowToUse,
+      benefits: values.descBenefits ? values.descBenefits.split(",").map(b => b.trim()).filter(Boolean) : [],
+      showBundleSave: values.showBundleSave,
+      showComparison: values.showComparison,
+      showHowItWorks: values.showHowItWorks,
+      showFaqs: values.showFaqs,
+      tagline: values.descTagline,
+      
+      // comparison payload
+      compTitle: values.compTitle,
+      compSubtitle: values.compSubtitle,
+      compOurBrand: values.compOurBrand,
+      compCompetitor1: values.compCompetitor1,
+      compCompetitor2: values.compCompetitor2,
+      compRows: values.compRows,
+
+      // how it works payload
+      howTitle: values.howTitle,
+      howSubtitle: values.howSubtitle,
+      howSteps: values.howSteps,
+
+      // faqs payload
+      faqs: values.faqs
+    };
+
     const res = await fetch(url, {
       method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...values,
+        description: JSON.stringify(structuredDesc),
         price: parseFloat(values.price || "0"),
         comparePrice: values.comparePrice ? parseFloat(values.comparePrice) : null,
         costPrice: values.costPrice ? parseFloat(values.costPrice) : null,
@@ -147,6 +268,32 @@ export default function ProductForm({
       alert("Failed to save product");
     }
   }
+
+  // Row Management Functions
+  const addCompRow = () => setValues({ ...values, compRows: [...values.compRows, { label: "", ourValue: "", comp1Value: "", comp2Value: "" }] });
+  const updateCompRow = (index: number, field: keyof CompRow, val: string) => {
+    const newRows = [...values.compRows];
+    newRows[index][field] = val;
+    setValues({ ...values, compRows: newRows });
+  };
+  const removeCompRow = (index: number) => setValues({ ...values, compRows: values.compRows.filter((_, i) => i !== index) });
+
+  const addHowStep = () => setValues({ ...values, howSteps: [...values.howSteps, { title: "", desc: "" }] });
+  const updateHowStep = (index: number, field: keyof HowStep, val: string) => {
+    const newSteps = [...values.howSteps];
+    newSteps[index][field] = val;
+    setValues({ ...values, howSteps: newSteps });
+  };
+  const removeHowStep = (index: number) => setValues({ ...values, howSteps: values.howSteps.filter((_, i) => i !== index) });
+
+  const addFaq = () => setValues({ ...values, faqs: [...values.faqs, { question: "", answer: "" }] });
+  const updateFaq = (index: number, field: keyof FaqItem, val: string) => {
+    const newFaqs = [...values.faqs];
+    newFaqs[index][field] = val;
+    setValues({ ...values, faqs: newFaqs });
+  };
+  const removeFaq = (index: number) => setValues({ ...values, faqs: values.faqs.filter((_, i) => i !== index) });
+
 
   return (
     <form onSubmit={handleSubmit} className="grid lg:grid-cols-3 gap-6 items-start pb-20">
@@ -168,9 +315,142 @@ export default function ProductForm({
             </div>
           </div>
           <div>
-            <label className="admin-label">Description (HTML supported)</label>
-            <textarea className="admin-input" rows={6} value={values.description} onChange={(e) => setValues({ ...values, description: e.target.value })} />
+            <label className="admin-label">Product Tagline / Subtitle (Shown on PDP)</label>
+            <input className="admin-input" value={values.descTagline} onChange={(e) => setValues({ ...values, descTagline: e.target.value })} placeholder="e.g. THE EASIEST WAY TO COVER GRAYS NATURALLY" />
           </div>
+        </div>
+
+        <div className="admin-card space-y-4">
+          <h3 className="font-extrabold text-ink">Product Details & Specifications</h3>
+          <div>
+            <label className="admin-label">Main Description Content *</label>
+            <textarea className="admin-input" required rows={4} value={values.descContent} onChange={(e) => setValues({ ...values, descContent: e.target.value })} placeholder="General product description..." />
+          </div>
+          <div>
+            <label className="admin-label">Ingredients / Materials</label>
+            <textarea className="admin-input" rows={2} value={values.descIngredients} onChange={(e) => setValues({ ...values, descIngredients: e.target.value })} placeholder="e.g. Olive Oil, Keratin, Aloe Vera..." />
+          </div>
+          <div>
+            <label className="admin-label">How to Use / Directions</label>
+            <textarea className="admin-input" rows={3} value={values.descHowToUse} onChange={(e) => setValues({ ...values, descHowToUse: e.target.value })} placeholder="Step-by-step instructions..." />
+          </div>
+          <div>
+            <label className="admin-label">Key Benefits (Comma separated)</label>
+            <input className="admin-input" value={values.descBenefits} onChange={(e) => setValues({ ...values, descBenefits: e.target.value })} placeholder="e.g. 100% Grey coverage, Ammonia free, Keratin Infused" />
+          </div>
+        </div>
+
+        <div className="admin-card space-y-4">
+          <h3 className="font-extrabold text-ink">Storefront Theme Sections</h3>
+          <p className="text-xs text-sub -mt-2 mb-2">Enable high-converting widgets on this product detail page.</p>
+          <div className="grid grid-cols-2 gap-4">
+            <label className="flex items-center gap-2 text-sm font-semibold p-3 border rounded-lg bg-gray-50 border-line cursor-pointer select-none">
+              <input type="checkbox" checked={values.showBundleSave} onChange={(e) => setValues({ ...values, showBundleSave: e.target.checked })} />
+              Enable BUNDLE & SAVE
+            </label>
+            <label className="flex items-center gap-2 text-sm font-semibold p-3 border rounded-lg bg-gray-50 border-line cursor-pointer select-none">
+              <input type="checkbox" checked={values.showComparison} onChange={(e) => setValues({ ...values, showComparison: e.target.checked })} />
+              Enable Salon Comparison Table
+            </label>
+            <label className="flex items-center gap-2 text-sm font-semibold p-3 border rounded-lg bg-gray-50 border-line cursor-pointer select-none">
+              <input type="checkbox" checked={values.showHowItWorks} onChange={(e) => setValues({ ...values, showHowItWorks: e.target.checked })} />
+              Enable How It Works Blocks
+            </label>
+            <label className="flex items-center gap-2 text-sm font-semibold p-3 border rounded-lg bg-gray-50 border-line cursor-pointer select-none">
+              <input type="checkbox" checked={values.showFaqs} onChange={(e) => setValues({ ...values, showFaqs: e.target.checked })} />
+              Enable FAQs Section
+            </label>
+          </div>
+
+          {/* Dynamic Forms for enabled sections */}
+          
+          {values.showComparison && (
+            <div className="mt-6 p-5 border rounded-xl bg-gray-50/50 space-y-5">
+              <h4 className="font-extrabold text-sm text-ink border-b pb-2">Comparison Table Content</h4>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="admin-label text-[11px]">Section Title</label>
+                  <input className="admin-input bg-white" value={values.compTitle} onChange={(e) => setValues({ ...values, compTitle: e.target.value })} />
+                </div>
+                <div>
+                  <label className="admin-label text-[11px]">Section Subtitle</label>
+                  <input className="admin-input bg-white" value={values.compSubtitle} onChange={(e) => setValues({ ...values, compSubtitle: e.target.value })} />
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="admin-label text-[11px] text-green-700">Our Brand Column</label>
+                  <input className="admin-input bg-white" value={values.compOurBrand} onChange={(e) => setValues({ ...values, compOurBrand: e.target.value })} />
+                </div>
+                <div>
+                  <label className="admin-label text-[11px]">Competitor 1 Column</label>
+                  <input className="admin-input bg-white" value={values.compCompetitor1} onChange={(e) => setValues({ ...values, compCompetitor1: e.target.value })} />
+                </div>
+                <div>
+                  <label className="admin-label text-[11px]">Competitor 2 Column</label>
+                  <input className="admin-input bg-white" value={values.compCompetitor2} onChange={(e) => setValues({ ...values, compCompetitor2: e.target.value })} />
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <label className="admin-label text-[11px]">Table Rows (Features vs Values)</label>
+                {values.compRows.map((row, idx) => (
+                  <div key={idx} className="flex gap-2 items-center bg-white p-2 rounded-lg border">
+                    <input placeholder="Row Label (e.g. Cost)" className="admin-input h-9 text-xs flex-1" value={row.label} onChange={(e) => updateCompRow(idx, 'label', e.target.value)} />
+                    <input placeholder="Our Value" className="admin-input h-9 text-xs flex-1 border-green-200 bg-green-50/30" value={row.ourValue} onChange={(e) => updateCompRow(idx, 'ourValue', e.target.value)} />
+                    <input placeholder="Comp 1 Value" className="admin-input h-9 text-xs flex-1" value={row.comp1Value} onChange={(e) => updateCompRow(idx, 'comp1Value', e.target.value)} />
+                    <input placeholder="Comp 2 Value" className="admin-input h-9 text-xs flex-1" value={row.comp2Value} onChange={(e) => updateCompRow(idx, 'comp2Value', e.target.value)} />
+                    <button type="button" onClick={() => removeCompRow(idx)} className="text-red-500 p-2 hover:bg-red-50 rounded"><Trash2 size={16}/></button>
+                  </div>
+                ))}
+                <button type="button" onClick={addCompRow} className="text-[12px] font-bold text-brand flex items-center gap-1 mt-2"><Plus size={14}/> Add Row</button>
+              </div>
+            </div>
+          )}
+
+          {values.showHowItWorks && (
+            <div className="mt-6 p-5 border rounded-xl bg-gray-50/50 space-y-5">
+              <h4 className="font-extrabold text-sm text-ink border-b pb-2">How It Works Content</h4>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="admin-label text-[11px]">Section Title</label>
+                  <input className="admin-input bg-white" value={values.howTitle} onChange={(e) => setValues({ ...values, howTitle: e.target.value })} />
+                </div>
+                <div>
+                  <label className="admin-label text-[11px]">Section Subtitle</label>
+                  <input className="admin-input bg-white" value={values.howSubtitle} onChange={(e) => setValues({ ...values, howSubtitle: e.target.value })} />
+                </div>
+              </div>
+              <div className="space-y-3">
+                <label className="admin-label text-[11px]">Steps</label>
+                {values.howSteps.map((step, idx) => (
+                  <div key={idx} className="bg-white p-3 rounded-lg border space-y-2 relative pr-10">
+                    <input placeholder="Step Title (e.g. Apply to Wet Hair)" className="admin-input font-bold" value={step.title} onChange={(e) => updateHowStep(idx, 'title', e.target.value)} />
+                    <textarea placeholder="Step Description..." className="admin-input text-xs" rows={2} value={step.desc} onChange={(e) => updateHowStep(idx, 'desc', e.target.value)} />
+                    <button type="button" onClick={() => removeHowStep(idx)} className="text-red-500 absolute right-3 top-1/2 -translate-y-1/2 hover:bg-red-50 p-2 rounded"><Trash2 size={16}/></button>
+                  </div>
+                ))}
+                <button type="button" onClick={addHowStep} className="text-[12px] font-bold text-brand flex items-center gap-1 mt-2"><Plus size={14}/> Add Step</button>
+              </div>
+            </div>
+          )}
+
+          {values.showFaqs && (
+            <div className="mt-6 p-5 border rounded-xl bg-gray-50/50 space-y-5">
+              <h4 className="font-extrabold text-sm text-ink border-b pb-2">FAQs Content</h4>
+              <div className="space-y-3">
+                <label className="admin-label text-[11px]">Questions & Answers</label>
+                {values.faqs.map((faq, idx) => (
+                  <div key={idx} className="bg-white p-3 rounded-lg border space-y-2 relative pr-10">
+                    <input placeholder="Question (e.g. Do I need a patch test?)" className="admin-input font-bold" value={faq.question} onChange={(e) => updateFaq(idx, 'question', e.target.value)} />
+                    <textarea placeholder="Answer..." className="admin-input text-xs" rows={2} value={faq.answer} onChange={(e) => updateFaq(idx, 'answer', e.target.value)} />
+                    <button type="button" onClick={() => removeFaq(idx)} className="text-red-500 absolute right-3 top-1/2 -translate-y-1/2 hover:bg-red-50 p-2 rounded"><Trash2 size={16}/></button>
+                  </div>
+                ))}
+                <button type="button" onClick={addFaq} className="text-[12px] font-bold text-brand flex items-center gap-1 mt-2"><Plus size={14}/> Add Question</button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="admin-card space-y-4">
@@ -215,7 +495,7 @@ export default function ProductForm({
           )}
 
           <div className="pt-4 border-t border-line">
-            <label className="flex items-center gap-2 text-sm font-semibold mb-4">
+            <label className="flex items-center gap-2 text-sm font-semibold mb-4 cursor-pointer select-none">
               <input type="checkbox" checked={values.hasVariants} onChange={(e) => setValues({ ...values, hasVariants: e.target.checked })} />
               This product has options, like size or color
             </label>
@@ -348,7 +628,7 @@ export default function ProductForm({
               ))}
             </select>
           </div>
-          <label className="flex items-center gap-2 text-sm font-semibold">
+          <label className="flex items-center gap-2 text-sm font-semibold cursor-pointer select-none">
             <input type="checkbox" checked={values.isFeatured} onChange={(e) => setValues({ ...values, isFeatured: e.target.checked })} />
             Featured product
           </label>
@@ -359,7 +639,7 @@ export default function ProductForm({
           <p className="text-xs text-sub -mt-2">e.g. Beauty Essentials Sale, The Best Offers, New Goods</p>
           <div className="space-y-2">
             {localCollections.map((c) => (
-              <label key={c.id} className="flex items-center gap-2 text-sm font-semibold">
+              <label key={c.id} className="flex items-center gap-2 text-sm font-semibold cursor-pointer select-none">
                 <input type="checkbox" checked={values.collectionIds.includes(c.id)} onChange={() => toggleCollection(c.id)} />
                 <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ background: c.color }} />
                 {c.name}

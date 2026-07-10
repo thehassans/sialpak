@@ -1,16 +1,41 @@
+import PolicyLayout from "@/components/ui/PolicyLayout";
+
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-bg py-20 px-6">
-      <div className="max-w-[800px] mx-auto bg-white p-12 rounded-xl shadow-sm">
-        <h1 className="text-4xl font-bold text-ink mb-6">Terms of Service</h1>
-        <p className="text-sub leading-relaxed mb-4">
-          Please read these terms of service carefully before using BuySial.
+    <PolicyLayout title="Terms & Conditions" lastUpdated="October 2023">
+      <section>
+        <h2 className="text-2xl font-bold text-[#0f172a] mb-4">1. Introduction</h2>
+        <p>
+          Welcome to BuySial. These terms and conditions outline the rules and regulations for the use of BuySial's Website. 
+          By accessing this website we assume you accept these terms and conditions. Do not continue to use BuySial if you do not agree to take all of the terms and conditions stated on this page.
         </p>
-        <h2 className="text-xl font-bold text-ink mt-8 mb-4">1. Conditions of Use</h2>
-        <p className="text-sub leading-relaxed mb-4">
-          By using this website, you certify that you have read and reviewed this Agreement and that you agree to comply with its terms.
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold text-[#0f172a] mb-4">2. Intellectual Property Rights</h2>
+        <p>
+          Other than the content you own, under these Terms, BuySial and/or its licensors own all the intellectual property rights and materials contained in this Website. You are granted limited license only for purposes of viewing the material contained on this Website.
         </p>
-      </div>
-    </div>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold text-[#0f172a] mb-4">3. Restrictions</h2>
+        <p>You are specifically restricted from all of the following:</p>
+        <ul className="list-disc pl-5 space-y-2 mt-4">
+          <li>publishing any Website material in any other media;</li>
+          <li>selling, sublicensing and/or otherwise commercializing any Website material;</li>
+          <li>publicly performing and/or showing any Website material;</li>
+          <li>using this Website in any way that is or may be damaging to this Website;</li>
+          <li>using this Website in any way that impacts user access to this Website;</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold text-[#0f172a] mb-4">4. Limitation of Liability</h2>
+        <p>
+          In no event shall BuySial, nor any of its officers, directors and employees, be held liable for anything arising out of or in any way connected with your use of this Website whether such liability is under contract. BuySial, including its officers, directors and employees shall not be held liable for any indirect, consequential or special liability arising out of or in any way related to your use of this Website.
+        </p>
+      </section>
+    </PolicyLayout>
   );
 }

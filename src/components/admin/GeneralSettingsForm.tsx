@@ -33,8 +33,8 @@ export default function GeneralSettingsForm({ initial }: { initial: any }) {
         <div>
           <label className="admin-label">Store Currency</label>
           <select className="admin-select" value={values.currency} onChange={(e) => setValues({ ...values, currency: e.target.value })}>
+            <option value="PKR">PKR (Rs.)</option>
             <option value="USD">USD ($)</option>
-            <option value="PKR">PKR (Rs)</option>
             <option value="SAR">SAR</option>
           </select>
         </div>

@@ -75,11 +75,6 @@ export default async function Header({
           </div>
         </div>
 
-        {/* Mobile Search Bar */}
-        <div className="md:hidden px-4 pb-4 bg-white border-t border-[#f0f0f0] pt-4">
-          <LiveSearchBar isMobile />
-        </div>
-
         {/* Navigation Bar - Clean & Minimal */}
         <nav className="hidden md:block border-t border-[#f8fafc]">
           <div className="max-w-[1280px] mx-auto px-6 h-[50px] flex items-center justify-between">

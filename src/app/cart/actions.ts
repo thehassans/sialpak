@@ -15,6 +15,11 @@ export async function createOrder(data: {
   couponCode?: string;
   discountAmount?: number;
   paymentMethod?: string; // 'cod' | 'advance'
+  productId?: string;
+  itemName?: string;
+  itemPrice?: number;
+  itemQty?: number;
+  itemImage?: string;
 }) {
   const orderNumber = "ORD-" + Math.floor(100000 + Math.random() * 900000);
   const session = await getCustomerSession();
@@ -44,7 +49,13 @@ export async function createOrder(data: {
       paymentMethod: paymentMethod,
       items: {
         create: [
-          { name: "Premium Curated Item", price: finalTotal, qty: 1 }
+          {
+            productId: data.productId || null,
+            name: data.itemName || "Premium Curated Item",
+            price: data.itemPrice || finalTotal,
+            qty: data.itemQty || 1,
+            image: data.itemImage || null
+          }
         ]
       }
     }

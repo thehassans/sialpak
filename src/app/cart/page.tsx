@@ -53,15 +53,31 @@ export default function CartPage() {
     "Islamabad": ["Islamabad"]
   };
 
-  const mockCartItem = {
+  const [cartItem, setCartItem] = useState({
     id: "1",
     name: "ANUA Heartleaf 77 Soothing Toner - 250ml",
     price: 4500,
     qty: 1,
-    image: "/uploads/banner_skincare_1783568776197.png"
-  };
+    image: "/uploads/banner_skincare_1783568776197.png",
+    variant: ""
+  });
 
-  const subtotal = mockCartItem.price;
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("productId");
+    if (productId) {
+      setCartItem({
+        id: productId,
+        name: params.get("name") || "Product",
+        price: Number(params.get("price") || 0),
+        qty: Number(params.get("qty") || 1),
+        image: params.get("image") || "/placeholder.png",
+        variant: params.get("variant") || ""
+      });
+    }
+  }, []);
+
+  const subtotal = cartItem.price * cartItem.qty;
   const shipping = subtotal >= 2500 ? 0 : 250;
   const advanceSaving = paymentMethod === "advance" ? advanceDiscount : 0;
   const couponDiscount = appliedCoupon?.discountAmount || 0;
@@ -109,6 +125,11 @@ export default function CartPage() {
       couponCode: appliedCoupon?.code || undefined,
       discountAmount: appliedCoupon?.discountAmount || undefined,
       paymentMethod,
+      productId: cartItem.id,
+      itemName: cartItem.variant ? `${cartItem.name} (${cartItem.variant})` : cartItem.name,
+      itemPrice: cartItem.price,
+      itemQty: cartItem.qty,
+      itemImage: cartItem.image
     });
     if (res.success) {
       setOrderNumber(res.orderNumber);
@@ -125,7 +146,7 @@ export default function CartPage() {
     await fetch("/api/cart/abandoned", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, cartData: [mockCartItem] })
+      body: JSON.stringify({ email, cartData: [cartItem] })
     }).catch(console.error);
   }
 
@@ -316,14 +337,15 @@ export default function CartPage() {
                 </div>
                 <div className="p-6 flex items-center gap-5">
                   <div className="w-20 h-20 bg-[#f8f9fb] rounded-xl relative overflow-hidden shrink-0">
-                    <Image src={mockCartItem.image} alt="" fill className="object-cover mix-blend-multiply p-2" />
+                    <Image src={cartItem.image} alt="" fill className="object-cover mix-blend-multiply p-2" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-bold text-[#1a1f2e] leading-snug mb-0.5">{mockCartItem.name}</h3>
+                    <h3 className="text-sm font-bold text-[#1a1f2e] leading-snug mb-0.5">{cartItem.name}</h3>
+                    {cartItem.variant && <p className="text-xs font-bold text-amber-600 mb-1">Shade: {cartItem.variant}</p>}
                     <p className="text-xs text-[#94a3b8] mb-3">Signature Collection</p>
-                    <span className="text-base font-black text-[#1a1f2e]">Rs. {mockCartItem.price.toLocaleString()}</span>
+                    <span className="text-base font-black text-[#1a1f2e]">Rs. {(cartItem.price * cartItem.qty).toLocaleString()}</span>
                   </div>
-                  <span className="text-xs text-[#94a3b8] shrink-0">Qty: 1</span>
+                  <span className="text-xs text-[#94a3b8] shrink-0">Qty: {cartItem.qty}</span>
                 </div>
                 <div className="px-6 pb-6">
                   <button
@@ -592,12 +614,13 @@ export default function CartPage() {
               <div className="p-6">
                 <div className="flex gap-3.5 pb-5 border-b border-[#f8f9fb]">
                   <div className="relative w-14 h-14 bg-[#f8f9fb] rounded-xl overflow-hidden shrink-0">
-                    <Image src={mockCartItem.image} alt={mockCartItem.name} fill className="object-cover" />
+                    <Image src={cartItem.image} alt={cartItem.name} fill className="object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[12px] font-bold text-[#1a1f2e] leading-snug mb-0.5 truncate">{mockCartItem.name}</p>
-                    <p className="text-[11px] text-[#94a3b8]">Qty: 1</p>
-                    <p className="text-[13px] font-black text-[#1a1f2e] mt-1">Rs. {mockCartItem.price.toLocaleString()}</p>
+                    <p className="text-[12px] font-bold text-[#1a1f2e] leading-snug mb-0.5 truncate">{cartItem.name}</p>
+                    {cartItem.variant && <p className="text-[10px] font-bold text-amber-600">Shade: {cartItem.variant}</p>}
+                    <p className="text-[11px] text-[#94a3b8]">Qty: {cartItem.qty}</p>
+                    <p className="text-[13px] font-black text-[#1a1f2e] mt-1">Rs. {(cartItem.price * cartItem.qty).toLocaleString()}</p>
                   </div>
                 </div>
 
