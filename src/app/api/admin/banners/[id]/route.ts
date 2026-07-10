@@ -22,6 +22,32 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   if (data.isActive !== undefined) updateData.isActive = data.isActive;
   if (data.collectionId !== undefined) updateData.collectionId = data.collectionId;
 
+  if (params.id.startsWith('demo-')) {
+    // Instantiate a demo banner as a real one
+    let position = "hero";
+    if (params.id.includes('promo')) position = "promo";
+    if (params.id.includes('strip')) position = "strip";
+    
+    const banner = await prisma.banner.create({
+      data: {
+        title: updateData.title || "New Banner",
+        subtitle: updateData.subtitle,
+        eyebrow: updateData.eyebrow,
+        image: updateData.image || "/placeholder.png",
+        mobileImage: updateData.mobileImage,
+        link: updateData.link || "#",
+        position: position,
+        bgColorFrom: updateData.bgColorFrom || "#1f2937",
+        bgColorTo: updateData.bgColorTo || "#0b1221",
+        textColor: updateData.textColor || "#ffffff",
+        buttonText: updateData.buttonText || "Shop Now",
+        sortOrder: 0,
+        isActive: true
+      }
+    });
+    return NextResponse.json(banner);
+  }
+
   const banner = await prisma.banner.update({
     where: { id: params.id },
     data: updateData

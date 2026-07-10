@@ -60,7 +60,14 @@ export default async function HomePage({ searchParams }: { searchParams: { editM
         marqueeSpeed={Number(settingsMap['marquee_speed']) || 20}
       />
       <main className="bg-bg">
-        <HeroBanners banners={heroBanners as any} isEditMode={isEditMode} />
+        {heroBanners.length > 0 ? (
+          <HeroBanners banners={heroBanners as any} isEditMode={isEditMode} />
+        ) : (
+          <HeroBanners isEditMode={isEditMode} banners={[
+            { id: 'demo-hero-1', title: 'Upload Hero Image', subtitle: 'Click to upload your main hero image', eyebrow: 'Welcome', image: '', position: 'hero', buttonText: 'Shop Now', link: '#' },
+            { id: 'demo-hero-2', title: 'Secondary Banner', subtitle: 'Upload a secondary image', eyebrow: 'Featured', image: '', position: 'hero', buttonText: 'View More', link: '#' }
+          ] as any} />
+        )}
         <CategoryGrid categories={categories as any} title={settingsMap['heading_categories']} isEditMode={isEditMode} />
         <ProductGrid title={settingsMap['heading_best_offers'] || "The Best Offers"} settingKey="heading_best_offers" isEditMode={isEditMode} products={displayBestOffers as any} viewAllHref="/search" accentColor="#1f6fdb" />
         
