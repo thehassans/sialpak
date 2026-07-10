@@ -47,12 +47,16 @@ export default function CategoryGrid({ categories, title, isEditMode = false }: 
     if (!isEditMode) return;
     e.preventDefault();
     const url = e.dataTransfer.getData("text/plain");
-    if (url && url.startsWith("/")) {
+    let finalUrl = url;
+    if (url && url.startsWith("http")) {
+      try { finalUrl = new URL(url).pathname; } catch (e) {}
+    }
+    if (finalUrl && finalUrl.startsWith("/")) {
       await fetch(`/api/admin/categories/${id}`, {
         credentials: "include",
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: url })
+        body: JSON.stringify({ image: finalUrl })
       });
       window.location.reload();
     }

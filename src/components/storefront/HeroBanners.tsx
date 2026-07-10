@@ -49,7 +49,8 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
   const handleDrop = async (e: React.DragEvent, id: string) => {
     if (!isEditMode) return;
     e.preventDefault();
-    const url = e.dataTransfer.getData("text/plain");
+    let url = e.dataTransfer.getData("text/plain");
+    if (url && url.startsWith("http")) { try { url = new URL(url).pathname; } catch (e) {} }
     if (url && url.startsWith("/")) {
       await fetch(`/api/admin/banners/${id}`, {
         credentials: "include",
