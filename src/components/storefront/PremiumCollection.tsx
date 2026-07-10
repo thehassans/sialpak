@@ -19,7 +19,8 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
   const handleTextUpdate = async (field: string, value: string) => {
     if (!isEditMode || banner.id === 'demo-strip') return;
     try {
-      await fetch(, { credentials: 'include',
+      await fetch(`/api/admin/banners/${banner.id}`, {
+        credentials: "include",
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ [field]: value })
@@ -35,10 +36,11 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
     const fd = new FormData();
     fd.append("file", file);
     try {
-      const res = await fetch(, { credentials: 'include', method: "POST", body: fd });
+      const res = await fetch("/api/admin/upload", { credentials: "include", method: "POST", body: fd });
       if (res.ok) {
         const { url } = await res.json();
-        await fetch(, { credentials: 'include',
+        await fetch(`/api/admin/banners/${banner.id}`, {
+          credentials: "include",
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ image: url })
@@ -55,7 +57,8 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
     e.preventDefault();
     const url = e.dataTransfer.getData("text/plain");
     if (url && url.startsWith("/")) {
-      await fetch(, { credentials: 'include',
+      await fetch(`/api/admin/banners/${banner.id}`, {
+        credentials: "include",
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ image: url })

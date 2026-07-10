@@ -24,7 +24,7 @@ export default function ProductReviews({
     if (!customerSession) return;
     setLoading(true);
 
-    const res = await fetch(, { credentials: 'include',
+    const res = await fetch("/api/reviews", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ productId, rating, title, content })
