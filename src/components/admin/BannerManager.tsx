@@ -1,216 +1,139 @@
 "use client";
-import { useState } from "react";
-import ImageUploader from "./ImageUploader";
+import { useState, useEffect } from "react";
+import { UploadCloud, RefreshCw, Monitor, Smartphone } from "lucide-react";
 import { cx } from "@/lib/utils";
 
-interface Banner {
-  id: string; title: string; subtitle: string | null; eyebrow: string | null; image: string; mobileImage: string | null;
-  link: string; position: string; bgColorFrom: string; bgColorTo: string; textColor: string; buttonText: string;
-  sortOrder: number; isActive: boolean; collectionId: string | null;
-}
+export default function BannerManager() {
+  const [media, setMedia] = useState<string[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [viewMode, setViewMode] = useState<"desktop" | "mobile">("desktop");
 
-const EMPTY: Omit<Banner, "id"> = {
-  title: "New Banner Title", subtitle: "Add a supporting line here.", eyebrow: "EYEBROW", image: "https://placehold.co/360x420/173a63/ffffff?text=Banner",
-  mobileImage: null, link: "#", position: "hero", bgColorFrom: "#0f2542", bgColorTo: "#173963", textColor: "#ffffff", buttonText: "Shop Now",
-  sortOrder: 0, isActive: true, collectionId: null
-};
+  useEffect(() => {
+    fetchMedia();
+  }, []);
 
-export default function BannerManager({ initialBanners, collections }: { initialBanners: Banner[], collections: { id: string; name: string }[] }) {
-  const [banners, setBanners] = useState<Banner[]>(initialBanners);
-  const [editing, setEditing] = useState<Banner | (Omit<Banner, "id"> & { id?: string }) | null>(initialBanners[0] || null);
-  const [saving, setSaving] = useState(false);
-
-  function startNew() {
-    setEditing({ ...EMPTY });
-  }
-
-  async function save() {
-    if (!editing) return;
-    setSaving(true);
-    const isNew = !("id" in editing) || !editing.id;
-    const res = await fetch(isNew ? "/api/admin/banners" : `/api/admin/banners/${(editing as Banner).id}`, {
-      method: isNew ? "POST" : "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(editing)
-    });
-    setSaving(false);
+  async function fetchMedia() {
+    const res = await fetch("/api/admin/media");
     if (res.ok) {
-      const saved = await res.json();
-      setBanners((prev) => {
-        const exists = prev.find((b) => b.id === saved.id);
-        return exists ? prev.map((b) => (b.id === saved.id ? saved : b)) : [...prev, saved];
-      });
-      setEditing(null);
+      const data = await res.json();
+      setMedia(data.files || []);
     }
   }
 
-  async function remove(id: string) {
-    if (!confirm("Delete this banner?")) return;
-    const res = await fetch(`/api/admin/banners/${id}`, { method: "DELETE" });
-    if (res.ok) setBanners((prev) => prev.filter((b) => b.id !== id));
+  async function handleFiles(files: FileList | File[]) {
+    const validFiles = Array.from(files).filter(f => f.type.startsWith("image/"));
+    if (validFiles.length === 0) return;
+    
+    setUploading(true);
+    let uploadedCount = 0;
+    for (const file of validFiles) {
+      const fd = new FormData();
+      fd.append("file", file);
+      try {
+        const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+        if (res.ok) uploadedCount++;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    setUploading(false);
+    if (uploadedCount > 0) {
+      fetchMedia();
+    }
   }
 
   return (
-    <div className="grid lg:grid-cols-[380px_1fr] gap-6">
-      <div className="admin-card">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-extrabold text-ink">All Banners</h3>
-          <button onClick={startNew} className="btn-primary py-1.5 px-3 text-xs">+ New Banner</button>
+    <div className="flex h-[calc(100vh-140px)] overflow-hidden rounded-xl border border-line bg-white shadow-sm">
+      {/* Sidebar - Media Gallery */}
+      <div className="w-[320px] shrink-0 border-r border-line bg-[#f8f9fa] flex flex-col relative z-10">
+        <div className="p-4 border-b border-line bg-white">
+          <h3 className="font-bold text-ink">Media Gallery</h3>
+          <p className="text-[11px] text-sub">Drag images directly onto the live preview to update banners and categories. Click text in preview to edit.</p>
         </div>
-        <div className="space-y-2 max-h-[70vh] overflow-y-auto">
-          {banners.map((b) => (
-            <button
-              key={b.id}
-              onClick={() => setEditing(b)}
-              className={cx(
-                "w-full text-left border rounded-lg p-3 flex items-center gap-3 transition",
-                editing && "id" in editing && editing.id === b.id ? "border-brand ring-2 ring-brand/20" : "border-line hover:border-brand/40"
-              )}
-            >
-              <div className="w-12 h-12 rounded-md bg-cover bg-center shrink-0" style={{ backgroundImage: `url(${b.image})` }} />
-              <div className="min-w-0 flex-1">
-                <div className="text-sm font-bold truncate">{b.title}</div>
-                <div className="text-[11px] text-sub">{b.position} · order {b.sortOrder} · {b.isActive ? "Active" : "Hidden"}</div>
-              </div>
-              <span
-                onClick={(e) => { e.stopPropagation(); remove(b.id); }}
-                className="text-danger text-xs font-bold shrink-0 px-1.5"
-              >
-                ✕
-              </span>
-            </button>
-          ))}
-          {banners.length === 0 && <p className="text-sub text-sm text-center py-8">No banners yet. Create your first one.</p>}
+        
+        {/* Upload Zone */}
+        <div className="p-4 border-b border-line">
+          <div 
+            className="border-2 border-dashed border-[#cbd5e1] rounded-lg p-5 flex flex-col items-center justify-center text-center cursor-pointer bg-white hover:bg-[#f1f5f9] transition-colors"
+            onClick={() => document.getElementById('media-upload')?.click()}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => {
+              e.preventDefault();
+              if (e.dataTransfer.files?.length) handleFiles(e.dataTransfer.files);
+            }}
+          >
+            <UploadCloud className={`w-8 h-8 mb-2 ${uploading ? 'text-brand animate-pulse' : 'text-[#94a3b8]'}`} />
+            <span className="text-xs font-bold text-ink">{uploading ? "Uploading..." : "Click or drag images to upload"}</span>
+            <input id="media-upload" type="file" multiple accept="image/*" className="hidden" onChange={(e) => e.target.files && handleFiles(e.target.files)} />
+          </div>
+        </div>
+
+        {/* Image Grid */}
+        <div className="flex-1 overflow-y-auto p-4">
+          <div className="grid grid-cols-2 gap-3 content-start">
+            {media.map((url, i) => (
+              <div 
+                key={i} 
+                className="aspect-square border border-line rounded-lg bg-cover bg-center cursor-grab active:cursor-grabbing hover:ring-2 ring-brand transition-all shadow-sm"
+                style={{ backgroundImage: `url(${url})` }}
+                draggable
+                onDragStart={(e) => {
+                  e.dataTransfer.setData("text/plain", url);
+                }}
+              />
+            ))}
+            {media.length === 0 && !uploading && (
+              <div className="col-span-2 text-center py-10 text-sub text-xs">No media uploaded yet.</div>
+            )}
+          </div>
         </div>
       </div>
 
-      <div className="admin-card">
-        {!editing ? (
-          <div className="h-full flex items-center justify-center text-sub text-sm py-20">Select a banner to edit, or create a new one.</div>
-        ) : (
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <h3 className="font-extrabold text-ink">Edit Banner</h3>
-              <div>
-                <label className="admin-label">Eyebrow Tag</label>
-                <input className="admin-input" value={editing.eyebrow || ""} onChange={(e) => setEditing({ ...editing, eyebrow: e.target.value })} />
-              </div>
-              <div>
-                <label className="admin-label">Title</label>
-                <input className="admin-input" value={editing.title} onChange={(e) => setEditing({ ...editing, title: e.target.value })} />
-              </div>
-              <div>
-                <label className="admin-label">Subtitle</label>
-                <textarea className="admin-input" rows={2} value={editing.subtitle || ""} onChange={(e) => setEditing({ ...editing, subtitle: e.target.value })} />
-              </div>
-              <div>
-                <label className="admin-label">Button Text</label>
-                <input className="admin-input" value={editing.buttonText} onChange={(e) => setEditing({ ...editing, buttonText: e.target.value })} />
-              </div>
-              <div>
-                <label className="admin-label">Link URL</label>
-                <input className="admin-input" value={editing.link} onChange={(e) => setEditing({ ...editing, link: e.target.value })} />
-              </div>
-              <ImageUploader value={editing.image} onChange={(url) => setEditing({ ...editing, image: url })} label="Banner Image" />
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="admin-label">Gradient From</label>
-                  <input type="color" className="w-full h-10 rounded-lg border border-line" value={editing.bgColorFrom} onChange={(e) => setEditing({ ...editing, bgColorFrom: e.target.value })} />
-                </div>
-                <div>
-                  <label className="admin-label">Gradient To</label>
-                  <input type="color" className="w-full h-10 rounded-lg border border-line" value={editing.bgColorTo} onChange={(e) => setEditing({ ...editing, bgColorTo: e.target.value })} />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="admin-label">Text Color</label>
-                  <input type="color" className="w-full h-10 rounded-lg border border-line" value={editing.textColor} onChange={(e) => setEditing({ ...editing, textColor: e.target.value })} />
-                </div>
-                <div>
-                  <label className="admin-label">Position</label>
-                  <select className="admin-select" value={editing.position} onChange={(e) => setEditing({ ...editing, position: e.target.value })}>
-                    <option value="hero">Hero (Top)</option>
-                    <option value="promo">Promo Strip</option>
-                    <option value="strip">Sale Strip / Premium</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <label className="admin-label">Associated Collection (Optional)</label>
-                <select className="admin-select" value={editing.collectionId || ""} onChange={(e) => setEditing({ ...editing, collectionId: e.target.value || null })}>
-                  <option value="">None (Link only)</option>
-                  {collections.map(c => (
-                    <option key={c.id} value={c.id}>{c.name}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="grid grid-cols-2 gap-3 items-end">
-                <div>
-                  <label className="admin-label">Sort Order</label>
-                  <input type="number" className="admin-input" value={editing.sortOrder} onChange={(e) => setEditing({ ...editing, sortOrder: Number(e.target.value) })} />
-                </div>
-                <label className="flex items-center gap-2 text-sm font-semibold pb-2.5">
-                  <input type="checkbox" checked={editing.isActive} onChange={(e) => setEditing({ ...editing, isActive: e.target.checked })} />
-                  Active on storefront
-                </label>
-              </div>
-              <div className="flex gap-2 pt-2">
-                <button onClick={save} disabled={saving} className="btn-primary">{saving ? "Saving..." : "Save Banner"}</button>
-                <button onClick={() => setEditing(null)} className="btn-secondary">Cancel</button>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-extrabold text-ink mb-3">Live Preview</h3>
-              
-              {editing.position === "promo" ? (
-                <div className="relative overflow-hidden min-h-[160px] flex items-center justify-center p-8 sticky top-6 shadow-sm border border-line"
-                  style={{ background: `linear-gradient(90deg, ${editing.bgColorFrom}, ${editing.bgColorTo})`, color: editing.textColor }}
-                >
-                  <div className="relative z-10 text-center flex flex-col items-center">
-                    {editing.eyebrow && <span className="uppercase text-[10px] font-bold tracking-[0.2em] mb-3 opacity-90">{editing.eyebrow}</span>}
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4">{editing.title}</h2>
-                    <span className="inline-flex items-center justify-center px-8 py-3 bg-white text-ink text-[13.5px] font-bold transition-transform hover:scale-105 shadow-md">
-                      {editing.buttonText}
-                    </span>
-                  </div>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={editing.image} alt="" className="absolute left-0 bottom-0 h-full w-auto object-cover opacity-30 mix-blend-overlay" />
-                </div>
-              ) : editing.position === "strip" ? (
-                <div className="relative overflow-hidden min-h-[300px] flex items-center p-8 sticky top-6 shadow-sm border border-line bg-ink text-white"
-                  style={{ background: editing.bgColorFrom, color: editing.textColor }}
-                >
-                  <div className="relative z-10 max-w-[50%]">
-                    {editing.eyebrow && <p className="text-[11px] font-bold text-brand uppercase tracking-wider mb-2">{editing.eyebrow}</p>}
-                    <h3 className="text-2xl font-bold mb-3">{editing.title}</h3>
-                    {editing.subtitle && <p className="text-[13px] opacity-80 mb-6">{editing.subtitle}</p>}
-                    <span className="inline-block border border-white/20 px-6 py-2.5 text-[13px] font-bold hover:bg-white hover:text-ink transition-colors">{editing.buttonText}</span>
-                  </div>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={editing.image} alt="" className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity" />
-                </div>
-              ) : (
-                <div
-                  className="rounded-2xl overflow-hidden relative min-h-[280px] flex items-center p-8 sticky top-6 shadow-sm"
-                  style={{ background: `linear-gradient(120deg, ${editing.bgColorFrom}, ${editing.bgColorTo})`, color: editing.textColor }}
-                >
-                  <div className="relative z-10 max-w-[280px]">
-                    {editing.eyebrow && <p className="text-[13px] font-bold tracking-wide opacity-85 mb-2">{editing.eyebrow}</p>}
-                    <h3 className="text-[28px] leading-tight font-extrabold mb-3.5">{editing.title}</h3>
-                    {editing.subtitle && <p className="opacity-80 text-[13.5px] mb-4">{editing.subtitle}</p>}
-                    <span className="inline-flex items-center gap-2 bg-brand text-white font-bold text-[13.5px] px-5 py-2.5 rounded-md">{editing.buttonText}</span>
-                  </div>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={editing.image} alt="" className="absolute right-0 bottom-0 h-[85%] w-auto object-contain opacity-95" />
-                </div>
-              )}
-              
-              <p className="text-[11px] text-sub mt-4 text-center">This preview adapts automatically based on the selected Position.</p>
-            </div>
+      {/* Main Area - Live Preview Iframe */}
+      <div className="flex-1 bg-[#e2e8f0] flex flex-col overflow-hidden relative">
+        <div className="h-14 bg-white border-b border-line flex items-center justify-between px-6 shrink-0">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-[#ef4444]"></div>
+            <div className="w-3 h-3 rounded-full bg-[#eab308]"></div>
+            <div className="w-3 h-3 rounded-full bg-[#22c55e]"></div>
+            <span className="ml-3 text-[12px] font-bold text-sub">Storefront Visual Editor</span>
           </div>
-        )}
+          
+          <div className="flex bg-[#f1f5f9] p-1 rounded-lg">
+            <button 
+              onClick={() => setViewMode("desktop")}
+              className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-[12px] font-bold transition-all ${viewMode === "desktop" ? 'bg-white shadow-sm text-ink' : 'text-sub hover:text-ink'}`}
+            >
+              <Monitor className="w-4 h-4" /> Desktop
+            </button>
+            <button 
+              onClick={() => setViewMode("mobile")}
+              className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-[12px] font-bold transition-all ${viewMode === "mobile" ? 'bg-white shadow-sm text-ink' : 'text-sub hover:text-ink'}`}
+            >
+              <Smartphone className="w-4 h-4" /> Mobile
+            </button>
+          </div>
+
+          <button 
+            onClick={() => setRefreshKey(k => k + 1)} 
+            className="text-[12px] font-bold text-sub flex items-center gap-1.5 hover:text-ink transition-colors"
+          >
+            <RefreshCw className="w-3.5 h-3.5" /> Refresh
+          </button>
+        </div>
+        <div className="flex-1 overflow-hidden relative p-4 lg:p-8 flex justify-center">
+          <div 
+            className={`h-full bg-white shadow-xl border border-line overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${viewMode === 'mobile' ? 'w-[375px] rounded-[2.5rem] border-[8px] border-[#0f172a]' : 'w-full max-w-[1440px] rounded-xl'}`}
+          >
+            <iframe 
+              key={refreshKey}
+              src="/?editMode=true" 
+              className="w-full h-full border-0"
+              title="Storefront Preview"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

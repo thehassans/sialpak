@@ -6,16 +6,18 @@ import { slugify } from "@/lib/utils";
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   if (!(await requireAdmin(req))) return unauthorized();
   const data = await req.json();
+  
+  const updateData: any = {};
+  if (data.name !== undefined) updateData.name = data.name;
+  if (data.slug !== undefined) updateData.slug = slugify(data.slug);
+  if (data.image !== undefined) updateData.image = data.image;
+  if (data.description !== undefined) updateData.description = data.description;
+  if (data.sortOrder !== undefined) updateData.sortOrder = Number(data.sortOrder);
+  if (data.isActive !== undefined) updateData.isActive = data.isActive;
+
   const category = await prisma.category.update({
     where: { id: params.id },
-    data: {
-      name: data.name,
-      slug: data.slug ? slugify(data.slug) : undefined,
-      image: data.image || null,
-      description: data.description || null,
-      sortOrder: Number(data.sortOrder) || 0,
-      isActive: data.isActive !== false
-    }
+    data: updateData
   });
   return NextResponse.json(category);
 }

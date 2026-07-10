@@ -466,7 +466,11 @@ export default function ProductForm({
               </div>
             ))}
           </div>
-          <ImageUploader value="" onChange={(url) => setValues({ ...values, images: [...values.images, url] })} />
+          <ImageUploader 
+            multiple={true}
+            onUploadMultiple={(urls) => setValues({ ...values, images: [...values.images, ...urls] })} 
+            onChange={() => {}} // dummy to satisfy prop if needed, or remove if optional
+          />
         </div>
 
         <div className="admin-card space-y-4">

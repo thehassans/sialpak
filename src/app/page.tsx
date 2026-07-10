@@ -14,8 +14,9 @@ import TrustBadges from "@/components/storefront/TrustBadges";
 
 export const revalidate = 0;
 
-export default async function HomePage() {
+export default async function HomePage({ searchParams }: { searchParams: { editMode?: string } }) {
   const general = await getSetting("general", DEFAULT_SETTINGS.general);
+  const isEditMode = searchParams.editMode === "true";
 
   const [banners, categories, allProducts, rawSettings, articles] = await Promise.all([
     prisma.banner.findMany({ where: { isActive: true, position: "hero" }, orderBy: { sortOrder: "asc" } }),
@@ -28,12 +29,11 @@ export default async function HomePage() {
         collections: { include: { collection: true } }
       }
     }),
-    prisma.setting.findMany({ where: { key: { in: ['heading_best_offers', 'heading_new_goods', 'heading_categories', 'marquee_text', 'marquee_speed'] } } }),
+    prisma.setting.findMany({ where: { key: { in: ['heading_best_offers', 'heading_new_goods', 'heading_categories', 'heading_home_appliance', 'marquee_text', 'marquee_speed'] } } }),
     prisma.article.findMany({ where: { published: true }, orderBy: { createdAt: "desc" }, take: 3 })
   ]);
 
   const settingsMap = rawSettings.reduce((acc, s) => { acc[s.key] = s.value; return acc; }, {} as Record<string, string>);
-
 
   // Group products by collection
   const bestOffers = allProducts.filter(p =>
@@ -60,19 +60,20 @@ export default async function HomePage() {
         marqueeSpeed={Number(settingsMap['marquee_speed']) || 20}
       />
       <main className="bg-bg">
-        <HeroBanners banners={heroBanners as any} />
-        <CategoryGrid categories={categories as any} title={settingsMap['heading_categories']} />
-        <ProductGrid title={settingsMap['heading_best_offers'] || "The Best Offers"} products={displayBestOffers as any} viewAllHref="/search" accentColor="#1f6fdb" />
+        <HeroBanners banners={heroBanners as any} isEditMode={isEditMode} />
+        <CategoryGrid categories={categories as any} title={settingsMap['heading_categories']} isEditMode={isEditMode} />
+        <ProductGrid title={settingsMap['heading_best_offers'] || "The Best Offers"} settingKey="heading_best_offers" isEditMode={isEditMode} products={displayBestOffers as any} viewAllHref="/search" accentColor="#1f6fdb" />
         
         {newGoods.length > 0 && (
-          <ProductGrid title={settingsMap['heading_new_goods'] || "New Goods"} products={newGoods as any} viewAllHref="/search" accentColor="#2fa84f" />
+          <ProductGrid title={settingsMap['heading_new_goods'] || "New Goods"} settingKey="heading_new_goods" isEditMode={isEditMode} products={newGoods as any} viewAllHref="/search" accentColor="#2fa84f" />
         )}
         
         {promoBanners.length > 0 ? promoBanners.map((banner, i) => {
           const bannerProducts = (banner as any).collection ? (banner as any).collection.products.map((p: any) => p.product) : [];
-          return <PromoBanner key={banner.id} banner={banner} products={bannerProducts as any} />;
+          return <PromoBanner key={banner.id} banner={banner as any} products={bannerProducts as any} isEditMode={isEditMode} />;
         }) : (
-          <PromoBanner banner={{
+          <PromoBanner isEditMode={isEditMode} banner={{
+            id: 'demo-promo',
             title: "Discount on all Skin Care products up to 25%",
             subtitle: "Shop great deals on serums, cleansers, creams and more.",
             eyebrow: "Skin Care",
@@ -81,16 +82,17 @@ export default async function HomePage() {
             bgColorFrom: "transparent",
             bgColorTo: "#0b1221",
             textColor: "#ffffff"
-          }} products={allProducts.filter(p => p.collections.some(c => c.collection.slug === "beauty-essentials-sale")) as any} />
+          } as any} products={allProducts.filter(p => p.collections.some(c => c.collection.slug === "beauty-essentials-sale")) as any} />
         )}
         
-        <ProductGrid title="Home Appliance" products={allProducts.slice(0, 5) as any} accentColor="#f5921f" />
+        <ProductGrid title={settingsMap['heading_home_appliance'] || "Home Appliance"} settingKey="heading_home_appliance" isEditMode={isEditMode} products={allProducts.slice(0, 5) as any} accentColor="#f5921f" />
         
         {stripBanners.length > 0 ? stripBanners.map((banner, i) => {
           const bannerProducts = (banner as any).collection ? (banner as any).collection.products.map((p: any) => p.product) : [];
-          return <PremiumCollection key={banner.id} banner={banner as any} products={bannerProducts as any} />;
+          return <PremiumCollection key={banner.id} banner={banner as any} products={bannerProducts as any} isEditMode={isEditMode} />;
         }) : (
-          <PremiumCollection banner={{
+          <PremiumCollection isEditMode={isEditMode} banner={{
+            id: 'demo-strip',
             title: "Premium Cat Care",
             subtitle: "Countdown deal — limited time only.",
             eyebrow: "Pet Care",
@@ -99,11 +101,11 @@ export default async function HomePage() {
             bgColorFrom: "#1f2937",
             textColor: "#ffffff",
             link: "/search"
-          }} products={allProducts.filter(p => p.collections.some(c => c.collection.slug === "premium-collection")).length > 0 ? allProducts.filter(p => p.collections.some(c => c.collection.slug === "premium-collection")) as any : allProducts.slice(0, 4) as any} />
+          } as any} products={allProducts.filter(p => p.collections.some(c => c.collection.slug === "premium-collection")).length > 0 ? allProducts.filter(p => p.collections.some(c => c.collection.slug === "premium-collection")) as any : allProducts.slice(0, 4) as any} />
         )}
         
         <RecentlyViewed products={displayRecentlyViewed as any} />
-        <Articles articles={articles.length > 0 ? articles.map(a => ({ ...a, date: a.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) })) as any : MOCK_ARTICLES} />
+        <Articles articles={articles.length > 0 ? articles.map(a => ({ ...a, date: a.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) })) as any : MOCK_ARTICLES as any} />
         <TrustBadges />
       </main>
       <Footer storeName={general.storeName} />

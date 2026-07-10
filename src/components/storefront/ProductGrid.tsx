@@ -9,6 +9,8 @@ interface ProductGridProps {
   products: ProductType[];
   viewAllHref?: string;
   accentColor?: string;
+  settingKey?: string;
+  isEditMode?: boolean;
 }
 
 const containerVariants = {
@@ -33,12 +35,27 @@ export default function ProductGrid({
   title,
   products,
   viewAllHref,
+  settingKey,
+  isEditMode = false
 }: ProductGridProps) {
   // Determine an appropriate eyebrow based on the title
   let eyebrow = "Curated Selection";
   if (title.toLowerCase().includes("new")) eyebrow = "Latest Arrivals";
   if (title.toLowerCase().includes("best") || title.toLowerCase().includes("offer")) eyebrow = "Exclusive Deals";
   if (title.toLowerCase().includes("home")) eyebrow = "Living Essentials";
+
+  const handleTitleUpdate = async (value: string) => {
+    if (!isEditMode || !settingKey) return;
+    try {
+      await fetch('/api/admin/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ settings: [{ key: settingKey, value }] })
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <section className="py-16 bg-white">
@@ -49,7 +66,12 @@ export default function ProductGrid({
           <span className="inline-block text-[#d4af37] text-[11px] font-bold uppercase tracking-[0.3em] mb-3">
             {eyebrow}
           </span>
-          <h2 className="text-[32px] md:text-[40px] font-bold text-[#0b1221] tracking-tight">
+          <h2 
+            contentEditable={isEditMode}
+            suppressContentEditableWarning
+            onBlur={(e) => handleTitleUpdate(e.currentTarget.textContent || "")}
+            className={`text-[32px] md:text-[40px] font-bold text-[#0b1221] tracking-tight ${isEditMode ? 'outline-dashed outline-1 outline-black/30 hover:outline-black p-1' : ''}`}
+          >
             {title}
           </h2>
         </div>

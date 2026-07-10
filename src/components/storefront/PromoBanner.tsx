@@ -33,10 +33,62 @@ function MiniCountdown() {
   );
 }
 
-export default function PromoBanner({ banner, products = [] }: { banner: any, products?: ProductType[] }) {
+export default function PromoBanner({ banner, products = [], isEditMode = false }: { banner: any, products?: ProductType[], isEditMode?: boolean }) {
   const displayProducts = products.slice(0, 4);
 
   if (!banner) return null;
+
+  const handleTextUpdate = async (field: string, value: string) => {
+    if (!isEditMode || banner.id === 'demo-promo') return;
+    try {
+      await fetch(`/api/admin/banners/${banner.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ [field]: value })
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !isEditMode || banner.id === 'demo-promo') return;
+    const fd = new FormData();
+    fd.append("file", file);
+    try {
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      if (res.ok) {
+        const { url } = await res.json();
+        await fetch(`/api/admin/banners/${banner.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: url })
+        });
+        window.location.reload();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDrop = async (e: React.DragEvent) => {
+    if (!isEditMode || banner.id === 'demo-promo') return;
+    e.preventDefault();
+    const url = e.dataTransfer.getData("text/plain");
+    if (url && url.startsWith("/")) {
+      await fetch(`/api/admin/banners/${banner.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image: url })
+      });
+      window.location.reload();
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    if (isEditMode) e.preventDefault();
+  };
 
   return (
     <section className="py-16 relative overflow-hidden bg-bg">
@@ -44,12 +96,21 @@ export default function PromoBanner({ banner, products = [] }: { banner: any, pr
         
         {/* Main Ultra Premium Banner */}
         <div 
-          className="relative min-h-[500px] rounded-2xl overflow-hidden shadow-2xl"
+          className={`relative min-h-[500px] rounded-2xl overflow-hidden shadow-2xl ${isEditMode ? 'ring-2 ring-transparent hover:ring-brand/50 transition-all cursor-pointer' : ''}`}
           style={{ background: `linear-gradient(90deg, ${banner.bgColorFrom}, ${banner.bgColorTo})`, color: banner.textColor }}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onClick={(e) => {
+            if (isEditMode && (e.target as HTMLElement).tagName !== 'SPAN' && (e.target as HTMLElement).tagName !== 'H2' && (e.target as HTMLElement).tagName !== 'P') {
+              document.getElementById(`upload-${banner.id}`)?.click();
+            }
+          }}
         >
+          <input type="file" id={`upload-${banner.id}`} className="hidden" accept="image/*" onChange={handleImageUpload} />
+          {isEditMode && <div className="absolute top-4 right-4 z-50 bg-black/70 text-white text-[10px] uppercase font-bold px-2 py-1 rounded shadow-lg pointer-events-none">Click or Drop image</div>}
           
           {/* Background Image spanning the whole banner but fading out towards the right */}
-          <div className="absolute inset-0 w-full h-full md:w-[65%] z-0">
+          <div className="absolute inset-0 w-full h-full md:w-[65%] z-0 pointer-events-none">
             <Image 
               src={banner.image || "/placeholder.png"} 
               alt={banner.title} 
@@ -71,12 +132,25 @@ export default function PromoBanner({ banner, products = [] }: { banner: any, pr
               viewport={{ once: true }}
               className="flex flex-col items-center md:items-end text-center md:text-right mx-auto md:ml-auto max-w-xl w-full"
             >
-              {banner.eyebrow && <span className="uppercase text-[10px] md:text-[11px] font-bold tracking-[0.3em] text-[#d4af37] mb-4 drop-shadow-md">{banner.eyebrow}</span>}
-              <h2 className="text-3xl md:text-6xl font-black mb-4 md:mb-6 leading-[1.15] md:leading-[1.1] tracking-tight drop-shadow-lg" style={{ color: banner.textColor }}>
+              {banner.eyebrow && <span 
+                contentEditable={isEditMode && banner.id !== 'demo-promo'}
+                suppressContentEditableWarning
+                onBlur={(e) => handleTextUpdate('eyebrow', e.currentTarget.textContent || "")}
+                className={`uppercase text-[10px] md:text-[11px] font-bold tracking-[0.3em] text-[#d4af37] mb-4 drop-shadow-md ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
+              >{banner.eyebrow}</span>}
+              <h2 
+                contentEditable={isEditMode && banner.id !== 'demo-promo'}
+                suppressContentEditableWarning
+                onBlur={(e) => handleTextUpdate('title', e.currentTarget.textContent || "")}
+                className={`text-3xl md:text-6xl font-black mb-4 md:mb-6 leading-[1.15] md:leading-[1.1] tracking-tight drop-shadow-lg ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`} style={{ color: banner.textColor }}>
                 {banner.title}
               </h2>
               {banner.subtitle && (
-                <p className="text-base md:text-xl font-medium leading-relaxed drop-shadow opacity-90" style={{ color: banner.textColor }}>
+                <p 
+                  contentEditable={isEditMode && banner.id !== 'demo-promo'}
+                  suppressContentEditableWarning
+                  onBlur={(e) => handleTextUpdate('subtitle', e.currentTarget.textContent || "")}
+                  className={`text-base md:text-xl font-medium leading-relaxed drop-shadow opacity-90 ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`} style={{ color: banner.textColor }}>
                   {banner.subtitle}
                 </p>
               )}
@@ -84,8 +158,15 @@ export default function PromoBanner({ banner, products = [] }: { banner: any, pr
               <MiniCountdown />
 
               <div className="mt-8">
-                <Link href={banner.link || "/search"} className="group inline-flex items-center gap-3 bg-white text-[#0b1221] font-bold text-[13px] uppercase tracking-widest px-8 py-4 rounded-sm hover:bg-[#d4af37] hover:text-white transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                  {banner.buttonText}
+                <Link href={banner.link || "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="group inline-flex items-center gap-3 bg-white text-[#0b1221] font-bold text-[13px] uppercase tracking-widest px-8 py-4 rounded-sm hover:bg-[#d4af37] hover:text-white transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                  <span
+                    contentEditable={isEditMode && banner.id !== 'demo-promo'}
+                    suppressContentEditableWarning
+                    onBlur={(e) => handleTextUpdate('buttonText', e.currentTarget.textContent || "")}
+                    className={isEditMode ? 'outline-dashed outline-1 outline-black/30 hover:outline-black p-1' : ''}
+                  >
+                    {banner.buttonText}
+                  </span>
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
