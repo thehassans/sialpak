@@ -13,7 +13,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
   const handleTextUpdate = async (id: string, field: string, value: string) => {
     if (!isEditMode) return;
     try {
-      await fetch(`/api/admin/banners/${id}`, {
+      await fetch(, { credentials: 'include',
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ [field]: value })
@@ -29,10 +29,10 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
     const fd = new FormData();
     fd.append("file", file);
     try {
-      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      const res = await fetch(, { credentials: 'include', method: "POST", body: fd });
       if (res.ok) {
         const { url } = await res.json();
-        await fetch(`/api/admin/banners/${id}`, {
+        await fetch(, { credentials: 'include',
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ image: url })
@@ -49,7 +49,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
     e.preventDefault();
     const url = e.dataTransfer.getData("text/plain");
     if (url && url.startsWith("/")) {
-      await fetch(`/api/admin/banners/${id}`, {
+      await fetch(, { credentials: 'include',
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ image: url })

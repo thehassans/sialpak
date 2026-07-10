@@ -52,12 +52,12 @@ export default function Sidebar({ storeName, userName }: { storeName: string; us
   }
 
   return (
-    <aside className="w-64 shrink-0 bg-[#0a0a0a] text-white flex flex-col h-screen sticky top-0 border-r border-white/5">
-      <div className="flex items-center justify-between px-6 py-6 border-b border-white/5 relative">
-        <img src="/uploads/logo.png" alt="BuySial Logo" className="h-8 w-auto object-contain brightness-0 invert opacity-90" />
-        <span className="text-[9px] font-black tracking-[0.2em] uppercase text-white/50">Admin</span>
+    <aside className="w-64 shrink-0 bg-[#fcfcfc] text-[#111827] flex flex-col h-screen sticky top-0 border-r border-gray-200/60 shadow-[4px_0_24px_rgba(0,0,0,0.01)]">
+      <div className="flex items-center justify-between px-6 py-8 border-b border-gray-100 relative">
+        <img src="/uploads/logo.png" alt="BuySial Logo" className="h-7 w-auto object-contain opacity-90" />
+        <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-gray-400">Admin</span>
       </div>
-      <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+      <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1">
         {NAV.map((item) => {
           const isActive = pathname.startsWith(item.href) && (item.href !== "/admin" || pathname === "/admin");
           return (
@@ -65,29 +65,29 @@ export default function Sidebar({ storeName, userName }: { storeName: string; us
               key={item.href} 
               href={item.href}
               className={cx(
-                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-semibold transition-all duration-200",
+                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-300",
                 isActive 
-                  ? "bg-white text-[#0a0a0a] shadow-sm" 
-                  : "text-[#8e9bb0] hover:bg-white/5 hover:text-white"
+                  ? "bg-gray-100/80 text-[#0f172a] shadow-sm font-semibold" 
+                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
               )}
             >
-              <div className="w-[18px] h-[18px] shrink-0">{item.icon}</div>
+              <div className={cx("w-[18px] h-[18px] shrink-0 transition-colors", isActive ? "text-brand" : "text-gray-400")}>{item.icon}</div>
               {item.label}
             </Link>
           );
         })}
       </nav>
       
-      <div className="p-4 border-t border-white/5 space-y-3">
-        <div className="px-4 py-3 bg-white/5 rounded-xl">
-          <div className="text-[10px] font-bold tracking-wider text-white/40 uppercase mb-1">Store User</div>
+      <div className="p-5 border-t border-gray-100 bg-gray-50/50 space-y-3">
+        <div className="px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-100">
+          <div className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase mb-1">Store User</div>
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full bg-brand text-white flex items-center justify-center text-xs font-bold shrink-0">{userName.charAt(0).toUpperCase()}</div>
-            <div className="text-[13px] font-semibold text-white/90 truncate">{userName}</div>
+            <div className="w-6 h-6 rounded-full bg-brand/10 text-brand flex items-center justify-center text-xs font-bold shrink-0">{userName.charAt(0).toUpperCase()}</div>
+            <div className="text-[13px] font-semibold text-gray-800 truncate">{userName}</div>
           </div>
         </div>
-        <button onClick={handleLogout} className="w-full text-left px-4 py-2.5 rounded-lg text-[13px] font-semibold text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-2">
-          <LogOut className="w-4 h-4 shrink-0" />
+        <button onClick={handleLogout} className="w-full text-left px-4 py-2.5 rounded-lg text-[13px] font-semibold text-red-500 hover:bg-red-50 transition-colors flex items-center gap-2">
+          <LogOut className="w-4 h-4 shrink-0 text-red-400" />
           Sign Out
         </button>
       </div>

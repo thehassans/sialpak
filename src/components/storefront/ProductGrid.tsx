@@ -47,7 +47,7 @@ export default function ProductGrid({
   const handleTitleUpdate = async (value: string) => {
     if (!isEditMode || !settingKey) return;
     try {
-      await fetch('/api/admin/settings', {
+      await fetch(, { credentials: 'include',
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ settings: [{ key: settingKey, value }] })
