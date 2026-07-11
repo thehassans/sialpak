@@ -34,7 +34,7 @@ export default async function Header({
       {/* Main Header */}
       <header className="bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-[9999] shadow-sm">
         <div className="max-w-[1280px] mx-auto px-6 flex items-center gap-8 py-5">
-          <MobileSidebar />
+          <MobileSidebar supportPhone={supportPhone} />
           
           <Link href="/" className="flex items-center shrink-0">
             <img src="/uploads/logo.png" alt="BuySial" className="h-16 w-auto object-contain" />

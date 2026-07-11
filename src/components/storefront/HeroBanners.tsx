@@ -96,7 +96,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                 priority
               />
               {/* Premium Dark Solid Mask */}
-              <div className="absolute inset-0 bg-[#3b2e2a]/40 group-hover:bg-[#ff5a1f]/80 transition-colors duration-500"></div>
+              <div className="absolute inset-0 bg-[#3b2e2a]/45 group-hover:bg-black/55 transition-colors duration-500"></div>
             </div>
 
             <div className="relative z-10 p-10 md:p-14 h-full flex flex-col justify-center max-w-xl">
@@ -165,7 +165,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                   priority
                 />
                 {/* Premium Dark Solid Mask */}
-                <div className="absolute inset-0 bg-[#3b2e2a]/40 group-hover:bg-[#ff5a1f]/80 transition-colors duration-500"></div>
+                <div className="absolute inset-0 bg-[#3b2e2a]/40 group-hover:bg-black/45 transition-colors duration-500"></div>
               </div>
 
               <div className="relative z-10 p-8 md:p-10 h-full flex flex-col justify-end text-center items-center">

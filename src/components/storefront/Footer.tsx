@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { getSetting, DEFAULT_SETTINGS } from "@/lib/settings";
 
 const WhatsAppIcon = () => (
   <svg viewBox="0 0 24 24" fill="#25D366" className="w-14 h-14 drop-shadow-xl hover:scale-110 transition-transform cursor-pointer">
@@ -7,7 +8,10 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
-export default function Footer({ storeName }: { storeName: string }) {
+export default async function Footer({ storeName }: { storeName: string }) {
+  const settings = await getSetting("general", DEFAULT_SETTINGS.general);
+  const whatsappNumber = settings.company_whatsapp || "+923001234567";
+  const cleanNumber = whatsappNumber.replace(/[^0-9]/g, "");
   return (
     <footer className="bg-[#1a1514] text-[#f8f9fa] pt-24 pb-12 relative overflow-hidden" id="footer">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-12 relative z-10">
@@ -88,14 +92,14 @@ export default function Footer({ storeName }: { storeName: string }) {
         
       </div>
 
-      {/* Floating WhatsApp Icon */}
+      {/* Floating WhatsApp Icon - Styled as fixed on viewport */}
       <a 
-        href="https://wa.me/1234567890" 
+        href={`https://wa.me/${cleanNumber}`} 
         target="_blank" 
         rel="noopener noreferrer"
-        className="absolute bottom-8 right-8 z-50 flex flex-col items-center gap-2 group"
+        className="fixed bottom-8 right-8 z-[999999] flex flex-col items-center gap-2 group hover:scale-105 transition-all duration-300"
       >
-        <span className="bg-white text-black text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0">
+        <span className="bg-white text-black text-[10px] font-black uppercase tracking-wider px-3.5 py-2 rounded-xl shadow-2xl border border-gray-100 opacity-0 group-hover:opacity-100 transition-opacity translate-y-1 group-hover:translate-y-0 duration-300 pointer-events-none">
           Send Screenshot
         </span>
         <WhatsAppIcon />

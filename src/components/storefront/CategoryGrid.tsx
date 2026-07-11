@@ -67,9 +67,9 @@ export default function CategoryGrid({ categories, title, isEditMode = false }: 
   };
 
   return (
-    <section className="py-16 bg-transparent" id="categories">
+    <section className="pt-6 pb-10 bg-transparent" id="categories">
       <div className="max-w-[1280px] mx-auto px-6">
-        <div className="flex flex-col items-center mb-12 text-center">
+        <div className="flex flex-col items-center mb-6 text-center">
           <span className="inline-block text-[#ff5a1f] text-[13px] font-black uppercase tracking-[0.3em] mb-3">
             Explore Collections
           </span>

@@ -59,12 +59,12 @@ export default function ProductGrid({
   };
 
   return (
-    <section className="py-16 bg-transparent">
+    <section className="pt-6 pb-10 bg-transparent">
       <div className="max-w-[1280px] mx-auto px-6">
         
         {/* Premium Centered Header */}
         {title && (
-          <div className="flex flex-col items-center mb-12 text-center">
+          <div className="flex flex-col items-center mb-6 text-center">
             <span className="inline-block text-[#ff5a1f] text-[13px] font-black uppercase tracking-[0.3em] mb-3">
               {eyebrow}
             </span>

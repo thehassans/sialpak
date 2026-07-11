@@ -81,18 +81,16 @@ export default async function HomePage({ searchParams }: { searchParams: { editM
         }) : (
           <PromoBanner isEditMode={isEditMode} banner={{
             id: 'demo-promo',
-            title: "Discount on all Skin Care products up to 25%",
-            subtitle: "Shop great deals on serums, cleansers, creams and more.",
+            title: "Steroid-Free Eczema & Psoriasis Relief",
+            subtitle: "Clinically proven, 100% natural herbal formula for instant itching and redness relief.",
             eyebrow: "Skin Care",
-            buttonText: "Shop The Collection",
-            image: "/uploads/banner_skincare_1783568776197.png",
+            buttonText: "Shop Eczema Cream",
+            image: "/uploads/banner_eczema_cream.png",
             bgColorFrom: "transparent",
             bgColorTo: "#0b1221",
             textColor: "#ffffff"
           } as any} products={allProducts.filter(p => p.collections.some(c => c.collection.slug === "beauty-essentials-sale")) as any} />
         )}
-        
-        <ProductGrid title={settingsMap['heading_home_appliance'] || "Home Appliance"} settingKey="heading_home_appliance" isEditMode={isEditMode} products={allProducts.slice(0, 5) as any} accentColor="#f5921f" />
         
         {stripBanners.length > 0 ? stripBanners.map((banner, i) => {
           const bannerProducts = (banner as any).collection ? (banner as any).collection.products.map((p: any) => p.product) : [];
@@ -100,11 +98,11 @@ export default async function HomePage({ searchParams }: { searchParams: { editM
         }) : (
           <PremiumCollection isEditMode={isEditMode} banner={{
             id: 'demo-strip',
-            title: "Premium Cat Care",
-            subtitle: "Countdown deal — limited time only.",
-            eyebrow: "Pet Care",
-            buttonText: "Shop Now",
-            image: "/uploads/banner_petcare_1783568784398.png",
+            title: "Natural Vitality & Stamina Booster",
+            subtitle: "Buysial Biomanix provides ultimate energy and confidence support.",
+            eyebrow: "Male Health",
+            buttonText: "Shop Biomanix",
+            image: "/uploads/biomanix_lifestyle.png",
             bgColorFrom: "#1f2937",
             textColor: "#ffffff",
             link: "/search"

@@ -3,6 +3,7 @@ import ProductGrid from "@/components/storefront/ProductGrid";
 import SearchFilters from "@/components/storefront/SearchFilters";
 import Header from "@/components/storefront/Header";
 import Footer from "@/components/storefront/Footer";
+import Image from "next/image";
 import { getSetting, DEFAULT_SETTINGS } from "@/lib/settings";
 
 const prisma = new PrismaClient();
@@ -66,11 +67,28 @@ export default async function SearchPage({ searchParams }: { searchParams: { q?:
         freeShippingText={general.freeShippingText}
       />
       <main className="min-h-screen bg-[#f8f9fa]">
-      <div className="bg-[#0b1221] py-16 text-center border-b border-[#1f2937]">
-        <h1 className="text-white text-3xl font-extrabold mb-4">
-          {query ? `Search Results for "${query}"` : "All Premium Products"}
-        </h1>
-        <p className="text-[#94a3b8] font-medium tracking-wide uppercase text-[12px]">Found {products.length} products</p>
+      <div className="relative py-24 text-center overflow-hidden bg-black border-b border-gray-900">
+        {/* Background Image with overlay */}
+        <div className="absolute inset-0 z-0 opacity-40">
+          <Image 
+            src="/uploads/banner_mens_health.png" 
+            alt="All Products" 
+            fill 
+            className="object-cover object-center"
+            priority
+          />
+        </div>
+        <div className="relative z-10 max-w-[800px] mx-auto px-6">
+          <span className="inline-block text-[#ff5a1f] text-[12px] font-black uppercase tracking-[0.3em] mb-4">
+            Explore Catalog
+          </span>
+          <h1 className="text-white text-[36px] md:text-[48px] font-black uppercase tracking-tight mb-3">
+            {query ? `Search: "${query}"` : "All Premium Products"}
+          </h1>
+          <p className="text-white/60 font-bold tracking-wide uppercase text-[11px]">
+            Found {products.length} products
+          </p>
+        </div>
       </div>
 
       <div className="max-w-[1280px] mx-auto px-6 py-12 flex flex-col md:flex-row gap-10">

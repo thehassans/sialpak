@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Menu, X, ChevronRight } from "lucide-react";
 import { usePathname } from "next/navigation";
 
-export default function MobileSidebar() {
+export default function MobileSidebar({ supportPhone = "+92 300 1234567" }: { supportPhone?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -24,9 +24,11 @@ export default function MobileSidebar() {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Shop", href: "/search" },
-    { name: "Beauty", href: "/category/beauty" },
-    { name: "Fashion", href: "/category/fashion" },
+    { name: "Shop All Products", href: "/search" },
+    { name: "Skincare", href: "/category/skincare" },
+    { name: "Haircare", href: "/category/haircare" },
+    { name: "Men's Health", href: "/category/mens-health" },
+    { name: "Treatments", href: "/category/treatments" },
     { name: "My Favorites", href: "/wishlist" },
     { name: "Contact Us", href: "/contact" },
   ];
@@ -65,16 +67,12 @@ export default function MobileSidebar() {
         </div>
 
         <div className="flex-1 overflow-y-auto py-6 px-4">
-          <ul className="space-y-2">
-            {navLinks.map((link, i) => (
-              <li 
-                key={link.name} 
-                className="transform transition-all duration-300"
-                style={{ transitionDelay: isOpen ? `${100 + i * 50}ms` : '0ms', opacity: isOpen ? 1 : 0, transform: isOpen ? 'translateY(0)' : 'translateY(10px)' }}
-              >
+          <ul className="space-y-1">
+            {navLinks.map((link) => (
+              <li key={link.name}>
                 <Link 
                   href={link.href} 
-                  className="flex items-center justify-between p-4 rounded-xl hover:bg-[#f8f9fa] text-black font-semibold text-[15px] group transition-colors"
+                  className="flex items-center justify-between p-3.5 rounded-xl hover:bg-[#f8f9fa] text-black font-black uppercase tracking-wider text-[12px] group transition-colors"
                 >
                   {link.name}
                   <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-black group-hover:translate-x-1 transition-all" />
@@ -82,6 +80,24 @@ export default function MobileSidebar() {
               </li>
             ))}
           </ul>
+
+          {/* Premium Help & Shipping Notice inside sidebar */}
+          <div className="mt-8 pt-8 border-t border-gray-100 px-4 space-y-5">
+            <div className="flex items-start gap-3">
+              <span className="text-lg">🚚</span>
+              <div>
+                <h4 className="text-[10px] font-black uppercase tracking-wider text-black">Free Shipping Over 2,500</h4>
+                <p className="text-[9px] text-[#6b6b6b] uppercase tracking-wider mt-0.5">Shipping Nationwide in Pakistan</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="text-lg">📞</span>
+              <div>
+                <h4 className="text-[10px] font-black uppercase tracking-wider text-black">24/7 Helpline</h4>
+                <p className="text-[11px] font-black text-[#ff5a1f] mt-0.5 tracking-wide">{supportPhone}</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="p-6 bg-[#f8f9fa] border-t border-gray-100">
