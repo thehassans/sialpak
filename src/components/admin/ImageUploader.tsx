@@ -103,7 +103,7 @@ export default function ImageUploader({
             className="w-full text-[13px] border border-[#e2e8f0] rounded-lg p-2.5 outline-none focus:border-[#0b1221]"
             placeholder="Or paste an image URL directly"
             value={value}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => onChange?.(e.target.value)}
           />
         </div>
       </div>
