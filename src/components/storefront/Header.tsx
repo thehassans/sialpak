@@ -32,7 +32,7 @@ export default async function Header({
       </div>
 
       {/* Main Header */}
-      <header className="bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+      <header className="bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-[9999] shadow-sm">
         <div className="max-w-[1280px] mx-auto px-6 flex items-center gap-8 py-5">
           <MobileSidebar />
           

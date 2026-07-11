@@ -113,13 +113,15 @@ export default function ProductCard({ product }: ProductCardProps) {
         <Link href={`/product/${product.slug}`} className="group-hover:opacity-80 transition-opacity">
           {/* Rating */}
           <div className="flex items-center gap-1 mb-2">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star 
-                key={i} 
-                className={`w-[13px] h-[13px] ${i < (product.reviewsCount > 0 ? Math.floor(product.rating) : 0) ? "text-[#ff5a1f] fill-[#ff5a1f]" : "text-black/10"}`} 
-                strokeWidth={1}
-              />
-            ))}
+            <div className="flex gap-0.5">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star 
+                  key={i} 
+                  className={`w-[12px] h-[12px] ${i < Math.floor(product.rating || 4.5) ? "text-amber-400 fill-amber-400" : "text-black/10"}`} 
+                  strokeWidth={1}
+                />
+              ))}
+            </div>
             <span className="text-[12px] font-bold text-black/60 ml-1">({product.reviewsCount})</span>
           </div>
 

@@ -44,14 +44,14 @@ export default function MobileSidebar() {
       {/* Backdrop */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[999] transition-opacity"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[99999] transition-opacity"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       {/* Drawer */}
       <div 
-        className={`fixed inset-y-0 left-0 w-[85vw] max-w-[400px] bg-white z-[1000] shadow-2xl transform transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed inset-y-0 left-0 w-[85vw] max-w-[400px] bg-white z-[100000] shadow-2xl transform transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <img src="/uploads/logo.png" alt="BuySial" className="h-8 w-auto object-contain" />

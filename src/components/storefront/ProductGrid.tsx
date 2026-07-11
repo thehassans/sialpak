@@ -63,19 +63,21 @@ export default function ProductGrid({
       <div className="max-w-[1280px] mx-auto px-6">
         
         {/* Premium Centered Header */}
-        <div className="flex flex-col items-center mb-12 text-center">
-          <span className="inline-block text-[#ff5a1f] text-[13px] font-black uppercase tracking-[0.3em] mb-3">
-            {eyebrow}
-          </span>
-          <h2 
-            contentEditable={isEditMode}
-            suppressContentEditableWarning
-            onBlur={(e) => handleTitleUpdate(e.currentTarget.textContent || "")}
-            className={`text-[36px] md:text-[48px] font-black text-black tracking-tight ${isEditMode ? 'outline-dashed outline-1 outline-black/30 hover:outline-black p-1' : ''}`}
-          >
-            {title}
-          </h2>
-        </div>
+        {title && (
+          <div className="flex flex-col items-center mb-12 text-center">
+            <span className="inline-block text-[#ff5a1f] text-[13px] font-black uppercase tracking-[0.3em] mb-3">
+              {eyebrow}
+            </span>
+            <h2 
+              contentEditable={isEditMode}
+              suppressContentEditableWarning
+              onBlur={(e) => handleTitleUpdate(e.currentTarget.textContent || "")}
+              className={`text-[36px] md:text-[48px] font-black text-black tracking-tight ${isEditMode ? 'outline-dashed outline-1 outline-black/30 hover:outline-black p-1' : ''}`}
+            >
+              {title}
+            </h2>
+          </div>
+        )}
 
         {/* Grid */}
         <motion.div
