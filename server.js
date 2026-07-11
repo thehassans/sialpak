@@ -1,17 +1,31 @@
 const { createServer } = require('http')
 const { parse } = require('url')
 const next = require('next')
+const { MongoMemoryReplSet } = require('mongodb-memory-server')
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
-app.prepare().then(() => {
-  createServer((req, res) => {
-    const parsedUrl = parse(req.url, true)
-    handle(req, res, parsedUrl)
-  }).listen(process.env.PORT || 3000, (err) => {
-    if (err) throw err
-    console.log('> Ready on http://localhost:' + (process.env.PORT || 3000))
+MongoMemoryReplSet.create({ replSet: { count: 1 } }).then((replSet) => {
+  const uri = replSet.getUri();
+  process.env.DATABASE_URL = uri;
+  console.log("Memory Mongo Started at:", uri);
+  
+  // We push schema quickly before starting
+  console.log("Pushing schema to Memory Mongo...");
+  require('child_process').execSync('npx prisma db push --accept-data-loss', { stdio: 'inherit' });
+
+  app.prepare().then(() => {
+    createServer((req, res) => {
+      const parsedUrl = parse(req.url, true)
+      handle(req, res, parsedUrl)
+    }).listen(process.env.PORT || 3000, (err) => {
+      if (err) throw err
+      console.log('> Ready on http://localhost:' + (process.env.PORT || 3000))
+    })
   })
+}).catch(err => {
+  console.error("Failed to start MongoMemoryReplSet:", err);
+  process.exit(1);
 })
