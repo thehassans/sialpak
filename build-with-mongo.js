@@ -5,7 +5,7 @@ async function build() {
   console.log("Starting MongoMemoryReplSet...");
   const replSet = await MongoMemoryReplSet.create({ replSet: { count: 1 } });
   
-  const uri = replSet.getUri();
+  const uri = replSet.getUri('buysial');
   process.env.DATABASE_URL = uri;
   console.log("Memory Mongo Started at:", uri);
   

@@ -8,7 +8,7 @@ const app = next({ dev })
 const handle = app.getRequestHandler()
 
 MongoMemoryReplSet.create({ replSet: { count: 1 } }).then((replSet) => {
-  const uri = replSet.getUri();
+  const uri = replSet.getUri('buysial');
   process.env.DATABASE_URL = uri;
   console.log("Memory Mongo Started at:", uri);
   
