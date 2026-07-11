@@ -81,11 +81,11 @@ export default async function HomePage({ searchParams }: { searchParams: { editM
         }) : (
           <PromoBanner isEditMode={isEditMode} banner={{
             id: 'demo-promo',
-            title: "Steroid-Free Eczema & Psoriasis Relief",
-            subtitle: "Clinically proven, 100% natural herbal formula for instant itching and redness relief.",
-            eyebrow: "Skin Care",
-            buttonText: "Shop Eczema Cream",
-            image: "/uploads/banner_eczema_cream.png",
+            title: "Dermatologist Recommended Melasma & Dark Spot Treatment",
+            subtitle: "Buysial Tritospot Cream clinically targets hyperpigmentation and restores natural skin radiance.",
+            eyebrow: "Dark Spot Treatment",
+            buttonText: "Shop Tritospot",
+            image: "/uploads/banner_tritospot_cream.png",
             bgColorFrom: "transparent",
             bgColorTo: "#0b1221",
             textColor: "#ffffff"
@@ -102,7 +102,7 @@ export default async function HomePage({ searchParams }: { searchParams: { editM
             subtitle: "Buysial Biomanix provides ultimate energy and confidence support.",
             eyebrow: "Male Health",
             buttonText: "Shop Biomanix",
-            image: "/uploads/biomanix_lifestyle.png",
+            image: "/uploads/banner_biomanix.png",
             bgColorFrom: "#1f2937",
             textColor: "#ffffff",
             link: "/search"
