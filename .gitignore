@@ -3,5 +3,3 @@ node_modules
 out
 .env
 .DS_Store
-public/uploads/*
-!public/uploads/.gitkeep
