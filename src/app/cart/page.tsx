@@ -163,16 +163,16 @@ export default function CartPage() {
   }
 
   // ── Input style ─────────────────────────────────
-  const inputCls = "w-full border border-[#e8ecf0] rounded-xl px-4 py-3 text-[14px] text-[#1a1f2e] bg-[#fafbfc] outline-none transition-all focus:border-[#1a1f2e] focus:bg-white focus:shadow-[0_0_0_3px_rgba(26,31,46,0.06)] placeholder:text-[#b8c0cc]";
+  const inputCls = "w-full border-2 border-black rounded-xl px-4 py-3 text-[14px] text-black bg-[#fee5c9] outline-none transition-all focus:border-[#1a1f2e] focus:bg-[#ffebd5] focus:shadow-[0_0_0_3px_rgba(26,31,46,0.06)] placeholder:text-black/40";
 
   // ─── SUCCESS SCREEN ─────────────────────────────────────────────────────────
   if (step === "success") {
     const isAdvance = paymentMethod === "advance";
     return (
-      <div className="min-h-screen bg-[#f8f9fb] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-[#fee5c9] flex items-center justify-center p-4">
         <div className="max-w-[480px] w-full">
           {/* Success Card */}
-          <div className="bg-white rounded-3xl shadow-[0_8px_40px_-12px_rgba(0,0,0,0.12)] p-8 md:p-10 text-center">
+          <div className="bg-[#ffebd5] rounded-3xl shadow-[0_8px_40px_-12px_rgba(0,0,0,0.12)] p-8 md:p-10 text-center">
             {/* Check Icon */}
             <div className="mx-auto w-20 h-20 mb-6 relative">
               <div className="w-20 h-20 rounded-full bg-emerald-50 border-2 border-emerald-100 flex items-center justify-center">
@@ -180,35 +180,35 @@ export default function CartPage() {
               </div>
             </div>
 
-            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#94a3b8] mb-2">Order Confirmed</p>
-            <h1 className="text-3xl font-black text-[#1a1f2e] mb-2 tracking-tight">Thank You!</h1>
-            <p className="text-[#64748b] text-sm mb-1">
-              Order <span className="font-bold text-[#1a1f2e]">#{orderNumber}</span> placed successfully.
+            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-black/60 mb-2">Order Confirmed</p>
+            <h1 className="text-3xl font-black text-black mb-2 tracking-tight">Thank You!</h1>
+            <p className="text-black/70 text-sm mb-1">
+              Order <span className="font-bold text-black">#{orderNumber}</span> placed successfully.
             </p>
-            <p className="text-[#94a3b8] text-xs mb-8">
+            <p className="text-black/60 text-xs mb-8">
               Rs. {total.toLocaleString()} • {isAdvance ? "Advance Payment" : "Cash on Delivery"}
             </p>
 
             {/* Advance Payment Instructions */}
             {isAdvance && (
               <div className="text-left mb-6 space-y-3">
-                <div className="bg-[#fafbfc] border border-[#e8ecf0] rounded-2xl p-5">
-                  <p className="text-[11px] font-black uppercase tracking-[0.15em] text-[#94a3b8] mb-3">📋 Send Payment To</p>
+                <div className="bg-[#fee5c9] border-2 border-black rounded-2xl p-5">
+                  <p className="text-[11px] font-black uppercase tracking-[0.15em] text-black/60 mb-3">📋 Send Payment To</p>
                   
                   {/* JazzCash */}
                   {paySettings.jazzcash?.displayNumber && (
-                    <div className="flex items-center justify-between py-3 border-b border-[#f0f0f0]">
+                    <div className="flex items-center justify-between py-3 border-b border-black">
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-lg overflow-hidden relative bg-[#f5f5f5]">
                           <Image src="/uploads/jazzcash.jpg" alt="JazzCash" fill className="object-contain p-1" />
                         </div>
                         <div>
-                          <p className="text-[11px] text-[#94a3b8] font-medium">JazzCash</p>
-                          <p className="text-sm font-bold text-[#1a1f2e]">{paySettings.jazzcash.displayNumber}</p>
-                          {paySettings.jazzcash.displayName && <p className="text-xs text-[#64748b]">{paySettings.jazzcash.displayName}</p>}
+                          <p className="text-[11px] text-black/60 font-medium">JazzCash</p>
+                          <p className="text-sm font-bold text-black">{paySettings.jazzcash.displayNumber}</p>
+                          {paySettings.jazzcash.displayName && <p className="text-xs text-black/70">{paySettings.jazzcash.displayName}</p>}
                         </div>
                       </div>
-                      <button onClick={() => copyToClipboard(paySettings.jazzcash.displayNumber, "jc")} className="text-[#94a3b8] hover:text-[#1a1f2e] transition-colors p-2 rounded-lg hover:bg-[#f0f0f0]">
+                      <button onClick={() => copyToClipboard(paySettings.jazzcash.displayNumber, "jc")} className="text-black/60 hover:text-black transition-colors p-2 rounded-lg hover:bg-[#f0f0f0]">
                         {copied === "jc" ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
                       </button>
                     </div>
@@ -216,18 +216,18 @@ export default function CartPage() {
 
                   {/* EasyPaisa */}
                   {paySettings.easypaisa?.displayNumber && (
-                    <div className="flex items-center justify-between py-3 border-b border-[#f0f0f0]">
+                    <div className="flex items-center justify-between py-3 border-b border-black">
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-lg overflow-hidden relative bg-[#f5f5f5]">
                           <Image src="/uploads/easypaisa.png" alt="EasyPaisa" fill className="object-contain p-1" />
                         </div>
                         <div>
-                          <p className="text-[11px] text-[#94a3b8] font-medium">EasyPaisa</p>
-                          <p className="text-sm font-bold text-[#1a1f2e]">{paySettings.easypaisa.displayNumber}</p>
-                          {paySettings.easypaisa.displayName && <p className="text-xs text-[#64748b]">{paySettings.easypaisa.displayName}</p>}
+                          <p className="text-[11px] text-black/60 font-medium">EasyPaisa</p>
+                          <p className="text-sm font-bold text-black">{paySettings.easypaisa.displayNumber}</p>
+                          {paySettings.easypaisa.displayName && <p className="text-xs text-black/70">{paySettings.easypaisa.displayName}</p>}
                         </div>
                       </div>
-                      <button onClick={() => copyToClipboard(paySettings.easypaisa.displayNumber, "ep")} className="text-[#94a3b8] hover:text-[#1a1f2e] transition-colors p-2 rounded-lg hover:bg-[#f0f0f0]">
+                      <button onClick={() => copyToClipboard(paySettings.easypaisa.displayNumber, "ep")} className="text-black/60 hover:text-black transition-colors p-2 rounded-lg hover:bg-[#f0f0f0]">
                         {copied === "ep" ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
                       </button>
                     </div>
@@ -237,17 +237,17 @@ export default function CartPage() {
                   {paySettings.bankTransfer?.accountNumber && (
                     <div className="flex items-center justify-between py-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-[#1a1f2e] flex items-center justify-center">
+                        <div className="w-9 h-9 rounded-lg bg-[#3b2e2a] flex items-center justify-center">
                           <span className="text-white text-[9px] font-black">BANK</span>
                         </div>
                         <div>
-                          <p className="text-[11px] text-[#94a3b8] font-medium">{paySettings.bankTransfer.bankName || "Bank Transfer"}</p>
-                          <p className="text-sm font-bold text-[#1a1f2e]">{paySettings.bankTransfer.accountNumber}</p>
-                          {paySettings.bankTransfer.accountTitle && <p className="text-xs text-[#64748b]">{paySettings.bankTransfer.accountTitle}</p>}
-                          {paySettings.bankTransfer.iban && <p className="text-[11px] text-[#94a3b8]">IBAN: {paySettings.bankTransfer.iban}</p>}
+                          <p className="text-[11px] text-black/60 font-medium">{paySettings.bankTransfer.bankName || "Bank Transfer"}</p>
+                          <p className="text-sm font-bold text-black">{paySettings.bankTransfer.accountNumber}</p>
+                          {paySettings.bankTransfer.accountTitle && <p className="text-xs text-black/70">{paySettings.bankTransfer.accountTitle}</p>}
+                          {paySettings.bankTransfer.iban && <p className="text-[11px] text-black/60">IBAN: {paySettings.bankTransfer.iban}</p>}
                         </div>
                       </div>
-                      <button onClick={() => copyToClipboard(paySettings.bankTransfer.accountNumber, "bank")} className="text-[#94a3b8] hover:text-[#1a1f2e] transition-colors p-2 rounded-lg hover:bg-[#f0f0f0]">
+                      <button onClick={() => copyToClipboard(paySettings.bankTransfer.accountNumber, "bank")} className="text-black/60 hover:text-black transition-colors p-2 rounded-lg hover:bg-[#f0f0f0]">
                         {copied === "bank" ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
                       </button>
                     </div>
@@ -255,7 +255,7 @@ export default function CartPage() {
 
                   {/* Fallback if no accounts set */}
                   {!paySettings.jazzcash?.displayNumber && !paySettings.easypaisa?.displayNumber && !paySettings.bankTransfer?.accountNumber && (
-                    <p className="text-sm text-[#94a3b8] py-2">Transfer details will be sent to your email.</p>
+                    <p className="text-sm text-black/60 py-2">Transfer details will be sent to your email.</p>
                   )}
                 </div>
 
@@ -282,13 +282,13 @@ export default function CartPage() {
             <div className={`flex gap-3 ${isAdvance ? "" : "mt-2"}`}>
               <Link
                 href="/"
-                className="flex-1 flex items-center justify-center py-3.5 rounded-2xl border border-[#e8ecf0] text-[#64748b] hover:border-[#1a1f2e] hover:text-[#1a1f2e] font-semibold text-sm transition-all"
+                className="flex-1 flex items-center justify-center py-3.5 rounded-2xl border-2 border-black text-black/70 hover:border-[#1a1f2e] hover:text-black font-semibold text-sm transition-all"
               >
                 Continue Shopping
               </Link>
               <Link
                 href="/account"
-                className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-[#1a1f2e] text-white font-bold text-sm transition-all hover:bg-[#2d3548]"
+                className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-[#3b2e2a] text-white font-bold text-sm transition-all hover:bg-[#ff5a1f]"
               >
                 Track Order <ArrowRight className="w-4 h-4" />
               </Link>
@@ -301,14 +301,14 @@ export default function CartPage() {
 
   // ─── MAIN CART / CHECKOUT ────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-[#f8f9fb]">
+    <div className="min-h-screen bg-[#fee5c9]">
 
       {/* Minimal Top Nav */}
-      <div className="bg-white border-b border-[#f0f0f0]">
+      <div className="bg-[#ffebd5] border-b border-black">
         <div className="max-w-[1100px] mx-auto px-4 h-14 flex items-center justify-between">
           <button
             onClick={() => step === "checkout" ? setStep("cart") : window.history.back()}
-            className="flex items-center gap-1.5 text-[#64748b] hover:text-[#1a1f2e] transition-colors text-sm font-semibold"
+            className="flex items-center gap-1.5 text-black/70 hover:text-black transition-colors text-sm font-semibold"
           >
             <ChevronLeft className="w-4 h-4" />
             {step === "checkout" ? "Back to Cart" : "Back"}
@@ -316,12 +316,12 @@ export default function CartPage() {
 
           {/* Step indicators */}
           <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest">
-            <span className={step === "cart" ? "text-[#1a1f2e]" : "text-[#b8c0cc]"}>Bag</span>
+            <span className={step === "cart" ? "text-black" : "text-black/40"}>Bag</span>
             <div className="w-5 h-px bg-[#e8ecf0]" />
-            <span className={step === "checkout" ? "text-[#1a1f2e]" : "text-[#b8c0cc]"}>Checkout</span>
+            <span className={step === "checkout" ? "text-black" : "text-black/40"}>Checkout</span>
           </div>
 
-          <div className="flex items-center gap-1.5 text-[#94a3b8]">
+          <div className="flex items-center gap-1.5 text-black/60">
             <Shield className="w-3.5 h-3.5" />
             <span className="text-[11px] font-medium hidden sm:inline">Secure</span>
           </div>
@@ -336,27 +336,27 @@ export default function CartPage() {
 
             {step === "cart" ? (
               // ── CART STEP ──
-              <div className="bg-white rounded-2xl border border-[#f0f0f0] overflow-hidden">
+              <div className="bg-[#ffebd5] rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
                 <div className="px-6 py-5 border-b border-[#f8f9fb]">
-                  <h1 className="text-[17px] font-black text-[#1a1f2e]">Shopping Bag</h1>
-                  <p className="text-xs text-[#94a3b8] mt-0.5">1 item</p>
+                  <h1 className="text-[17px] font-black text-black">Shopping Bag</h1>
+                  <p className="text-xs text-black/60 mt-0.5">1 item</p>
                 </div>
                 <div className="p-6 flex items-center gap-5">
-                  <div className="w-20 h-20 bg-[#f8f9fb] rounded-xl relative overflow-hidden shrink-0">
+                  <div className="w-20 h-20 bg-[#fee5c9] rounded-xl relative overflow-hidden shrink-0">
                     <Image src={cartItem.image} alt="" fill className="object-cover mix-blend-multiply p-2" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-bold text-[#1a1f2e] leading-snug mb-0.5">{cartItem.name}</h3>
+                    <h3 className="text-sm font-bold text-black leading-snug mb-0.5">{cartItem.name}</h3>
                     {cartItem.variant && <p className="text-xs font-bold text-amber-600 mb-1">Shade: {cartItem.variant}</p>}
-                    <p className="text-xs text-[#94a3b8] mb-3">Signature Collection</p>
-                    <span className="text-base font-black text-[#1a1f2e]">Rs. {(cartItem.price * cartItem.qty).toLocaleString()}</span>
+                    <p className="text-xs text-black/60 mb-3">Signature Collection</p>
+                    <span className="text-base font-black text-black">Rs. {(cartItem.price * cartItem.qty).toLocaleString()}</span>
                   </div>
-                  <span className="text-xs text-[#94a3b8] shrink-0">Qty: {cartItem.qty}</span>
+                  <span className="text-xs text-black/60 shrink-0">Qty: {cartItem.qty}</span>
                 </div>
                 <div className="px-6 pb-6">
                   <button
                     onClick={() => setStep("checkout")}
-                    className="w-full bg-[#1a1f2e] hover:bg-[#2d3548] text-white font-bold text-[13px] uppercase tracking-widest py-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
+                    className="w-full bg-[#3b2e2a] hover:bg-[#ff5a1f] text-white font-black text-[15px] uppercase tracking-widest py-4 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 transition-all duration-200 flex items-center justify-center gap-2"
                   >
                     Proceed to Checkout <ArrowRight className="w-4 h-4" />
                   </button>
@@ -367,43 +367,43 @@ export default function CartPage() {
               <form onSubmit={handleCheckout} className="space-y-4">
 
                 {/* Shipping Information */}
-                <div className="bg-white rounded-2xl border border-[#f0f0f0] overflow-hidden">
+                <div className="bg-[#ffebd5] rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
                   <div className="px-6 py-5 border-b border-[#f8f9fb] flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#f8f9fb] border border-[#f0f0f0] flex items-center justify-center">
-                      <Package className="w-4 h-4 text-[#64748b]" />
+                    <div className="w-8 h-8 rounded-lg bg-[#fee5c9] border-2 border-black flex items-center justify-center">
+                      <Package className="w-4 h-4 text-black/70" />
                     </div>
                     <div>
-                      <h2 className="text-[15px] font-black text-[#1a1f2e]">Shipping Information</h2>
-                      <p className="text-[11px] text-[#94a3b8]">We'll deliver right to your door</p>
+                      <h2 className="text-[15px] font-black text-black">Shipping Information</h2>
+                      <p className="text-[11px] text-black/60">We'll deliver right to your door</p>
                     </div>
                   </div>
 
                   <div className="p-6 space-y-4">
                     <div>
-                      <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-[#94a3b8] mb-2">Full Name</label>
+                      <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-black/60 mb-2">Full Name</label>
                       <input name="name" required className={inputCls} placeholder="Your full name" />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-[#94a3b8] mb-2">Phone Number *</label>
+                        <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-black/60 mb-2">Phone Number *</label>
                         <input required type="text" name="phone" defaultValue="+92 " className={inputCls} placeholder="+92 300 1234567" />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-[#94a3b8] mb-2">Email Address *</label>
+                        <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-black/60 mb-2">Email Address *</label>
                         <input required type="email" name="email" onBlur={handleEmailBlur} className={inputCls} placeholder="For order updates" />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-[#94a3b8] mb-2">Complete Address</label>
+                      <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-black/60 mb-2">Complete Address</label>
                       <input name="address" required className={inputCls} placeholder="House No, Street, Area / Block" />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* City */}
                       <div className="relative">
-                        <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-[#94a3b8] mb-2">City</label>
+                        <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-black/60 mb-2">City</label>
                         <input type="hidden" name="city" value={citySearch} />
                         <input
                           required autoComplete="off" value={citySearch}
@@ -413,25 +413,25 @@ export default function CartPage() {
                           className={inputCls} placeholder="Search or select city"
                         />
                         {showCityDropdown && (
-                          <div className="absolute z-20 w-full mt-1 bg-white border border-[#e8ecf0] rounded-xl shadow-[0_8px_24px_-8px_rgba(0,0,0,0.12)] max-h-52 overflow-y-auto">
+                          <div className="absolute z-20 w-full mt-1 bg-[#ffebd5] border-2 border-black rounded-xl shadow-[0_8px_24px_-8px_rgba(0,0,0,0.12)] max-h-52 overflow-y-auto">
                             {(provinceCities[selectedProvince] || [])
                               .filter(c => c.toLowerCase().includes(citySearch.toLowerCase()))
                               .map(city => (
                                 <div key={city} onClick={() => { setCitySearch(city); setShowCityDropdown(false); }}
-                                  className="px-4 py-2.5 text-sm text-[#1a1f2e] hover:bg-[#f8f9fb] cursor-pointer border-b border-[#f8f9fb] last:border-0 transition-colors"
+                                  className="px-4 py-2.5 text-sm text-black hover:bg-[#fee5c9] cursor-pointer border-b border-[#f8f9fb] last:border-0 transition-colors"
                                 >
                                   {city}
                                 </div>
                               ))}
                             {!(provinceCities[selectedProvince] || []).some(c => c.toLowerCase().includes(citySearch.toLowerCase())) && (
-                              <div className="px-4 py-3 text-sm text-[#94a3b8] italic">No cities found</div>
+                              <div className="px-4 py-3 text-sm text-black/60 italic">No cities found</div>
                             )}
                           </div>
                         )}
                       </div>
                       {/* Province */}
                       <div>
-                        <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-[#94a3b8] mb-2">Province</label>
+                        <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-black/60 mb-2">Province</label>
                         <select name="province" value={selectedProvince}
                           onChange={(e) => { setSelectedProvince(e.target.value); setCitySearch(""); }}
                           className={inputCls}
@@ -450,14 +450,14 @@ export default function CartPage() {
                 </div>
 
                 {/* Payment Method */}
-                <div className="bg-white rounded-2xl border border-[#f0f0f0] overflow-hidden">
+                <div className="bg-[#ffebd5] rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
                   <div className="px-6 py-5 border-b border-[#f8f9fb] flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#f8f9fb] border border-[#f0f0f0] flex items-center justify-center">
-                      <Banknote className="w-4 h-4 text-[#64748b]" />
+                    <div className="w-8 h-8 rounded-lg bg-[#fee5c9] border-2 border-black flex items-center justify-center">
+                      <Banknote className="w-4 h-4 text-black/70" />
                     </div>
                     <div>
-                      <h2 className="text-[15px] font-black text-[#1a1f2e]">Payment Method</h2>
-                      <p className="text-[11px] text-[#94a3b8]">Choose how you'd like to pay</p>
+                      <h2 className="text-[15px] font-black text-black">Payment Method</h2>
+                      <p className="text-[11px] text-black/60">Choose how you'd like to pay</p>
                     </div>
                   </div>
 
@@ -465,22 +465,22 @@ export default function CartPage() {
                     {/* COD */}
                     <div
                       onClick={() => setPaymentMethod("cod")}
-                      className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${paymentMethod === "cod" ? "border-[#1a1f2e] bg-[#1a1f2e]/[0.02]" : "border-[#f0f0f0] hover:border-[#e0e0e0]"}`}
+                      className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${paymentMethod === "cod" ? "border-[#1a1f2e] bg-[#3b2e2a]/[0.02]" : "border-black hover:border-[#e0e0e0]"}`}
                     >
                       <div className={`w-4.5 h-4.5 rounded-full border-2 flex items-center justify-center shrink-0 ${paymentMethod === "cod" ? "border-[#1a1f2e]" : "border-[#d1d5db]"}`} style={{ width: 18, height: 18 }}>
-                        {paymentMethod === "cod" && <div className="w-2.5 h-2.5 rounded-full bg-[#1a1f2e]" />}
+                        {paymentMethod === "cod" && <div className="w-2.5 h-2.5 rounded-full bg-[#3b2e2a]" />}
                       </div>
-                      <Banknote className="w-5 h-5 text-[#64748b] shrink-0" />
+                      <Banknote className="w-5 h-5 text-black/70 shrink-0" />
                       <div>
-                        <p className="font-bold text-sm text-[#1a1f2e]">Cash on Delivery</p>
-                        <p className="text-xs text-[#94a3b8]">Pay when your order arrives</p>
+                        <p className="font-bold text-sm text-black">Cash on Delivery</p>
+                        <p className="text-xs text-black/60">Pay when your order arrives</p>
                       </div>
                     </div>
 
                     {/* Advance Payment */}
                     <div
                       onClick={() => setPaymentMethod("advance")}
-                      className={`border-2 rounded-xl cursor-pointer transition-all ${paymentMethod === "advance" ? "border-[#f59e0b]" : "border-[#f0f0f0] hover:border-[#e0e0e0]"}`}
+                      className={`border-2 rounded-xl cursor-pointer transition-all ${paymentMethod === "advance" ? "border-[#f59e0b]" : "border-black hover:border-[#e0e0e0]"}`}
                     >
                       <div className="flex items-start gap-4 p-4">
                         <div className={`w-4.5 h-4.5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 ${paymentMethod === "advance" ? "border-[#f59e0b]" : "border-[#d1d5db]"}`} style={{ width: 18, height: 18 }}>
@@ -488,36 +488,36 @@ export default function CartPage() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex flex-wrap items-center gap-2 mb-1">
-                            <p className="font-bold text-sm text-[#1a1f2e]">Advance Payment</p>
+                            <p className="font-bold text-sm text-black">Advance Payment</p>
                             <span className="bg-amber-100 text-amber-700 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">
                               Save Rs. {advanceDiscount}
                             </span>
                           </div>
-                          <p className="text-xs text-[#94a3b8] mb-3">Pay via JazzCash, EasyPaisa, or Bank Transfer</p>
+                          <p className="text-xs text-black/60 mb-3">Pay via JazzCash, EasyPaisa, or Bank Transfer</p>
 
                           {/* Payment logos */}
                           <div className="flex flex-wrap gap-2">
                             {paySettings.jazzcash?.enabled !== false && (
-                              <div className="flex items-center gap-2 bg-[#f8f9fb] border border-[#f0f0f0] rounded-lg px-2.5 py-1.5">
+                              <div className="flex items-center gap-2 bg-[#fee5c9] border-2 border-black rounded-lg px-2.5 py-1.5">
                                 <div className="w-6 h-6 rounded overflow-hidden relative">
                                   <Image src="/uploads/jazzcash.jpg" alt="JazzCash" fill className="object-contain" />
                                 </div>
-                                <span className="text-[11px] font-bold text-[#1a1f2e]">JazzCash</span>
+                                <span className="text-[11px] font-bold text-black">JazzCash</span>
                               </div>
                             )}
                             {paySettings.easypaisa?.enabled !== false && (
-                              <div className="flex items-center gap-2 bg-[#f8f9fb] border border-[#f0f0f0] rounded-lg px-2.5 py-1.5">
+                              <div className="flex items-center gap-2 bg-[#fee5c9] border-2 border-black rounded-lg px-2.5 py-1.5">
                                 <div className="w-6 h-6 rounded overflow-hidden relative">
                                   <Image src="/uploads/easypaisa.png" alt="EasyPaisa" fill className="object-contain" />
                                 </div>
-                                <span className="text-[11px] font-bold text-[#1a1f2e]">EasyPaisa</span>
+                                <span className="text-[11px] font-bold text-black">EasyPaisa</span>
                               </div>
                             )}
-                            <div className="flex items-center gap-2 bg-[#f8f9fb] border border-[#f0f0f0] rounded-lg px-2.5 py-1.5">
-                              <div className="w-6 h-6 rounded bg-[#1a1f2e] flex items-center justify-center">
+                            <div className="flex items-center gap-2 bg-[#fee5c9] border-2 border-black rounded-lg px-2.5 py-1.5">
+                              <div className="w-6 h-6 rounded bg-[#3b2e2a] flex items-center justify-center">
                                 <span className="text-white text-[8px] font-black">BK</span>
                               </div>
-                              <span className="text-[11px] font-bold text-[#1a1f2e]">Bank</span>
+                              <span className="text-[11px] font-bold text-black">Bank</span>
                             </div>
                           </div>
                         </div>
@@ -525,41 +525,41 @@ export default function CartPage() {
 
                       {/* Account details revealed when selected */}
                       {paymentMethod === "advance" && (
-                        <div className="mx-4 mb-4 border border-[#f0f0f0] rounded-xl overflow-hidden bg-[#fafbfc] p-4">
-                          <p className="text-[13px] font-bold text-[#1a1f2e] mb-2">
+                        <div className="mx-4 mb-4 border-2 border-black rounded-xl overflow-hidden bg-[#fee5c9] p-4">
+                          <p className="text-[13px] font-bold text-black mb-2">
                             Total Amount to Pay: <span className="text-amber-600 font-black">Rs. {total.toLocaleString()}</span>
                           </p>
-                          <p className="text-[11px] text-[#64748b] mb-4">Please send the payment to any of the following accounts:</p>
+                          <p className="text-[11px] text-black/70 mb-4">Please send the payment to any of the following accounts:</p>
                           
                           <div className="flex flex-col gap-3 mb-4">
                             {/* JazzCash Option */}
-                            <div className="flex items-center justify-between bg-white border border-[#f0f0f0] p-3 rounded-xl shadow-sm">
+                            <div className="flex items-center justify-between bg-[#ffebd5] border-2 border-black p-3 rounded-xl shadow-sm">
                               <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-lg overflow-hidden border border-[#f0f0f0] bg-white relative shrink-0">
+                                <div className="w-10 h-10 rounded-lg overflow-hidden border-2 border-black bg-[#ffebd5] relative shrink-0">
                                   <Image src="/uploads/jazzcash_new.jpg" alt="JazzCash" fill className="object-cover" />
                                 </div>
                                 <div className="flex flex-col">
-                                   <span className="text-[10px] uppercase text-[#94a3b8] font-black tracking-widest">JazzCash</span>
-                                   <span className="text-sm font-black text-[#1a1f2e] tracking-wider">{jazzcashNumber}</span>
+                                   <span className="text-[10px] uppercase text-black/60 font-black tracking-widest">JazzCash</span>
+                                   <span className="text-sm font-black text-black tracking-wider">{jazzcashNumber}</span>
                                 </div>
                               </div>
-                              <button type="button" onClick={() => copyToClipboard(jazzcashNumber, "jc")} className="text-[#94a3b8] hover:text-[#1a1f2e] p-2 rounded-lg hover:bg-[#f8f9fb] transition-colors flex items-center justify-center shrink-0">
+                              <button type="button" onClick={() => copyToClipboard(jazzcashNumber, "jc")} className="text-black/60 hover:text-black p-2 rounded-lg hover:bg-[#fee5c9] transition-colors flex items-center justify-center shrink-0">
                                 {copied === "jc" ? <Check className="w-5 h-5 text-emerald-500" /> : <Copy className="w-5 h-5" />}
                               </button>
                             </div>
 
                             {/* EasyPaisa Option */}
-                            <div className="flex items-center justify-between bg-white border border-[#f0f0f0] p-3 rounded-xl shadow-sm">
+                            <div className="flex items-center justify-between bg-[#ffebd5] border-2 border-black p-3 rounded-xl shadow-sm">
                               <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-lg overflow-hidden border border-[#f0f0f0] bg-white relative shrink-0 p-1">
+                                <div className="w-10 h-10 rounded-lg overflow-hidden border-2 border-black bg-[#ffebd5] relative shrink-0 p-1">
                                   <Image src="/uploads/easypaisa_new.png" alt="EasyPaisa" fill className="object-contain" />
                                 </div>
                                 <div className="flex flex-col">
-                                   <span className="text-[10px] uppercase text-[#94a3b8] font-black tracking-widest">EasyPaisa</span>
-                                   <span className="text-sm font-black text-[#1a1f2e] tracking-wider">{easypaisaNumber}</span>
+                                   <span className="text-[10px] uppercase text-black/60 font-black tracking-widest">EasyPaisa</span>
+                                   <span className="text-sm font-black text-black tracking-wider">{easypaisaNumber}</span>
                                 </div>
                               </div>
-                              <button type="button" onClick={() => copyToClipboard(easypaisaNumber, "ep")} className="text-[#94a3b8] hover:text-[#1a1f2e] p-2 rounded-lg hover:bg-[#f8f9fb] transition-colors flex items-center justify-center shrink-0">
+                              <button type="button" onClick={() => copyToClipboard(easypaisaNumber, "ep")} className="text-black/60 hover:text-black p-2 rounded-lg hover:bg-[#fee5c9] transition-colors flex items-center justify-center shrink-0">
                                 {copied === "ep" ? <Check className="w-5 h-5 text-emerald-500" /> : <Copy className="w-5 h-5" />}
                               </button>
                             </div>
@@ -583,10 +583,10 @@ export default function CartPage() {
                   <div className="px-6 pb-6">
                     <button
                       type="submit" disabled={loading}
-                      className={`w-full font-black text-[13px] uppercase tracking-widest py-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-60 ${
+                      className={`w-full font-black text-[15px] uppercase tracking-widest py-4 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${
                         paymentMethod === "advance"
-                          ? "bg-amber-400 hover:bg-amber-500 text-[#1a1f2e] shadow-[0_4px_16px_rgba(245,158,11,0.25)]"
-                          : "bg-[#1a1f2e] hover:bg-[#2d3548] text-white shadow-[0_4px_16px_rgba(26,31,46,0.15)]"
+                          ? "bg-[#ff5a1f] hover:bg-[#e04f1a] text-white"
+                          : "bg-[#3b2e2a] hover:bg-[#2d221e] text-white"
                       }`}
                     >
                       {loading ? <><Clock className="w-4 h-4 animate-spin" /> Processing...</> 
@@ -596,8 +596,8 @@ export default function CartPage() {
                       }
                     </button>
                     <div className="flex items-center justify-center gap-4 mt-4">
-                      <span className="flex items-center gap-1.5 text-[11px] text-[#b8c0cc]"><Shield className="w-3 h-3" /> 256-bit SSL</span>
-                      <span className="flex items-center gap-1.5 text-[11px] text-[#b8c0cc]"><Truck className="w-3 h-3" /> Nationwide Delivery</span>
+                      <span className="flex items-center gap-1.5 text-[11px] text-black/40"><Shield className="w-3 h-3" /> 256-bit SSL</span>
+                      <span className="flex items-center gap-1.5 text-[11px] text-black/40"><Truck className="w-3 h-3" /> Nationwide Delivery</span>
                     </div>
                   </div>
                 </div>
@@ -607,20 +607,20 @@ export default function CartPage() {
 
           {/* ── RIGHT: Order Summary ── */}
           <div className="w-full lg:w-[320px] shrink-0">
-            <div className="bg-white rounded-2xl border border-[#f0f0f0] overflow-hidden sticky top-20">
+            <div className="bg-[#ffebd5] rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden sticky top-20">
               <div className="px-6 py-5 border-b border-[#f8f9fb]">
-                <h2 className="text-[13px] font-black uppercase tracking-widest text-[#1a1f2e]">Order Summary</h2>
+                <h2 className="text-[13px] font-black uppercase tracking-widest text-black">Order Summary</h2>
               </div>
               <div className="p-6">
                 <div className="flex gap-3.5 pb-5 border-b border-[#f8f9fb]">
-                  <div className="relative w-14 h-14 bg-[#f8f9fb] rounded-xl overflow-hidden shrink-0">
+                  <div className="relative w-14 h-14 bg-[#fee5c9] rounded-xl overflow-hidden shrink-0">
                     <Image src={cartItem.image} alt={cartItem.name} fill className="object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[12px] font-bold text-[#1a1f2e] leading-snug mb-0.5 truncate">{cartItem.name}</p>
+                    <p className="text-[12px] font-bold text-black leading-snug mb-0.5 truncate">{cartItem.name}</p>
                     {cartItem.variant && <p className="text-[10px] font-bold text-amber-600">Shade: {cartItem.variant}</p>}
-                    <p className="text-[11px] text-[#94a3b8]">Qty: {cartItem.qty}</p>
-                    <p className="text-[13px] font-black text-[#1a1f2e] mt-1">Rs. {(cartItem.price * cartItem.qty).toLocaleString()}</p>
+                    <p className="text-[11px] text-black/60">Qty: {cartItem.qty}</p>
+                    <p className="text-[13px] font-black text-black mt-1">Rs. {(cartItem.price * cartItem.qty).toLocaleString()}</p>
                   </div>
                 </div>
 
@@ -631,10 +631,10 @@ export default function CartPage() {
                       type="text" value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                       placeholder="Promo code"
-                      className="flex-1 border border-[#e8ecf0] rounded-xl px-3 py-2 text-xs outline-none focus:border-[#1a1f2e] font-mono uppercase bg-[#fafbfc] transition-all"
+                      className="flex-1 border-2 border-black rounded-xl px-3 py-2 text-xs outline-none focus:border-[#1a1f2e] font-mono uppercase bg-[#fee5c9] transition-all"
                     />
                     <button type="button" onClick={handleApplyCoupon} disabled={couponLoading || !couponCode}
-                      className="bg-[#1a1f2e] text-white font-bold text-[11px] uppercase tracking-wider px-4 rounded-xl hover:bg-[#2d3548] transition-colors disabled:opacity-50"
+                      className="bg-[#ff5a1f] text-white font-black text-[13px] uppercase tracking-wider px-4 rounded-xl border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 transition-all disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                     >
                       {couponLoading ? "..." : "Apply"}
                     </button>
@@ -643,7 +643,7 @@ export default function CartPage() {
                   {appliedCoupon && (
                     <div className="mt-2 bg-emerald-50 border border-emerald-100 rounded-xl p-2.5 flex items-center justify-between">
                       <span className="font-mono font-bold text-xs text-emerald-700">{appliedCoupon.code} applied</span>
-                      <button type="button" onClick={() => setAppliedCoupon(null)} className="text-[11px] text-[#94a3b8] hover:text-red-500 font-bold">✕</button>
+                      <button type="button" onClick={() => setAppliedCoupon(null)} className="text-[11px] text-black/60 hover:text-red-500 font-bold">✕</button>
                     </div>
                   )}
                 </div>
@@ -651,12 +651,12 @@ export default function CartPage() {
                 {/* Totals */}
                 <div className="pt-4 space-y-2.5">
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#94a3b8]">Subtotal</span>
-                    <span className="font-semibold text-[#1a1f2e]">Rs. {subtotal.toLocaleString()}</span>
+                    <span className="text-black/60">Subtotal</span>
+                    <span className="font-semibold text-black">Rs. {subtotal.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#94a3b8]">Shipping</span>
-                    <span className={`font-semibold ${shipping === 0 ? "text-emerald-600" : "text-[#1a1f2e]"}`}>
+                    <span className="text-black/60">Shipping</span>
+                    <span className={`font-semibold ${shipping === 0 ? "text-emerald-600" : "text-black"}`}>
                       {shipping === 0 ? "Free 🎉" : `Rs. ${shipping}`}
                     </span>
                   </div>
@@ -674,9 +674,9 @@ export default function CartPage() {
                   )}
                 </div>
 
-                <div className="mt-4 pt-4 border-t-2 border-[#f0f0f0] flex justify-between items-center">
-                  <span className="text-[12px] font-black uppercase tracking-widest text-[#1a1f2e]">Total</span>
-                  <span className="text-2xl font-black text-[#1a1f2e]">Rs. {total.toLocaleString()}</span>
+                <div className="mt-4 pt-4 border-t-2 border-black flex justify-between items-center">
+                  <span className="text-[12px] font-black uppercase tracking-widest text-black">Total</span>
+                  <span className="text-2xl font-black text-black">Rs. {total.toLocaleString()}</span>
                 </div>
 
                 {paymentMethod === "advance" && (
