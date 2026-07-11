@@ -19,7 +19,9 @@ import {
   Mail,
   LogOut,
   History,
-  Ticket
+  UserCircle,
+  Ticket,
+  Palette
 } from "lucide-react";
 
 const NAV = [
