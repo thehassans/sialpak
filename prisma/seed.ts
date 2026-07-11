@@ -26,7 +26,7 @@ async function main() {
   for (const [i, c] of categories.entries()) {
     await prisma.category.upsert({
       where: { slug: c.slug },
-      update: {},
+      update: { image: c.image },
       create: { ...c, sortOrder: i }
     });
   }
@@ -61,7 +61,9 @@ async function main() {
     const slug = p.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
     const product = await prisma.product.upsert({
       where: { slug },
-      update: {},
+      update: {
+        images: JSON.stringify([p.img])
+      },
       create: {
         name: p.name,
         slug,
@@ -89,7 +91,11 @@ async function main() {
   ];
   for (const b of banners) {
     const exists = await prisma.banner.findFirst({ where: { title: b.title } });
-    if (!exists) await prisma.banner.create({ data: b });
+    if (!exists) {
+      await prisma.banner.create({ data: b });
+    } else {
+      await prisma.banner.update({ where: { id: exists.id }, data: { image: b.image } });
+    }
   }
 
   const settings: Record<string, any> = {
