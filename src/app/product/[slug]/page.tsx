@@ -115,9 +115,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
             </a>
           </div>
 
-          <div className="mb-10 text-[15px] font-light leading-relaxed text-[#52525b]">
-            {parsedDesc?.content || p.description}
-          </div>
+          <div className="mb-10 text-[15px] font-light leading-relaxed text-[#52525b]" dangerouslySetInnerHTML={{ __html: parsedDesc?.content || p.description }} />
           
           <div className="mb-12">
             <VariantSelector product={p as any} general={general} />
@@ -144,9 +142,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
 
           <div className="space-y-4 border-t border-black pt-8">
             <ProductAccordion title="Details & Specifications">
-              <p className="text-[13px] font-light leading-relaxed text-[#52525b]">
-                {parsedDesc?.content || p.description}
-              </p>
+              <div className="text-[13px] font-light leading-relaxed text-[#52525b]" dangerouslySetInnerHTML={{ __html: parsedDesc?.content || p.description }} />
             </ProductAccordion>
 
             {parsedDesc?.howToUse && (

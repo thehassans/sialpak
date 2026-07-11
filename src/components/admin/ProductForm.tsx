@@ -131,14 +131,14 @@ export default function ProductForm({
     descTagline: parsedDesc.tagline || "",
 
     // Comparison section
-    compTitle: parsedDesc.compTitle || "WHY IT BEATS SALON & BOX DYE",
-    compSubtitle: parsedDesc.compSubtitle || "Same natural color — far less cost, time & hassle",
-    compOurBrand: parsedDesc.compOurBrand || "THE HAIR FACTORY",
-    compCompetitor1: parsedDesc.compCompetitor1 || "SALON",
-    compCompetitor2: parsedDesc.compCompetitor2 || "BOX DYE",
+    compTitle: parsedDesc.compTitle || "WHY CHOOSE US",
+    compSubtitle: parsedDesc.compSubtitle || "Premium quality at the best price",
+    compOurBrand: parsedDesc.compOurBrand || "BUYSIAL",
+    compCompetitor1: parsedDesc.compCompetitor1 || "OTHERS",
+    compCompetitor2: parsedDesc.compCompetitor2 || "CHEAP KNOCKOFFS",
     compRows: parsedDesc.compRows || [
-      { label: "Cost / use", ourValue: "≈Rs.255", comp1Value: "Rs.2,000", comp2Value: "Rs.1,500" },
-      { label: "Time", ourValue: "15 min", comp1Value: "60 min", comp2Value: "30-45m" }
+      { label: "Quality", ourValue: "✓", comp1Value: "X", comp2Value: "X" },
+      { label: "Fast Delivery", ourValue: "✓", comp1Value: "X", comp2Value: "✓" }
     ],
 
     // How it works section
@@ -350,7 +350,7 @@ export default function ProductForm({
             </label>
             <label className="flex items-center gap-2 text-sm font-semibold p-3 border rounded-lg bg-gray-50 border-line cursor-pointer select-none">
               <input type="checkbox" checked={values.showComparison} onChange={(e) => setValues({ ...values, showComparison: e.target.checked })} />
-              Enable Salon Comparison Table
+              Enable Comparison Table
             </label>
             <label className="flex items-center gap-2 text-sm font-semibold p-3 border rounded-lg bg-gray-50 border-line cursor-pointer select-none">
               <input type="checkbox" checked={values.showHowItWorks} onChange={(e) => setValues({ ...values, showHowItWorks: e.target.checked })} />
