@@ -59,7 +59,7 @@ export default async function HomePage({ searchParams }: { searchParams: { editM
         marqueeText={settingsMap['marquee_text'] || "FOLLOW US AND GET A CHANCE TO WIN 80% OFF"}
         marqueeSpeed={Number(settingsMap['marquee_speed']) || 20}
       />
-      <main className="bg-bg">
+      <main className="bg-[#fee5c9]">
         {heroBanners.length > 0 ? (
           <HeroBanners banners={heroBanners as any} isEditMode={isEditMode} />
         ) : (

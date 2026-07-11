@@ -67,13 +67,13 @@ export default function CategoryGrid({ categories, title, isEditMode = false }: 
   };
 
   return (
-    <section className="py-16 bg-[#fafafa]" id="categories">
+    <section className="py-16 bg-transparent" id="categories">
       <div className="max-w-[1280px] mx-auto px-6">
         <div className="flex flex-col items-center mb-12 text-center">
-          <span className="inline-block text-[#d4af37] text-[11px] font-bold uppercase tracking-[0.3em] mb-3">
+          <span className="inline-block text-[#ff5a1f] text-[13px] font-black uppercase tracking-[0.3em] mb-3">
             Explore Collections
           </span>
-          <h2 className="text-[32px] md:text-[40px] font-bold text-[#0b1221] tracking-tight">
+          <h2 className="text-[36px] md:text-[48px] font-black text-black tracking-tight">
             {title || "Popular Categories"}
           </h2>
         </div>
@@ -98,7 +98,7 @@ export default function CategoryGrid({ categories, title, isEditMode = false }: 
                       }
                     }
                   }}
-                  className={`group relative aspect-[3/4] rounded-lg overflow-hidden bg-[#0b1221] cursor-pointer shadow-[0_10px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)] transition-all duration-500 ${isEditMode ? 'ring-2 ring-transparent hover:ring-brand/50' : ''}`}
+                  className={`group relative aspect-[3/4] rounded-3xl overflow-hidden bg-[#ffebd5] cursor-pointer border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[0_0px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 transition-all duration-300 ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50' : ''}`}
                 >
                   <input type="file" id={`upload-cat-${c.id}`} className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, c.id)} />
                   {isEditMode && <div className="absolute top-2 right-2 z-50 bg-black/70 text-white text-[9px] uppercase font-bold px-1.5 py-0.5 rounded shadow-lg pointer-events-none">Click or Drop image</div>}
@@ -113,8 +113,8 @@ export default function CategoryGrid({ categories, title, isEditMode = false }: 
                     />
                   </div>
                   
-                  {/* Premium Dark Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1221]/90 via-[#0b1221]/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500"></div>
+                  {/* Premium Solid Overlay */}
+                  <div className="absolute inset-0 bg-[#3b2e2a]/40 group-hover:bg-[#ff5a1f]/80 transition-colors duration-300"></div>
                   
                   {/* Content inside card */}
                   <div className="absolute bottom-0 left-0 w-full p-4 flex flex-col items-center text-center translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
@@ -122,12 +122,12 @@ export default function CategoryGrid({ categories, title, isEditMode = false }: 
                       contentEditable={isEditMode}
                       suppressContentEditableWarning
                       onBlur={(e) => handleTextUpdate(c.id, 'name', e.currentTarget.textContent || "")}
-                      className={`block text-[13px] md:text-[14px] font-bold text-white tracking-wide mb-1 ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
+                      className={`block text-[15px] md:text-[18px] font-black text-white tracking-wide mb-1 ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
                     >
                       {c.name}
                     </span>
                     {c._count && (
-                      <span className="block text-[10px] text-[#d4af37] font-medium uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                      <span className="block text-[12px] text-white font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
                         {c._count.products} items
                       </span>
                     )}

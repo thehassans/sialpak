@@ -95,12 +95,12 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
   };
 
   return (
-    <section className="py-16 relative overflow-hidden bg-bg">
+    <section className="py-16 relative overflow-hidden bg-transparent">
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
         
         {/* Main Ultra Premium Banner */}
         <div 
-          className={`relative min-h-[500px] rounded-2xl overflow-hidden shadow-2xl ${isEditMode ? 'ring-2 ring-transparent hover:ring-brand/50 transition-all cursor-pointer' : ''}`}
+          className={`relative min-h-[500px] rounded-3xl overflow-hidden border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''}`}
           style={{ background: `linear-gradient(90deg, ${banner.bgColorFrom}, ${banner.bgColorTo})`, color: banner.textColor }}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
@@ -140,7 +140,7 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
                 contentEditable={isEditMode}
                 suppressContentEditableWarning
                 onBlur={(e) => handleTextUpdate('eyebrow', e.currentTarget.textContent || "")}
-                className={`uppercase text-[10px] md:text-[11px] font-bold tracking-[0.3em] text-[#d4af37] mb-4 drop-shadow-md ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
+                className={`uppercase text-[12px] md:text-[14px] font-black tracking-[0.3em] text-[#ff5a1f] mb-4 drop-shadow-md ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
               >{banner.eyebrow}</span>}
               <h2 
                 contentEditable={isEditMode}
@@ -162,7 +162,7 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
               <MiniCountdown />
 
               <div className="mt-8">
-                <Link href={banner.link || "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="group inline-flex items-center gap-3 bg-white text-[#0b1221] font-bold text-[13px] uppercase tracking-widest px-8 py-4 rounded-sm hover:bg-[#d4af37] hover:text-white transition-all duration-500 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                <Link href={banner.link || "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="group inline-flex items-center gap-3 bg-[#3b2e2a] hover:bg-[#ff5a1f] text-white font-black text-[14px] uppercase tracking-widest px-8 py-4 rounded-xl transition-all duration-300 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1">
                   <span
                     contentEditable={isEditMode}
                     suppressContentEditableWarning
@@ -195,9 +195,9 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
                     whileHover={{ y: -6 }}
-                    className="bg-white rounded-xl p-4 flex gap-4 items-center shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] hover:shadow-[0_30px_50px_-15px_rgba(0,0,0,0.2)] border border-[#f0f0f0] transition-all duration-300"
+                    className="bg-[#ffebd5] rounded-3xl p-4 flex gap-4 items-center border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 transition-all duration-300"
                   >
-                    <div className="w-[70px] h-[70px] shrink-0 rounded-lg overflow-hidden relative bg-[#f8f9fa]">
+                    <div className="w-[70px] h-[70px] shrink-0 rounded-2xl overflow-hidden relative bg-[#fee5c9] border-2 border-black">
                       <Image 
                         src={primaryImage} 
                         alt={p.name} 
@@ -206,15 +206,15 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
                       />
                     </div>
                     <div className="flex-1 min-w-0 flex flex-col justify-center">
-                      <h4 className="text-[13.5px] font-bold text-[#0b1221] truncate mb-1.5">
+                      <h4 className="text-[15px] font-black text-black truncate mb-1.5">
                         {p.name}
                       </h4>
                       <div className="flex gap-[2px] mb-2">
                         {Array.from({ length: 5 }).map((_, idx) => (
-                          <Star key={idx} className={`w-[11px] h-[11px] ${idx < Math.floor(p.rating) ? "text-[#d4af37] fill-[#d4af37]" : "text-gray-200"}`} />
+                          <Star key={idx} className={`w-[13px] h-[13px] ${idx < Math.floor(p.rating) ? "text-[#ff5a1f] fill-[#ff5a1f]" : "text-black/10"}`} />
                         ))}
                       </div>
-                      <div className="text-[14px] font-extrabold text-[#0b1221]">
+                      <div className="text-[16px] font-black text-[#ff5a1f]">
                         {fmtCurrency(p.price)}
                       </div>
                     </div>

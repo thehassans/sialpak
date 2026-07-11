@@ -47,22 +47,22 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="group flex flex-col relative h-full">
       {/* Product Image Area */}
-      <Link href={`/product/${product.slug}`} className="block relative overflow-hidden aspect-[4/5] bg-[#f8f9fa] rounded-sm mb-4">
+      <Link href={`/product/${product.slug}`} className="block relative overflow-hidden aspect-[4/5] bg-[#ffebd5] rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-4">
         
-        {/* Badges - Minimalist Premium */}
+        {/* Badges - Premium Theme */}
         <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
           {discountPercent && (
-            <span className="bg-[#0b1221] text-white text-[10px] font-bold uppercase tracking-widest px-2 py-1">
+            <span className="bg-[#ff5a1f] text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 border-2 border-black">
               -{discountPercent}%
             </span>
           )}
           {product.status === 'hot' && (
-            <span className="bg-[#d4af37] text-white text-[10px] font-bold uppercase tracking-widest px-2 py-1">
+            <span className="bg-[#3b2e2a] text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 border-2 border-black">
               Best
             </span>
           )}
           {product.status === 'new' && (
-            <span className="bg-white text-[#0b1221] border border-[#e2e8f0] text-[10px] font-bold uppercase tracking-widest px-2 py-1">
+            <span className="bg-[#fee5c9] text-black border-2 border-black text-[10px] font-black uppercase tracking-widest px-2 py-1">
               New
             </span>
           )}
@@ -74,8 +74,8 @@ export default function ProductCard({ product }: ProductCardProps) {
             e.preventDefault();
             setWishlisted(!wishlisted);
           }}
-          className={`absolute top-3 right-3 z-10 w-8 h-8 rounded-full flex items-center justify-center bg-white shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-all duration-300 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 hover:bg-[#0b1221] hover:text-white ${
-            wishlisted ? 'text-[#d4af37] opacity-100 translate-y-0' : 'text-[#64748b]'
+          className={`absolute top-3 right-3 z-10 w-9 h-9 rounded-full border-2 border-black flex items-center justify-center bg-[#fee5c9] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 hover:bg-[#ff5a1f] hover:text-white ${
+            wishlisted ? 'text-[#ff5a1f] opacity-100 translate-y-0' : 'text-black/60'
           }`}
           aria-label="Add to wishlist"
         >
@@ -102,13 +102,13 @@ export default function ProductCard({ product }: ProductCardProps) {
         
         {/* Quick Add Overlay */}
         <div className="absolute bottom-0 left-0 w-full p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 opacity-0 group-hover:opacity-100 z-10">
-          <button className="w-full bg-white/90 backdrop-blur-sm hover:bg-[#0b1221] hover:text-white text-[#0b1221] text-[12px] font-bold uppercase tracking-widest py-3 flex items-center justify-center gap-2 transition-colors shadow-lg">
+          <button className="w-full bg-[#3b2e2a] hover:bg-[#ff5a1f] border-2 border-black text-white text-[13px] font-black uppercase tracking-widest py-3 flex items-center justify-center gap-2 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-0.5 rounded-xl">
             <ShoppingCart className="w-4 h-4" /> Quick Add
           </button>
         </div>
       </Link>
 
-      {/* Product Info - Minimalist */}
+      {/* Product Info - Premium Theme */}
       <div className="flex flex-col flex-1 px-1">
         <Link href={`/product/${product.slug}`} className="group-hover:opacity-80 transition-opacity">
           {/* Rating */}
@@ -116,24 +116,24 @@ export default function ProductCard({ product }: ProductCardProps) {
             {Array.from({ length: 5 }).map((_, i) => (
               <Star 
                 key={i} 
-                className={`w-[11px] h-[11px] ${i < Math.floor(product.rating) ? "text-[#d4af37] fill-[#d4af37]" : "text-gray-200"}`} 
+                className={`w-[13px] h-[13px] ${i < Math.floor(product.rating) ? "text-[#ff5a1f] fill-[#ff5a1f]" : "text-black/10"}`} 
                 strokeWidth={1}
               />
             ))}
-            <span className="text-[11px] text-[#94a3b8] ml-1">({product.reviewsCount})</span>
+            <span className="text-[12px] font-bold text-black/60 ml-1">({product.reviewsCount})</span>
           </div>
 
-          <h3 className="text-[14px] font-semibold text-[#0b1221] mb-1.5 leading-snug line-clamp-2">
+          <h3 className="text-[16px] font-black text-black mb-1.5 leading-snug line-clamp-2">
             {product.name}
           </h3>
         </Link>
         
         <div className="mt-auto pt-2 flex items-baseline gap-2">
-          <span className="text-[15px] font-bold text-[#0b1221] tracking-wide">
+          <span className="text-[17px] font-black text-[#ff5a1f] tracking-wide">
             {fmtCurrency(product.price)}
           </span>
           {product.comparePrice && product.comparePrice > product.price && (
-            <span className="line-through text-[#94a3b8] text-[12px] font-medium">
+            <span className="line-through text-black/40 text-[13px] font-bold">
               {fmtCurrency(product.comparePrice)}
             </span>
           )}

@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 export default function Footer({ storeName }: { storeName: string }) {
   return (
-    <footer className="bg-black text-white pt-24 pb-12 border-t border-black" id="footer">
+    <footer className="bg-[#3b2e2a] text-[#ffebd5] pt-24 pb-12 border-t-2 border-black" id="footer">
       <div className="max-w-[1280px] mx-auto px-6">
         
         {/* Top Minimalist Grid */}
@@ -21,14 +21,14 @@ export default function Footer({ storeName }: { storeName: string }) {
             </div>
             
             <div className="max-w-md">
-              <h4 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a1a1aa] mb-4">Newsletter</h4>
-              <div className="flex border-b border-[#3f3f46] pb-2 group focus-within:border-white transition-colors">
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ff5a1f] mb-4">Newsletter</h4>
+              <div className="flex border-b-2 border-[#fee5c9]/30 pb-2 group focus-within:border-[#ff5a1f] transition-colors">
                 <input 
                   type="email" 
                   placeholder="Enter your email" 
-                  className="bg-transparent border-none outline-none w-full text-[13px] text-white placeholder:text-[#52525b]"
+                  className="bg-transparent border-none outline-none w-full text-[13px] text-[#ffebd5] placeholder:text-[#fee5c9]/50"
                 />
-                <button className="text-[#a1a1aa] group-focus-within:text-white transition-colors">
+                <button className="text-[#fee5c9]/50 group-focus-within:text-[#ffebd5] transition-colors">
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -41,42 +41,42 @@ export default function Footer({ storeName }: { storeName: string }) {
           {/* Links (Col 6-12) */}
           <div className="md:col-span-6 grid grid-cols-2 md:grid-cols-3 gap-8">
             <div>
-              <h4 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a1a1aa] mb-6">Shop</h4>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ff5a1f] mb-6">Shop</h4>
               <ul className="space-y-4">
-                <li><Link href="/category/beauty" className="text-[13px] text-[#e4e4e7] hover:text-white transition-colors">Beauty</Link></li>
-                <li><Link href="/category/fashion" className="text-[13px] text-[#e4e4e7] hover:text-white transition-colors">Fashion</Link></li>
-                <li><Link href="/category/electronics" className="text-[13px] text-[#e4e4e7] hover:text-white transition-colors">Electronics</Link></li>
-                <li><Link href="/category/home" className="text-[13px] text-[#e4e4e7] hover:text-white transition-colors">Home</Link></li>
+                <li><Link href="/category/beauty" className="text-[13px] text-[#fee5c9] hover:text-white transition-colors font-bold">Beauty</Link></li>
+                <li><Link href="/category/fashion" className="text-[13px] text-[#fee5c9] hover:text-white transition-colors font-bold">Fashion</Link></li>
+                <li><Link href="/category/electronics" className="text-[13px] text-[#fee5c9] hover:text-white transition-colors font-bold">Electronics</Link></li>
+                <li><Link href="/category/home" className="text-[13px] text-[#fee5c9] hover:text-white transition-colors font-bold">Home</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a1a1aa] mb-6">Support</h4>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ff5a1f] mb-6">Support</h4>
               <ul className="space-y-4">
-                <li><Link href="/contact" className="text-[13px] text-[#e4e4e7] hover:text-white transition-colors">Contact</Link></li>
-                <li><Link href="/faqs" className="text-[13px] text-[#e4e4e7] hover:text-white transition-colors">FAQs</Link></li>
-                <li><Link href="/shipping-policy" className="text-[13px] text-[#e4e4e7] hover:text-white transition-colors">Shipping</Link></li>
-                <li><Link href="/return-policy" className="text-[13px] text-[#e4e4e7] hover:text-white transition-colors">Returns</Link></li>
+                <li><Link href="/contact" className="text-[13px] text-[#fee5c9] hover:text-white transition-colors font-bold">Contact</Link></li>
+                <li><Link href="/faqs" className="text-[13px] text-[#fee5c9] hover:text-white transition-colors font-bold">FAQs</Link></li>
+                <li><Link href="/shipping-policy" className="text-[13px] text-[#fee5c9] hover:text-white transition-colors font-bold">Shipping</Link></li>
+                <li><Link href="/return-policy" className="text-[13px] text-[#fee5c9] hover:text-white transition-colors font-bold">Returns</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#a1a1aa] mb-6">Social</h4>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ff5a1f] mb-6">Social</h4>
               <ul className="space-y-4">
-                <li><a href="#" className="text-[13px] text-[#e4e4e7] hover:text-white transition-colors">Instagram</a></li>
-                <li><a href="#" className="text-[13px] text-[#e4e4e7] hover:text-white transition-colors">Twitter</a></li>
-                <li><a href="#" className="text-[13px] text-[#e4e4e7] hover:text-white transition-colors">Facebook</a></li>
+                <li><a href="#" className="text-[13px] text-[#fee5c9] hover:text-white transition-colors font-bold">Instagram</a></li>
+                <li><a href="#" className="text-[13px] text-[#fee5c9] hover:text-white transition-colors font-bold">Twitter</a></li>
+                <li><a href="#" className="text-[13px] text-[#fee5c9] hover:text-white transition-colors font-bold">Facebook</a></li>
               </ul>
             </div>
           </div>
         </div>
 
         {/* Bottom */}
-        <div className="pt-8 border-t border-[#27272a] flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-[#a1a1aa] text-[11px] tracking-wide">
+        <div className="pt-8 border-t border-[#fee5c9]/20 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="text-[#fee5c9]/60 text-[11px] font-bold tracking-wide">
             &copy; {new Date().getFullYear()} {storeName}. All rights reserved.
           </div>
           <div className="flex gap-6">
-            <Link href="/terms" className="text-[#a1a1aa] hover:text-white text-[11px] uppercase tracking-[0.1em] transition-colors">Terms</Link>
-            <Link href="/privacy" className="text-[#a1a1aa] hover:text-white text-[11px] uppercase tracking-[0.1em] transition-colors">Privacy</Link>
+            <Link href="/terms" className="text-[#fee5c9]/60 hover:text-white text-[11px] font-black uppercase tracking-[0.1em] transition-colors">Terms</Link>
+            <Link href="/privacy" className="text-[#fee5c9]/60 hover:text-white text-[11px] font-black uppercase tracking-[0.1em] transition-colors">Privacy</Link>
           </div>
         </div>
         

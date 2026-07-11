@@ -29,19 +29,19 @@ export default function RecentlyViewed({ products }: { products: Product[] }) {
   return (
     <section className="py-8" id="recently-viewed">
       <div className="max-w-[1280px] mx-auto px-6">
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="text-xl font-extrabold text-ink section-accent">Recently Viewed</h2>
+        <div className="flex items-center justify-between mb-5 border-b-2 border-black pb-4">
+          <h2 className="text-[24px] font-black text-black uppercase tracking-widest">Recently Viewed</h2>
           <div className="flex gap-2">
             <button
               onClick={() => scroll("left")}
-              className="w-8 h-8 rounded-full border border-line flex items-center justify-center hover:bg-brand hover:text-white hover:border-brand transition"
+              className="w-10 h-10 rounded-xl border-2 border-black flex items-center justify-center hover:bg-[#ff5a1f] hover:text-white hover:translate-y-[-2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all bg-[#ffebd5]"
               aria-label="Scroll left"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="w-8 h-8 rounded-full border border-line flex items-center justify-center hover:bg-brand hover:text-white hover:border-brand transition"
+              className="w-10 h-10 rounded-xl border-2 border-black flex items-center justify-center hover:bg-[#ff5a1f] hover:text-white hover:translate-y-[-2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all bg-[#ffebd5]"
               aria-label="Scroll right"
             >
               <ChevronRight className="w-4 h-4" />
@@ -65,9 +65,9 @@ export default function RecentlyViewed({ products }: { products: Product[] }) {
               >
                 <Link
                   href={`/product/${p.slug}`}
-                  className="shrink-0 w-[200px] bg-white border border-line rounded-xl overflow-hidden group hover:shadow-lg2 transition block"
+                  className="shrink-0 w-[200px] bg-[#ffebd5] border-2 border-black rounded-3xl overflow-hidden group hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-4px] transition-all block mb-2"
                 >
-                  <div className="relative aspect-square bg-[#f4f6fa] overflow-hidden">
+                  <div className="relative aspect-square bg-[#fee5c9] overflow-hidden border-b-2 border-black">
                     <Image
                       src={img}
                       alt={p.name}
@@ -76,12 +76,12 @@ export default function RecentlyViewed({ products }: { products: Product[] }) {
                       sizes="200px"
                     />
                   </div>
-                  <div className="p-3">
-                    <p className="text-[12.5px] font-semibold text-ink line-clamp-1">{p.name}</p>
-                    <div className="mt-1 flex items-baseline gap-1.5">
-                      <span className="text-[14px] font-extrabold text-ink">{fmtCurrency(p.price, "PKR")}</span>
+                  <div className="p-4">
+                    <p className="text-[14px] font-black text-black line-clamp-1">{p.name}</p>
+                    <div className="mt-2 flex items-baseline gap-1.5">
+                      <span className="text-[16px] font-black text-[#ff5a1f]">{fmtCurrency(p.price, "PKR")}</span>
                       {p.comparePrice && (
-                        <span className="text-[11px] text-sub line-through">{fmtCurrency(p.comparePrice, "PKR")}</span>
+                        <span className="text-[12px] text-black/40 font-bold line-through">{fmtCurrency(p.comparePrice, "PKR")}</span>
                       )}
                     </div>
                   </div>

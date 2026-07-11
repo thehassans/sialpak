@@ -59,19 +59,19 @@ export default function ProductGrid({
   };
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-transparent">
       <div className="max-w-[1280px] mx-auto px-6">
         
         {/* Premium Centered Header */}
         <div className="flex flex-col items-center mb-12 text-center">
-          <span className="inline-block text-[#d4af37] text-[11px] font-bold uppercase tracking-[0.3em] mb-3">
+          <span className="inline-block text-[#ff5a1f] text-[13px] font-black uppercase tracking-[0.3em] mb-3">
             {eyebrow}
           </span>
           <h2 
             contentEditable={isEditMode}
             suppressContentEditableWarning
             onBlur={(e) => handleTitleUpdate(e.currentTarget.textContent || "")}
-            className={`text-[32px] md:text-[40px] font-bold text-[#0b1221] tracking-tight ${isEditMode ? 'outline-dashed outline-1 outline-black/30 hover:outline-black p-1' : ''}`}
+            className={`text-[36px] md:text-[48px] font-black text-black tracking-tight ${isEditMode ? 'outline-dashed outline-1 outline-black/30 hover:outline-black p-1' : ''}`}
           >
             {title}
           </h2>
@@ -97,7 +97,7 @@ export default function ProductGrid({
           <div className="mt-16 text-center">
             <Link
               href={viewAllHref}
-              className="inline-block border border-[#0b1221] text-[#0b1221] hover:bg-[#0b1221] hover:text-white font-bold text-[12px] uppercase tracking-[0.2em] px-10 py-4 transition-colors duration-300"
+              className="inline-block bg-[#3b2e2a] hover:bg-[#ff5a1f] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 text-white font-black text-[14px] uppercase tracking-[0.2em] px-10 py-4 transition-all duration-200 rounded-xl"
             >
               Discover All
             </Link>

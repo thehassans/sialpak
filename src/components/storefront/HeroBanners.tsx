@@ -67,7 +67,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
   };
 
   return (
-    <section className="bg-white pt-6 pb-12">
+    <section className="bg-transparent pt-6 pb-12">
       <div className="max-w-[1280px] mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-auto lg:h-[540px]">
           
@@ -78,7 +78,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
             transition={{ duration: 0.6, ease: "easeOut" }}
             onDrop={(e: any) => handleDrop(e, leftBanner.id)}
             onDragOver={handleDragOver}
-            className={`lg:col-span-8 relative rounded-2xl overflow-hidden group min-h-[400px] lg:min-h-full bg-[#0b1221] ${isEditMode ? 'ring-2 ring-transparent hover:ring-brand/50 transition-all cursor-pointer' : ''}`}
+            className={`lg:col-span-8 relative rounded-3xl overflow-hidden group min-h-[400px] lg:min-h-full bg-[#ffebd5] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''}`}
             onClick={(e) => {
               if (isEditMode && (e.target as HTMLElement).tagName !== 'SPAN' && (e.target as HTMLElement).tagName !== 'H2' && (e.target as HTMLElement).tagName !== 'P') {
                 document.getElementById(`upload-${leftBanner.id}`)?.click();
@@ -95,9 +95,8 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out opacity-80"
                 priority
               />
-              {/* Premium Dark Gradient Mask */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0b1221] via-[#0b1221]/70 to-transparent"></div>
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0b1221]/90 via-transparent to-transparent md:hidden"></div>
+              {/* Premium Dark Solid Mask */}
+              <div className="absolute inset-0 bg-[#3b2e2a]/40 group-hover:bg-[#ff5a1f]/80 transition-colors duration-500"></div>
             </div>
 
             <div className="relative z-10 p-10 md:p-14 h-full flex flex-col justify-center max-w-xl">
@@ -105,7 +104,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                 contentEditable={isEditMode}
                 suppressContentEditableWarning
                 onBlur={(e) => handleTextUpdate(leftBanner.id, 'eyebrow', e.currentTarget.textContent || "")}
-                className={`inline-block text-[#d4af37] text-[11px] font-bold uppercase tracking-[0.3em] mb-4 ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
+                className={`inline-block text-[#ff5a1f] text-[13px] font-black uppercase tracking-[0.3em] mb-4 ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
               >
                 {leftBanner.eyebrow}
               </span>
@@ -113,7 +112,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                 contentEditable={isEditMode}
                 suppressContentEditableWarning
                 onBlur={(e) => handleTextUpdate(leftBanner.id, 'title', e.currentTarget.textContent || "")}
-                className={`text-[38px] md:text-[54px] font-bold text-white leading-[1.1] mb-5 tracking-tight ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
+                className={`text-[42px] md:text-[64px] font-black text-white leading-[1.1] mb-5 tracking-tight ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
               >
                 {leftBanner.title}
               </h2>
@@ -126,7 +125,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                 {leftBanner.subtitle}
               </p>
               <div>
-                <Link href={leftBanner.link !== "#" ? leftBanner.link : "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="inline-block bg-white text-[#0b1221] hover:bg-[#d4af37] hover:text-white font-bold text-[13px] uppercase tracking-widest px-10 py-4 rounded-sm transition-all duration-300">
+                <Link href={leftBanner.link !== "#" ? leftBanner.link : "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="inline-block bg-[#ff5a1f] hover:bg-[#3b2e2a] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 text-white font-black text-[15px] uppercase tracking-widest px-10 py-4 rounded-xl transition-all duration-300">
                   <span
                     contentEditable={isEditMode}
                     suppressContentEditableWarning
@@ -148,7 +147,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
               onDrop={(e: any) => handleDrop(e, rightBanner.id)}
               onDragOver={handleDragOver}
-              className={`lg:col-span-4 relative rounded-2xl overflow-hidden group min-h-[400px] lg:min-h-full bg-[#0b1221] ${isEditMode ? 'ring-2 ring-transparent hover:ring-brand/50 transition-all cursor-pointer' : ''}`}
+              className={`lg:col-span-4 relative rounded-3xl overflow-hidden group min-h-[400px] lg:min-h-full bg-[#ffebd5] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''}`}
               onClick={(e) => {
                 if (isEditMode && (e.target as HTMLElement).tagName !== 'SPAN' && (e.target as HTMLElement).tagName !== 'H3' && (e.target as HTMLElement).tagName !== 'P') {
                   document.getElementById(`upload-${rightBanner.id}`)?.click();
@@ -165,8 +164,8 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                   className="object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out opacity-70"
                   priority
                 />
-                {/* Premium Dark Gradient Mask */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0b1221] via-[#0b1221]/60 to-transparent"></div>
+                {/* Premium Dark Solid Mask */}
+                <div className="absolute inset-0 bg-[#3b2e2a]/40 group-hover:bg-[#ff5a1f]/80 transition-colors duration-500"></div>
               </div>
 
               <div className="relative z-10 p-8 md:p-10 h-full flex flex-col justify-end text-center items-center">
@@ -174,7 +173,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                   contentEditable={isEditMode}
                   suppressContentEditableWarning
                   onBlur={(e) => handleTextUpdate(rightBanner.id, 'eyebrow', e.currentTarget.textContent || "")}
-                  className={`inline-block text-[#d4af37] text-[10px] font-bold uppercase tracking-[0.3em] mb-3 ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
+                  className={`inline-block text-[#ff5a1f] text-[12px] font-black uppercase tracking-[0.3em] mb-3 ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
                 >
                   {rightBanner.eyebrow}
                 </span>
@@ -182,7 +181,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                   contentEditable={isEditMode}
                   suppressContentEditableWarning
                   onBlur={(e) => handleTextUpdate(rightBanner.id, 'title', e.currentTarget.textContent || "")}
-                  className={`text-[28px] md:text-[34px] font-bold text-white leading-tight mb-3 tracking-tight ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
+                  className={`text-[32px] md:text-[40px] font-black text-white leading-tight mb-3 tracking-tight ${isEditMode ? 'outline-dashed outline-1 outline-white/30 hover:outline-white p-1' : ''}`}
                 >
                   {rightBanner.title}
                 </h3>
@@ -194,7 +193,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                 >
                   {rightBanner.subtitle}
                 </p>
-                <Link href={rightBanner.link !== "#" ? rightBanner.link : "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="inline-block bg-transparent border border-white text-white hover:bg-white hover:text-[#0b1221] font-bold text-[12px] uppercase tracking-widest px-8 py-3 rounded-sm transition-all duration-300">
+                <Link href={rightBanner.link !== "#" ? rightBanner.link : "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="inline-block bg-[#3b2e2a] hover:bg-[#ff5a1f] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 text-white font-black text-[14px] uppercase tracking-widest px-8 py-3 rounded-xl transition-all duration-300">
                   <span
                     contentEditable={isEditMode}
                     suppressContentEditableWarning
