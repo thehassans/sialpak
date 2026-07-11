@@ -21,7 +21,7 @@ export async function setSetting(key: string, value: unknown) {
 }
 
 export const DEFAULT_SETTINGS = {
-  general: { storeName: "BuySial", tagline: "Your Everyday Shopping Destination", supportPhone: "+92 300 1234567", currency: "PKR", freeShippingText: "Free Delivery Nationwide" },
+  general: { storeName: "BuySial", tagline: "Your Everyday Shopping Destination", supportPhone: "+92 300 1234567", currency: "PKR", freeShippingText: "Free Delivery Nationwide", company_whatsapp: "+92 300 1234567" },
   seo: { metaTitle: "BuySial — Your Everyday Shopping Destination", metaDescription: "Shop beauty, fashion, electronics and more with fast worldwide shipping.", ogImage: "", robotsIndex: true, sitemapEnabled: true },
   pixels: { ga4Id: "", metaPixelId: "", tiktokPixelId: "", snapPixelId: "", gtmId: "" },
   payments: {
