@@ -163,16 +163,16 @@ export default function CartPage() {
   }
 
   // ── Input style ─────────────────────────────────
-  const inputCls = "w-full border-2 border-black rounded-xl px-4 py-3 text-[14px] text-black bg-[#fee5c9] outline-none transition-all focus:border-[#1a1f2e] focus:bg-[#ffebd5] focus:shadow-[0_0_0_3px_rgba(26,31,46,0.06)] placeholder:text-black/40";
+  const inputCls = "w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] text-black bg-[#f8f9fa] outline-none transition-all focus:border-[#1a1f2e] focus:bg-white focus:shadow-[0_0_0_3px_rgba(26,31,46,0.06)] placeholder:text-black/40";
 
   // ─── SUCCESS SCREEN ─────────────────────────────────────────────────────────
   if (step === "success") {
     const isAdvance = paymentMethod === "advance";
     return (
-      <div className="min-h-screen bg-[#fee5c9] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-[#f8f9fa] flex items-center justify-center p-4">
         <div className="max-w-[480px] w-full">
           {/* Success Card */}
-          <div className="bg-[#ffebd5] rounded-3xl shadow-[0_8px_40px_-12px_rgba(0,0,0,0.12)] p-8 md:p-10 text-center">
+          <div className="bg-white rounded-3xl shadow-[0_8px_40px_-12px_rgba(0,0,0,0.12)] p-8 md:p-10 text-center">
             {/* Check Icon */}
             <div className="mx-auto w-20 h-20 mb-6 relative">
               <div className="w-20 h-20 rounded-full bg-emerald-50 border-2 border-emerald-100 flex items-center justify-center">
@@ -192,7 +192,7 @@ export default function CartPage() {
             {/* Advance Payment Instructions */}
             {isAdvance && (
               <div className="text-left mb-6 space-y-3">
-                <div className="bg-[#fee5c9] border-2 border-black rounded-2xl p-5">
+                <div className="bg-[#f8f9fa] border border-gray-200 rounded-2xl p-5">
                   <p className="text-[11px] font-black uppercase tracking-[0.15em] text-black/60 mb-3">📋 Send Payment To</p>
                   
                   {/* JazzCash */}
@@ -282,7 +282,7 @@ export default function CartPage() {
             <div className={`flex gap-3 ${isAdvance ? "" : "mt-2"}`}>
               <Link
                 href="/"
-                className="flex-1 flex items-center justify-center py-3.5 rounded-2xl border-2 border-black text-black/70 hover:border-[#1a1f2e] hover:text-black font-semibold text-sm transition-all"
+                className="flex-1 flex items-center justify-center py-3.5 rounded-2xl border border-gray-200 text-black/70 hover:border-[#1a1f2e] hover:text-black font-semibold text-sm transition-all"
               >
                 Continue Shopping
               </Link>
@@ -301,10 +301,10 @@ export default function CartPage() {
 
   // ─── MAIN CART / CHECKOUT ────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-[#fee5c9]">
+    <div className="min-h-screen bg-[#f8f9fa]">
 
       {/* Minimal Top Nav */}
-      <div className="bg-[#ffebd5] border-b border-black">
+      <div className="bg-white border-b border-black">
         <div className="max-w-[1100px] mx-auto px-4 h-14 flex items-center justify-between">
           <button
             onClick={() => step === "checkout" ? setStep("cart") : window.history.back()}
@@ -336,13 +336,13 @@ export default function CartPage() {
 
             {step === "cart" ? (
               // ── CART STEP ──
-              <div className="bg-[#ffebd5] rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+              <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
                 <div className="px-6 py-5 border-b border-[#f8f9fb]">
                   <h1 className="text-[17px] font-black text-black">Shopping Bag</h1>
                   <p className="text-xs text-black/60 mt-0.5">1 item</p>
                 </div>
                 <div className="p-6 flex items-center gap-5">
-                  <div className="w-20 h-20 bg-[#fee5c9] rounded-xl relative overflow-hidden shrink-0">
+                  <div className="w-20 h-20 bg-[#f8f9fa] rounded-xl relative overflow-hidden shrink-0">
                     <Image src={cartItem.image} alt="" fill className="object-cover mix-blend-multiply p-2" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -356,7 +356,7 @@ export default function CartPage() {
                 <div className="px-6 pb-6">
                   <button
                     onClick={() => setStep("checkout")}
-                    className="w-full bg-[#3b2e2a] hover:bg-[#ff5a1f] text-white font-black text-[15px] uppercase tracking-widest py-4 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 transition-all duration-200 flex items-center justify-center gap-2"
+                    className="w-full bg-[#3b2e2a] hover:bg-[#ff5a1f] text-white font-black text-[15px] uppercase tracking-widest py-4 rounded-2xl border border-gray-200 shadow-sm hover:shadow-none hover:translate-y-1 transition-all duration-200 flex items-center justify-center gap-2"
                   >
                     Proceed to Checkout <ArrowRight className="w-4 h-4" />
                   </button>
@@ -367,9 +367,9 @@ export default function CartPage() {
               <form onSubmit={handleCheckout} className="space-y-4">
 
                 {/* Shipping Information */}
-                <div className="bg-[#ffebd5] rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+                <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
                   <div className="px-6 py-5 border-b border-[#f8f9fb] flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#fee5c9] border-2 border-black flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-[#f8f9fa] border border-gray-200 flex items-center justify-center">
                       <Package className="w-4 h-4 text-black/70" />
                     </div>
                     <div>
@@ -413,12 +413,12 @@ export default function CartPage() {
                           className={inputCls} placeholder="Search or select city"
                         />
                         {showCityDropdown && (
-                          <div className="absolute z-20 w-full mt-1 bg-[#ffebd5] border-2 border-black rounded-xl shadow-[0_8px_24px_-8px_rgba(0,0,0,0.12)] max-h-52 overflow-y-auto">
+                          <div className="absolute z-20 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-[0_8px_24px_-8px_rgba(0,0,0,0.12)] max-h-52 overflow-y-auto">
                             {(provinceCities[selectedProvince] || [])
                               .filter(c => c.toLowerCase().includes(citySearch.toLowerCase()))
                               .map(city => (
                                 <div key={city} onClick={() => { setCitySearch(city); setShowCityDropdown(false); }}
-                                  className="px-4 py-2.5 text-sm text-black hover:bg-[#fee5c9] cursor-pointer border-b border-[#f8f9fb] last:border-0 transition-colors"
+                                  className="px-4 py-2.5 text-sm text-black hover:bg-[#f8f9fa] cursor-pointer border-b border-[#f8f9fb] last:border-0 transition-colors"
                                 >
                                   {city}
                                 </div>
@@ -450,9 +450,9 @@ export default function CartPage() {
                 </div>
 
                 {/* Payment Method */}
-                <div className="bg-[#ffebd5] rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+                <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
                   <div className="px-6 py-5 border-b border-[#f8f9fb] flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-[#fee5c9] border-2 border-black flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-[#f8f9fa] border border-gray-200 flex items-center justify-center">
                       <Banknote className="w-4 h-4 text-black/70" />
                     </div>
                     <div>
@@ -498,7 +498,7 @@ export default function CartPage() {
                           {/* Payment logos */}
                           <div className="flex flex-wrap gap-2">
                             {paySettings.jazzcash?.enabled !== false && (
-                              <div className="flex items-center gap-2 bg-[#fee5c9] border-2 border-black rounded-lg px-2.5 py-1.5">
+                              <div className="flex items-center gap-2 bg-[#f8f9fa] border border-gray-200 rounded-lg px-2.5 py-1.5">
                                 <div className="w-6 h-6 rounded overflow-hidden relative">
                                   <Image src="/uploads/jazzcash.jpg" alt="JazzCash" fill className="object-contain" />
                                 </div>
@@ -506,14 +506,14 @@ export default function CartPage() {
                               </div>
                             )}
                             {paySettings.easypaisa?.enabled !== false && (
-                              <div className="flex items-center gap-2 bg-[#fee5c9] border-2 border-black rounded-lg px-2.5 py-1.5">
+                              <div className="flex items-center gap-2 bg-[#f8f9fa] border border-gray-200 rounded-lg px-2.5 py-1.5">
                                 <div className="w-6 h-6 rounded overflow-hidden relative">
                                   <Image src="/uploads/easypaisa.png" alt="EasyPaisa" fill className="object-contain" />
                                 </div>
                                 <span className="text-[11px] font-bold text-black">EasyPaisa</span>
                               </div>
                             )}
-                            <div className="flex items-center gap-2 bg-[#fee5c9] border-2 border-black rounded-lg px-2.5 py-1.5">
+                            <div className="flex items-center gap-2 bg-[#f8f9fa] border border-gray-200 rounded-lg px-2.5 py-1.5">
                               <div className="w-6 h-6 rounded bg-[#3b2e2a] flex items-center justify-center">
                                 <span className="text-white text-[8px] font-black">BK</span>
                               </div>
@@ -525,7 +525,7 @@ export default function CartPage() {
 
                       {/* Account details revealed when selected */}
                       {paymentMethod === "advance" && (
-                        <div className="mx-4 mb-4 border-2 border-black rounded-xl overflow-hidden bg-[#fee5c9] p-4">
+                        <div className="mx-4 mb-4 border border-gray-200 rounded-xl overflow-hidden bg-[#f8f9fa] p-4">
                           <p className="text-[13px] font-bold text-black mb-2">
                             Total Amount to Pay: <span className="text-amber-600 font-black">Rs. {total.toLocaleString()}</span>
                           </p>
@@ -533,9 +533,9 @@ export default function CartPage() {
                           
                           <div className="flex flex-col gap-3 mb-4">
                             {/* JazzCash Option */}
-                            <div className="flex items-center justify-between bg-[#ffebd5] border-2 border-black p-3 rounded-xl shadow-sm">
+                            <div className="flex items-center justify-between bg-white border border-gray-200 p-3 rounded-xl shadow-sm">
                               <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-lg overflow-hidden border-2 border-black bg-[#ffebd5] relative shrink-0">
+                                <div className="w-10 h-10 rounded-lg overflow-hidden border border-gray-200 bg-white relative shrink-0">
                                   <Image src="/uploads/jazzcash_new.jpg" alt="JazzCash" fill className="object-cover" />
                                 </div>
                                 <div className="flex flex-col">
@@ -543,15 +543,15 @@ export default function CartPage() {
                                    <span className="text-sm font-black text-black tracking-wider">{jazzcashNumber}</span>
                                 </div>
                               </div>
-                              <button type="button" onClick={() => copyToClipboard(jazzcashNumber, "jc")} className="text-black/60 hover:text-black p-2 rounded-lg hover:bg-[#fee5c9] transition-colors flex items-center justify-center shrink-0">
+                              <button type="button" onClick={() => copyToClipboard(jazzcashNumber, "jc")} className="text-black/60 hover:text-black p-2 rounded-lg hover:bg-[#f8f9fa] transition-colors flex items-center justify-center shrink-0">
                                 {copied === "jc" ? <Check className="w-5 h-5 text-emerald-500" /> : <Copy className="w-5 h-5" />}
                               </button>
                             </div>
 
                             {/* EasyPaisa Option */}
-                            <div className="flex items-center justify-between bg-[#ffebd5] border-2 border-black p-3 rounded-xl shadow-sm">
+                            <div className="flex items-center justify-between bg-white border border-gray-200 p-3 rounded-xl shadow-sm">
                               <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-lg overflow-hidden border-2 border-black bg-[#ffebd5] relative shrink-0 p-1">
+                                <div className="w-10 h-10 rounded-lg overflow-hidden border border-gray-200 bg-white relative shrink-0 p-1">
                                   <Image src="/uploads/easypaisa_new.png" alt="EasyPaisa" fill className="object-contain" />
                                 </div>
                                 <div className="flex flex-col">
@@ -559,7 +559,7 @@ export default function CartPage() {
                                    <span className="text-sm font-black text-black tracking-wider">{easypaisaNumber}</span>
                                 </div>
                               </div>
-                              <button type="button" onClick={() => copyToClipboard(easypaisaNumber, "ep")} className="text-black/60 hover:text-black p-2 rounded-lg hover:bg-[#fee5c9] transition-colors flex items-center justify-center shrink-0">
+                              <button type="button" onClick={() => copyToClipboard(easypaisaNumber, "ep")} className="text-black/60 hover:text-black p-2 rounded-lg hover:bg-[#f8f9fa] transition-colors flex items-center justify-center shrink-0">
                                 {copied === "ep" ? <Check className="w-5 h-5 text-emerald-500" /> : <Copy className="w-5 h-5" />}
                               </button>
                             </div>
@@ -583,7 +583,7 @@ export default function CartPage() {
                   <div className="px-6 pb-6">
                     <button
                       type="submit" disabled={loading}
-                      className={`w-full font-black text-[15px] uppercase tracking-widest py-4 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${
+                      className={`w-full font-black text-[15px] uppercase tracking-widest py-4 rounded-2xl border border-gray-200 shadow-sm hover:shadow-none hover:translate-y-1 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-sm ${
                         paymentMethod === "advance"
                           ? "bg-[#ff5a1f] hover:bg-[#e04f1a] text-white"
                           : "bg-[#3b2e2a] hover:bg-[#2d221e] text-white"
@@ -607,13 +607,13 @@ export default function CartPage() {
 
           {/* ── RIGHT: Order Summary ── */}
           <div className="w-full lg:w-[320px] shrink-0">
-            <div className="bg-[#ffebd5] rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden sticky top-20">
+            <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden sticky top-20">
               <div className="px-6 py-5 border-b border-[#f8f9fb]">
                 <h2 className="text-[13px] font-black uppercase tracking-widest text-black">Order Summary</h2>
               </div>
               <div className="p-6">
                 <div className="flex gap-3.5 pb-5 border-b border-[#f8f9fb]">
-                  <div className="relative w-14 h-14 bg-[#fee5c9] rounded-xl overflow-hidden shrink-0">
+                  <div className="relative w-14 h-14 bg-[#f8f9fa] rounded-xl overflow-hidden shrink-0">
                     <Image src={cartItem.image} alt={cartItem.name} fill className="object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -631,10 +631,10 @@ export default function CartPage() {
                       type="text" value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                       placeholder="Promo code"
-                      className="flex-1 border-2 border-black rounded-xl px-3 py-2 text-xs outline-none focus:border-[#1a1f2e] font-mono uppercase bg-[#fee5c9] transition-all"
+                      className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-xs outline-none focus:border-[#1a1f2e] font-mono uppercase bg-[#f8f9fa] transition-all"
                     />
                     <button type="button" onClick={handleApplyCoupon} disabled={couponLoading || !couponCode}
-                      className="bg-[#ff5a1f] text-white font-black text-[13px] uppercase tracking-wider px-4 rounded-xl border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 transition-all disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                      className="bg-[#ff5a1f] text-white font-black text-[13px] uppercase tracking-wider px-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-none hover:translate-y-1 transition-all disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-sm"
                     >
                       {couponLoading ? "..." : "Apply"}
                     </button>
@@ -674,7 +674,7 @@ export default function CartPage() {
                   )}
                 </div>
 
-                <div className="mt-4 pt-4 border-t-2 border-black flex justify-between items-center">
+                <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
                   <span className="text-[12px] font-black uppercase tracking-widest text-black">Total</span>
                   <span className="text-2xl font-black text-black">Rs. {total.toLocaleString()}</span>
                 </div>

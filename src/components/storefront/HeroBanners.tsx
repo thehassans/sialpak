@@ -78,7 +78,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
             transition={{ duration: 0.6, ease: "easeOut" }}
             onDrop={(e: any) => handleDrop(e, leftBanner.id)}
             onDragOver={handleDragOver}
-            className={`lg:col-span-8 relative rounded-3xl overflow-hidden group min-h-[400px] lg:min-h-full bg-[#ffebd5] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''}`}
+            className={`lg:col-span-8 relative rounded-3xl overflow-hidden group min-h-[400px] lg:min-h-full bg-white border border-gray-200 shadow-sm ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''}`}
             onClick={(e) => {
               if (isEditMode && (e.target as HTMLElement).tagName !== 'SPAN' && (e.target as HTMLElement).tagName !== 'H2' && (e.target as HTMLElement).tagName !== 'P') {
                 document.getElementById(`upload-${leftBanner.id}`)?.click();
@@ -125,7 +125,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                 {leftBanner.subtitle}
               </p>
               <div>
-                <Link href={leftBanner.link !== "#" ? leftBanner.link : "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="inline-block bg-[#ff5a1f] hover:bg-[#3b2e2a] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 text-white font-black text-[15px] uppercase tracking-widest px-10 py-4 rounded-xl transition-all duration-300">
+                <Link href={leftBanner.link !== "#" ? leftBanner.link : "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="inline-block bg-[#ff5a1f] hover:bg-[#3b2e2a] border border-gray-200 shadow-sm hover:shadow-none hover:translate-y-1 text-white font-black text-[15px] uppercase tracking-widest px-10 py-4 rounded-xl transition-all duration-300">
                   <span
                     contentEditable={isEditMode}
                     suppressContentEditableWarning
@@ -147,7 +147,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
               onDrop={(e: any) => handleDrop(e, rightBanner.id)}
               onDragOver={handleDragOver}
-              className={`lg:col-span-4 relative rounded-3xl overflow-hidden group min-h-[400px] lg:min-h-full bg-[#ffebd5] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''}`}
+              className={`lg:col-span-4 relative rounded-3xl overflow-hidden group min-h-[400px] lg:min-h-full bg-white border border-gray-200 shadow-sm ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''}`}
               onClick={(e) => {
                 if (isEditMode && (e.target as HTMLElement).tagName !== 'SPAN' && (e.target as HTMLElement).tagName !== 'H3' && (e.target as HTMLElement).tagName !== 'P') {
                   document.getElementById(`upload-${rightBanner.id}`)?.click();
@@ -193,7 +193,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                 >
                   {rightBanner.subtitle}
                 </p>
-                <Link href={rightBanner.link !== "#" ? rightBanner.link : "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="inline-block bg-[#3b2e2a] hover:bg-[#ff5a1f] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 text-white font-black text-[14px] uppercase tracking-widest px-8 py-3 rounded-xl transition-all duration-300">
+                <Link href={rightBanner.link !== "#" ? rightBanner.link : "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="inline-block bg-[#3b2e2a] hover:bg-[#ff5a1f] border border-gray-200 shadow-sm hover:shadow-none hover:translate-y-1 text-white font-black text-[14px] uppercase tracking-widest px-8 py-3 rounded-xl transition-all duration-300">
                   <span
                     contentEditable={isEditMode}
                     suppressContentEditableWarning

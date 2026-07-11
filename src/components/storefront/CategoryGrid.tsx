@@ -98,7 +98,7 @@ export default function CategoryGrid({ categories, title, isEditMode = false }: 
                       }
                     }
                   }}
-                  className={`group relative aspect-[3/4] rounded-3xl overflow-hidden bg-white cursor-pointer border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[0_0px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 transition-all duration-300 ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50' : ''}`}
+                  className={`group relative aspect-[3/4] rounded-3xl overflow-hidden bg-white cursor-pointer border border-gray-200 shadow-sm hover:shadow-[0_0px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 transition-all duration-300 ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50' : ''}`}
                 >
                   <input type="file" id={`upload-cat-${c.id}`} className="hidden" accept="image/*" onChange={(e) => handleImageUpload(e, c.id)} />
                   {isEditMode && <div className="absolute top-2 right-2 z-50 bg-black/70 text-white text-[9px] uppercase font-bold px-1.5 py-0.5 rounded shadow-lg pointer-events-none">Click or Drop image</div>}

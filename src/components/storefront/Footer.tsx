@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 export default function Footer({ storeName }: { storeName: string }) {
   return (
-    <footer className="bg-[#3b2e2a] text-[#ffebd5] pt-24 pb-12 border-t-2 border-black" id="footer">
+    <footer className="bg-[#3b2e2a] text-[#ffebd5] pt-24 pb-12 border-t border-gray-200" id="footer">
       <div className="max-w-[1280px] mx-auto px-6">
         
         {/* Top Minimalist Grid */}

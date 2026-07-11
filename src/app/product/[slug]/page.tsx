@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 // Client component for the Accordion
 import ProductAccordion from "@/components/storefront/ProductAccordion";
+import CelebrityCarousel from "@/components/storefront/CelebrityCarousel";
 
 export default async function ProductPage({ params }: { params: { slug: string } }) {
   const general = await getSetting("general", DEFAULT_SETTINGS.general);
@@ -41,6 +42,17 @@ export default async function ProductPage({ params }: { params: { slug: string }
   
   const images: string[] = JSON.parse(p.images || "[]");
   const session = await getCustomerSession();
+
+  const celebrities = await prisma.celebrityRecommendation.findMany({
+    where: {
+      isActive: true,
+      OR: [
+        { productId: p.id },
+        { productId: null }
+      ]
+    },
+    orderBy: { sortOrder: 'asc' }
+  });
 
   const avgRating = p.reviews.length > 0 
     ? p.reviews.reduce((acc, r) => acc + r.rating, 0) / p.reviews.length 
@@ -64,7 +76,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
   }
 
   return (
-    <div className="bg-[#fee5c9] min-h-screen text-black font-sans">
+    <div className="bg-[#f8f9fa] min-h-screen text-black font-sans">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header storeName={general.storeName} tagline={general.tagline} supportPhone={general.supportPhone} freeShippingText={general.freeShippingText} />
       
@@ -253,7 +265,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
 
       {/* Frequently Asked Questions Section */}
       {parsedDesc?.showFaqs && parsedDesc?.faqs?.length > 0 && (
-        <section className="bg-[#fee5c9] text-black py-20 px-6 lg:px-12 border-t border-black">
+        <section className="bg-[#f8f9fa] text-black py-20 px-6 lg:px-12 border-t border-gray-200">
           <div className="max-w-[800px] mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-2xl lg:text-3xl font-black uppercase tracking-wider mb-2">
@@ -275,7 +287,15 @@ export default async function ProductPage({ params }: { params: { slug: string }
         </section>
       )}
 
-      <div id="reviews" className="bg-[#fee5c9] py-24 border-t border-black">
+      {celebrities.length > 0 && (
+        <div className="bg-[#f8f9fa] py-8 border-t border-gray-200">
+          <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <CelebrityCarousel celebrities={celebrities} />
+          </div>
+        </div>
+      )}
+
+      <div id="reviews" className="bg-[#f8f9fa] py-24 border-t border-gray-200">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
           <ProductReviews productId={p.id} reviews={p.reviews as any} customerSession={session} />
         </div>

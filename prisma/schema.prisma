@@ -108,6 +108,7 @@ model Product {
   orderItems      OrderItem[]
   reviews         Review[]
   variants        ProductVariant[]    // New
+  celebrities     CelebrityRecommendation[]
 }
 
 model ProductVariant {
@@ -227,4 +228,17 @@ model OrderItem {
 model Setting {
   key   String @id
   value String
+}
+
+model CelebrityRecommendation {
+  id          String   @id @default(cuid())
+  name        String
+  image       String?
+  videoUrl    String?
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  productId   String?
+  product     Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

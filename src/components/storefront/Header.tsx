@@ -31,7 +31,7 @@ export default async function Header({
       </div>
 
       {/* Main Header */}
-      <header className="bg-[#ffebd5] border-b-2 border-black sticky top-0 z-50 shadow-[0_4px_0px_0px_rgba(0,0,0,1)]">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-[0_4px_0px_0px_rgba(0,0,0,1)]">
         <div className="max-w-[1280px] mx-auto px-6 flex items-center gap-8 py-5">
           <button className="md:hidden text-black shrink-0 hover:text-[#ff5a1f] transition-colors">
             <Menu className="w-6 h-6" strokeWidth={2} />
@@ -59,12 +59,12 @@ export default async function Header({
               </Link>
               <Link href="/wishlist" className="relative text-black hover:text-[#ff5a1f] transition-colors" aria-label="Wishlist">
                 <Heart className="w-6 h-6" strokeWidth={2} />
-                <span className="absolute -top-1.5 -right-2 bg-[#ff5a1f] text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center border-2 border-black">0</span>
+                <span className="absolute -top-1.5 -right-2 bg-[#ff5a1f] text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center border border-gray-200">0</span>
               </Link>
               <Link href="/cart" className="flex items-center gap-3 text-black group" aria-label="Cart">
                 <div className="relative group-hover:text-[#ff5a1f] transition-colors">
                   <ShoppingCart className="w-6 h-6" strokeWidth={2} />
-                  <span className="absolute -top-1.5 -right-2 bg-[#ff5a1f] text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center border-2 border-black">0</span>
+                  <span className="absolute -top-1.5 -right-2 bg-[#ff5a1f] text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center border border-gray-200">0</span>
                 </div>
                 <div className="hidden sm:block text-left">
                   <span className="text-black/60 font-black block text-[11px] uppercase tracking-widest mb-0.5">Cart</span>
@@ -76,7 +76,7 @@ export default async function Header({
         </div>
 
         {/* Navigation Bar - Clean & Minimal */}
-        <nav className="hidden md:block border-t-2 border-black bg-[#fee5c9]">
+        <nav className="hidden md:block border-t border-gray-200 bg-[#f8f9fa]">
           <div className="max-w-[1280px] mx-auto px-6 h-[50px] flex items-center justify-between">
             <div className="flex items-center gap-10">
               <Link href="/" className="text-[13px] font-black text-black uppercase tracking-widest relative py-4 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] after:bg-[#ff5a1f]">

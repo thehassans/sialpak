@@ -91,7 +91,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
           
           {/* Left Column - Large Editorial Image */}
           <div 
-            className={`relative aspect-[4/5] bg-[#ffebd5] overflow-hidden group rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''}`}
+            className={`relative aspect-[4/5] bg-white overflow-hidden group rounded-3xl border border-gray-200 shadow-sm ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''}`}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onClick={(e) => {
@@ -130,7 +130,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
                   {banner.subtitle}
                 </p>
               )}
-              <Link href={banner.link || "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="inline-flex items-center gap-4 bg-[#ff5a1f] hover:bg-[#3b2e2a] text-white text-[14px] font-black uppercase tracking-[0.2em] transition-all px-8 py-4 rounded-xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 self-start mt-4">
+              <Link href={banner.link || "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="inline-flex items-center gap-4 bg-[#ff5a1f] hover:bg-[#3b2e2a] text-white text-[14px] font-black uppercase tracking-[0.2em] transition-all px-8 py-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-none hover:translate-y-1 self-start mt-4">
                 <span
                   contentEditable={isEditMode}
                   suppressContentEditableWarning
@@ -150,7 +150,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
             {/* Featured Product */}
             {featuredProduct && (
               <div className="flex flex-col md:flex-row gap-8 items-center group">
-                <Link href={`/product/${featuredProduct.slug}`} className="relative w-full md:w-1/2 aspect-square bg-white rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+                <Link href={`/product/${featuredProduct.slug}`} className="relative w-full md:w-1/2 aspect-square bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
                   <Image 
                     src={getPrimaryImage(featuredProduct)} 
                     alt={featuredProduct.name} 
@@ -164,7 +164,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
                     <h4 className="text-[28px] font-black text-black mb-3 leading-snug">{featuredProduct.name}</h4>
                   </Link>
                   <p className="text-[18px] text-[#ff5a1f] font-black mb-6">{fmtCurrency(featuredProduct.price)}</p>
-                  <Link href={`/product/${featuredProduct.slug}`} className="inline-flex items-center gap-3 bg-[#3b2e2a] hover:bg-[#ff5a1f] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 text-white text-[13px] font-black uppercase tracking-[0.1em] px-8 py-4 rounded-xl transition-all self-start">
+                  <Link href={`/product/${featuredProduct.slug}`} className="inline-flex items-center gap-3 bg-[#3b2e2a] hover:bg-[#ff5a1f] border border-gray-200 shadow-sm hover:shadow-none hover:translate-y-1 text-white text-[13px] font-black uppercase tracking-[0.1em] px-8 py-4 rounded-xl transition-all self-start">
                     Shop Now
                   </Link>
                 </div>
@@ -177,7 +177,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
             <div className="grid grid-cols-2 gap-8">
               {subProducts.map((p) => (
                 <Link key={p.id} href={`/product/${p.slug}`} className="flex flex-col group">
-                  <div className="relative aspect-square bg-white rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 transition-all duration-300 overflow-hidden mb-4">
+                  <div className="relative aspect-square bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-none hover:translate-y-1 transition-all duration-300 overflow-hidden mb-4">
                     <Image 
                       src={getPrimaryImage(p)} 
                       alt={p.name} 

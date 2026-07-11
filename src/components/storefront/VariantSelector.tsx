@@ -165,7 +165,7 @@ export default function VariantSelector({ product, general }: { product: Product
 
       {/* Feature List Box styled like the Hair Factory card */}
       {parsedDesc?.features && Array.isArray(parsedDesc.features) && parsedDesc.features.length > 0 && (
-        <div className="border border-black rounded-2xl bg-[#fee5c9]/30 p-6 mb-8 grid grid-cols-2 gap-4">
+        <div className="border border-black rounded-2xl bg-[#f8f9fa]/30 p-6 mb-8 grid grid-cols-2 gap-4">
           {parsedDesc.features.map((feat: any, idx: number) => (
             <div key={idx} className="flex items-start gap-2.5">
               <span className="text-[#3b2e2a] font-bold mt-0.5">✓</span>
@@ -296,7 +296,7 @@ export default function VariantSelector({ product, general }: { product: Product
 
       {/* BUNDLE & SAVE SECTION */}
       {showBundleSaveSetting && (
-        <div className="border-2 border-black rounded-3xl bg-[#ffebd5] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6 mb-8">
+        <div className="border border-gray-200 rounded-3xl bg-white shadow-sm p-6 mb-8">
           <div className="flex items-center justify-center gap-4 mb-6">
             <div className="h-[2px] bg-black flex-1"></div>
             <h3 className="text-sm font-black text-black uppercase tracking-[0.15em]">BUNDLE & SAVE</h3>
@@ -307,11 +307,11 @@ export default function VariantSelector({ product, general }: { product: Product
             {/* Box 1: Buy One */}
             <div 
               onClick={() => handleBundleSelect("one")}
-              className={`border-2 rounded-2xl overflow-hidden cursor-pointer bg-white transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+              className={`border-2 rounded-2xl overflow-hidden cursor-pointer bg-white transition-all shadow-sm ${
                 selectedBundle === "one" ? 'border-black ring-2 ring-[#ff5a1f] scale-[1.02]' : 'border-black hover:translate-y-0.5 hover:shadow-none'
               }`}
             >
-              <div className={`text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 border-b-2 border-black flex items-center justify-between ${selectedBundle === "one" ? 'bg-[#ff5a1f]' : 'bg-[#3b2e2a]'}`}>
+              <div className={`text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 border-b border-gray-200 flex items-center justify-between ${selectedBundle === "one" ? 'bg-[#ff5a1f]' : 'bg-[#3b2e2a]'}`}>
                 <span>MOST POPULAR</span>
               </div>
               <div className="p-4 flex items-start gap-4">
@@ -351,11 +351,11 @@ export default function VariantSelector({ product, general }: { product: Product
             {/* Box 2: Buy Two */}
             <div 
               onClick={() => handleBundleSelect("two")}
-              className={`border-2 rounded-2xl overflow-hidden cursor-pointer bg-white transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+              className={`border-2 rounded-2xl overflow-hidden cursor-pointer bg-white transition-all shadow-sm ${
                 selectedBundle === "two" ? 'border-black ring-2 ring-[#ff5a1f] scale-[1.02]' : 'border-black hover:translate-y-0.5 hover:shadow-none'
               }`}
             >
-              <div className={`text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 border-b-2 border-black flex items-center justify-between ${selectedBundle === "two" ? 'bg-[#ff5a1f]' : 'bg-[#3b2e2a]'}`}>
+              <div className={`text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 border-b border-gray-200 flex items-center justify-between ${selectedBundle === "two" ? 'bg-[#ff5a1f]' : 'bg-[#3b2e2a]'}`}>
                 <span>Best Seller!</span>
               </div>
               <div className="p-4 flex items-start gap-4">
@@ -381,11 +381,11 @@ export default function VariantSelector({ product, general }: { product: Product
             {/* Box 3: Buy Three */}
             <div 
               onClick={() => handleBundleSelect("three")}
-              className={`border-2 rounded-2xl overflow-hidden cursor-pointer bg-white transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+              className={`border-2 rounded-2xl overflow-hidden cursor-pointer bg-white transition-all shadow-sm ${
                 selectedBundle === "three" ? 'border-black ring-2 ring-[#ff5a1f] scale-[1.02]' : 'border-black hover:translate-y-0.5 hover:shadow-none'
               }`}
             >
-              <div className={`text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 border-b-2 border-black flex items-center justify-between ${selectedBundle === "three" ? 'bg-[#ff5a1f]' : 'bg-[#3b2e2a]'}`}>
+              <div className={`text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 border-b border-gray-200 flex items-center justify-between ${selectedBundle === "three" ? 'bg-[#ff5a1f]' : 'bg-[#3b2e2a]'}`}>
                 <span>Best Value!</span>
               </div>
               <div className="p-4 flex items-start gap-4">

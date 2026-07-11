@@ -29,19 +29,19 @@ export default function RecentlyViewed({ products }: { products: Product[] }) {
   return (
     <section className="py-8" id="recently-viewed">
       <div className="max-w-[1280px] mx-auto px-6">
-        <div className="flex items-center justify-between mb-5 border-b-2 border-black pb-4">
+        <div className="flex items-center justify-between mb-5 border-b border-gray-200 pb-4">
           <h2 className="text-[24px] font-black text-black uppercase tracking-widest">Recently Viewed</h2>
           <div className="flex gap-2">
             <button
               onClick={() => scroll("left")}
-              className="w-10 h-10 rounded-xl border-2 border-black flex items-center justify-center hover:bg-[#ff5a1f] hover:text-white hover:translate-y-[-2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all bg-[#ffebd5]"
+              className="w-10 h-10 rounded-xl border border-gray-200 flex items-center justify-center hover:bg-[#ff5a1f] hover:text-white hover:translate-y-[-2px] hover:shadow-sm transition-all bg-white"
               aria-label="Scroll left"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="w-10 h-10 rounded-xl border-2 border-black flex items-center justify-center hover:bg-[#ff5a1f] hover:text-white hover:translate-y-[-2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all bg-[#ffebd5]"
+              className="w-10 h-10 rounded-xl border border-gray-200 flex items-center justify-center hover:bg-[#ff5a1f] hover:text-white hover:translate-y-[-2px] hover:shadow-sm transition-all bg-white"
               aria-label="Scroll right"
             >
               <ChevronRight className="w-4 h-4" />
@@ -65,9 +65,9 @@ export default function RecentlyViewed({ products }: { products: Product[] }) {
               >
                 <Link
                   href={`/product/${p.slug}`}
-                  className="shrink-0 w-[200px] bg-[#ffebd5] border-2 border-black rounded-3xl overflow-hidden group hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-4px] transition-all block mb-2"
+                  className="shrink-0 w-[200px] bg-white border border-gray-200 rounded-3xl overflow-hidden group hover:shadow-sm hover:translate-y-[-4px] transition-all block mb-2"
                 >
-                  <div className="relative aspect-square bg-white overflow-hidden border-b-2 border-black">
+                  <div className="relative aspect-square bg-white overflow-hidden border-b border-gray-200">
                     <Image
                       src={img}
                       alt={p.name}

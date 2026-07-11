@@ -148,8 +148,8 @@ export default function ProductReviews({
                     <button
                       key={i}
                       onClick={() => setCurrentPage(i + 1)}
-                      className={`w-8 h-8 flex items-center justify-center rounded-lg border-2 border-black text-[12px] font-bold transition-colors ${
-                        currentPage === i + 1 ? 'bg-[#ff5a1f] text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]' : 'bg-white text-black hover:bg-[#ffebd5]'
+                      className={`w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-[12px] font-bold transition-colors ${
+                        currentPage === i + 1 ? 'bg-[#ff5a1f] text-white shadow-sm' : 'bg-white text-black hover:bg-white'
                       }`}
                     >
                       {i + 1}

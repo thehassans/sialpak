@@ -97,7 +97,7 @@ export default function ProductGrid({
           <div className="mt-16 text-center">
             <Link
               href={viewAllHref}
-              className="inline-block bg-[#3b2e2a] hover:bg-[#ff5a1f] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 text-white font-black text-[14px] uppercase tracking-[0.2em] px-10 py-4 transition-all duration-200 rounded-xl"
+              className="inline-block bg-[#3b2e2a] hover:bg-[#ff5a1f] border border-gray-200 shadow-sm hover:shadow-none hover:translate-y-1 text-white font-black text-[14px] uppercase tracking-[0.2em] px-10 py-4 transition-all duration-200 rounded-xl"
             >
               Discover All
             </Link>

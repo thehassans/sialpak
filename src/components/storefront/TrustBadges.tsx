@@ -11,7 +11,7 @@ export default function TrustBadges() {
   };
 
   return (
-    <div className="bg-[#ffebd5] border-y-2 border-black">
+    <div className="bg-white border-y-2 border-black">
       <div className="max-w-[1280px] mx-auto px-6 py-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4 divide-y-2 md:divide-y-0 md:divide-x-2 divide-black">
           {TRUST_BADGES.map((badge, i) => (

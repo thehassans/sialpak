@@ -29,6 +29,7 @@ const NAV = [
   { href: "/admin/products", label: "Products", icon: <Package size={18} /> },
   { href: "/admin/categories", label: "Categories", icon: <Tags size={18} /> },
   { href: "/admin/banners", label: "Banners", icon: <ImageIcon size={18} /> },
+  { href: "/admin/celebrities", label: "Celebrities", icon: <UserCircle size={18} /> },
   { href: "/admin/seo", label: "SEO & Pixels", icon: <Search size={18} /> },
   { href: "/admin/articles", label: "Articles", icon: <FileText size={18} /> },
   { href: "/admin/discounts", label: "Discounts", icon: <Ticket size={18} /> },

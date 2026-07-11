@@ -100,7 +100,7 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
         
         {/* Main Ultra Premium Banner */}
         <div 
-          className={`relative min-h-[500px] rounded-3xl overflow-hidden border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''}`}
+          className={`relative min-h-[500px] rounded-3xl overflow-hidden border border-gray-200 shadow-sm ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''}`}
           style={{ background: `linear-gradient(90deg, ${banner.bgColorFrom}, ${banner.bgColorTo})`, color: banner.textColor }}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
@@ -162,7 +162,7 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
               <MiniCountdown />
 
               <div className="mt-8">
-                <Link href={banner.link || "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="group inline-flex items-center gap-3 bg-[#3b2e2a] hover:bg-[#ff5a1f] text-white font-black text-[14px] uppercase tracking-widest px-8 py-4 rounded-xl transition-all duration-300 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1">
+                <Link href={banner.link || "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="group inline-flex items-center gap-3 bg-[#3b2e2a] hover:bg-[#ff5a1f] text-white font-black text-[14px] uppercase tracking-widest px-8 py-4 rounded-xl transition-all duration-300 border border-gray-200 shadow-sm hover:shadow-none hover:translate-y-1">
                   <span
                     contentEditable={isEditMode}
                     suppressContentEditableWarning
@@ -195,9 +195,9 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
                     whileHover={{ y: -6 }}
-                    className="bg-[#ffebd5] rounded-3xl p-4 flex gap-4 items-center border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 transition-all duration-300"
+                    className="bg-white rounded-3xl p-4 flex gap-4 items-center border border-gray-200 shadow-sm hover:shadow-none hover:translate-y-1 transition-all duration-300"
                   >
-                    <div className="w-[70px] h-[70px] shrink-0 rounded-2xl overflow-hidden relative bg-white border-2 border-black">
+                    <div className="w-[70px] h-[70px] shrink-0 rounded-2xl overflow-hidden relative bg-white border border-gray-200">
                       <Image 
                         src={primaryImage} 
                         alt={p.name} 

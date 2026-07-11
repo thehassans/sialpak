@@ -47,22 +47,22 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="group flex flex-col relative h-full">
       {/* Product Image Area */}
-      <Link href={`/product/${product.slug}`} className="block relative overflow-hidden aspect-[4/5] bg-white rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-4">
+      <Link href={`/product/${product.slug}`} className="block relative overflow-hidden aspect-[4/5] bg-white rounded-3xl border border-gray-200 shadow-sm mb-4">
         
         {/* Badges - Premium Theme */}
         <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
           {discountPercent && (
-            <span className="bg-[#ff5a1f] text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 border-2 border-black">
+            <span className="bg-[#ff5a1f] text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 border border-gray-200">
               -{discountPercent}%
             </span>
           )}
           {product.status === 'hot' && (
-            <span className="bg-[#3b2e2a] text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 border-2 border-black">
+            <span className="bg-[#3b2e2a] text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 border border-gray-200">
               Best
             </span>
           )}
           {product.status === 'new' && (
-            <span className="bg-[#fee5c9] text-black border-2 border-black text-[10px] font-black uppercase tracking-widest px-2 py-1">
+            <span className="bg-[#f8f9fa] text-black border border-gray-200 text-[10px] font-black uppercase tracking-widest px-2 py-1">
               New
             </span>
           )}
@@ -74,7 +74,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             e.preventDefault();
             setWishlisted(!wishlisted);
           }}
-          className={`absolute top-3 right-3 z-10 w-9 h-9 rounded-full border-2 border-black flex items-center justify-center bg-[#fee5c9] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 hover:bg-[#ff5a1f] hover:text-white ${
+          className={`absolute top-3 right-3 z-10 w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center bg-[#f8f9fa] shadow-sm transition-all duration-300 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 hover:bg-[#ff5a1f] hover:text-white ${
             wishlisted ? 'text-[#ff5a1f] opacity-100 translate-y-0' : 'text-black/60'
           }`}
           aria-label="Add to wishlist"
@@ -102,7 +102,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         
         {/* Quick Add Overlay */}
         <div className="absolute bottom-0 left-0 w-full p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 opacity-0 group-hover:opacity-100 z-10">
-          <button className="w-full bg-[#3b2e2a] hover:bg-[#ff5a1f] border-2 border-black text-white text-[13px] font-black uppercase tracking-widest py-3 flex items-center justify-center gap-2 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-0.5 rounded-xl">
+          <button className="w-full bg-[#3b2e2a] hover:bg-[#ff5a1f] border border-gray-200 text-white text-[13px] font-black uppercase tracking-widest py-3 flex items-center justify-center gap-2 transition-colors shadow-sm hover:shadow-none hover:translate-y-0.5 rounded-xl">
             <ShoppingCart className="w-4 h-4" /> Quick Add
           </button>
         </div>

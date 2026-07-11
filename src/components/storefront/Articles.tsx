@@ -10,7 +10,7 @@ export default function Articles({ articles }: { articles: ArticleType[] }) {
   return (
     <section className="py-12 bg-transparent" id="articles">
       <div className="max-w-[1280px] mx-auto px-6">
-        <div className="flex items-baseline justify-between mb-8 border-b-2 border-black pb-4">
+        <div className="flex items-baseline justify-between mb-8 border-b border-gray-200 pb-4">
           <h2 className="text-[24px] font-black text-black uppercase tracking-widest">Our Articles</h2>
           <Link href="/blog" className="text-[13px] font-black text-[#ff5a1f] hover:text-[#3b2e2a] uppercase tracking-widest transition-colors">
             Read All →
@@ -26,8 +26,8 @@ export default function Articles({ articles }: { articles: ArticleType[] }) {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
-              <Link href={`/blog/${article.slug}`} className="block bg-[#ffebd5] rounded-3xl border-2 border-black overflow-hidden group hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-4px] transition-all h-full flex flex-col">
-                <div className="relative aspect-[3/2] overflow-hidden bg-[#fee5c9] border-b-2 border-black">
+              <Link href={`/blog/${article.slug}`} className="block bg-white rounded-3xl border border-gray-200 overflow-hidden group hover:shadow-sm hover:translate-y-[-4px] transition-all h-full flex flex-col">
+                <div className="relative aspect-[3/2] overflow-hidden bg-[#f8f9fa] border-b border-gray-200">
                   <Image 
                     src={article.image} 
                     alt={article.title} 
@@ -48,7 +48,7 @@ export default function Articles({ articles }: { articles: ArticleType[] }) {
                     {article.excerpt}
                   </p>
                   
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t-2 border-black">
+                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-200">
                     <span className="text-[12px] text-black/60 font-bold">{article.date}</span>
                     <span className="text-[13px] font-black text-[#ff5a1f] uppercase tracking-widest group-hover:text-[#3b2e2a] transition-colors">Read More →</span>
                   </div>
