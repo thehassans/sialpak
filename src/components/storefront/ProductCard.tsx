@@ -111,14 +111,14 @@ export default function ProductCard({ product }: ProductCardProps) {
             alt={product.name}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
-            className="object-contain p-1 transition-opacity duration-500 group-hover:opacity-0"
+            className="object-contain transition-opacity duration-500 group-hover:opacity-0"
           />
           <Image
             src={secondaryImage}
             alt={product.name}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
-            className="object-contain p-1 absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-hover:scale-105"
+            className="object-contain absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-hover:scale-105"
           />
         </div>
         

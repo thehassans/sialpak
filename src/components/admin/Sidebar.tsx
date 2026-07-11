@@ -1,8 +1,11 @@
 "use client";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cx } from "@/lib/utils";
 import { 
+  Menu,
+  X,
   LayoutDashboard, 
   LineChart,
   ShoppingBag, 
@@ -47,6 +50,7 @@ const NAV = [
 export default function Sidebar({ storeName, userName }: { storeName: string; userName: string }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   async function handleLogout() {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -55,45 +59,67 @@ export default function Sidebar({ storeName, userName }: { storeName: string; us
   }
 
   return (
-    <aside className="w-64 shrink-0 bg-[#fcfcfc] text-[#111827] flex flex-col h-screen sticky top-0 border-r border-gray-200/60 shadow-[4px_0_24px_rgba(0,0,0,0.01)]">
-      <div className="flex items-center justify-between px-6 py-8 border-b border-gray-100 relative">
-        <img src="/uploads/logo.png" alt="BuySial Logo" className="h-7 w-auto object-contain opacity-90" />
-        <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-gray-400">Admin</span>
-      </div>
-      <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1">
-        {NAV.map((item) => {
-          const isActive = pathname.startsWith(item.href) && (item.href !== "/admin" || pathname === "/admin");
-          return (
-            <Link 
-              key={item.href} 
-              href={item.href}
-              className={cx(
-                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-300",
-                isActive 
-                  ? "bg-gray-100/80 text-[#0f172a] shadow-sm font-semibold" 
-                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-              )}
-            >
-              <div className={cx("w-[18px] h-[18px] shrink-0 transition-colors", isActive ? "text-brand" : "text-gray-400")}>{item.icon}</div>
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
-      
-      <div className="p-5 border-t border-gray-100 bg-gray-50/50 space-y-3">
-        <div className="px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-100">
-          <div className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase mb-1">Store User</div>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full bg-brand/10 text-brand flex items-center justify-center text-xs font-bold shrink-0">{userName.charAt(0).toUpperCase()}</div>
-            <div className="text-[13px] font-semibold text-gray-800 truncate">{userName}</div>
-          </div>
-        </div>
-        <button onClick={handleLogout} className="w-full text-left px-4 py-2.5 rounded-lg text-[13px] font-semibold text-red-500 hover:bg-red-50 transition-colors flex items-center gap-2">
-          <LogOut className="w-4 h-4 shrink-0 text-red-400" />
-          Sign Out
+    <>
+      <div className="lg:hidden flex items-center justify-between p-4 bg-white border-b border-gray-100 sticky top-0 z-40">
+        <img src="/uploads/logo.png" alt="BuySial Logo" className="h-10 w-auto object-contain" />
+        <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-gray-600">
+          <Menu size={24} />
         </button>
       </div>
-    </aside>
+
+      {isOpen && (
+        <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setIsOpen(false)} />
+      )}
+
+      <aside className={cx(
+        "w-64 shrink-0 bg-[#fcfcfc] text-[#111827] flex flex-col h-[100dvh] lg:h-screen lg:sticky lg:top-0 border-r border-gray-200/60 shadow-[4px_0_24px_rgba(0,0,0,0.01)] z-50 transition-transform duration-300",
+        isOpen ? "fixed inset-y-0 left-0 translate-x-0" : "fixed inset-y-0 left-0 -translate-x-full lg:static lg:translate-x-0"
+      )}>
+        <div className="flex items-center justify-between px-6 py-6 border-b border-gray-100 relative">
+          <img src="/uploads/logo.png" alt="BuySial Logo" className="h-14 w-auto object-contain opacity-90" />
+          <div className="flex items-center gap-2">
+            <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-gray-400 hidden lg:block">Admin</span>
+            <button onClick={() => setIsOpen(false)} className="lg:hidden p-1 text-gray-500">
+              <X size={20} />
+            </button>
+          </div>
+        </div>
+        <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+          {NAV.map((item) => {
+            const isActive = pathname.startsWith(item.href) && (item.href !== "/admin" || pathname === "/admin");
+            return (
+              <Link 
+                key={item.href} 
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className={cx(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-300",
+                  isActive 
+                    ? "bg-gray-100/80 text-[#0f172a] shadow-sm font-semibold" 
+                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                )}
+              >
+                <div className={cx("w-[18px] h-[18px] shrink-0 transition-colors", isActive ? "text-brand" : "text-gray-400")}>{item.icon}</div>
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+        
+        <div className="p-5 border-t border-gray-100 bg-gray-50/50 space-y-3">
+          <div className="px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase mb-1">Store User</div>
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-brand/10 text-brand flex items-center justify-center text-xs font-bold shrink-0">{userName.charAt(0).toUpperCase()}</div>
+              <div className="text-[13px] font-semibold text-gray-800 truncate">{userName}</div>
+            </div>
+          </div>
+          <button onClick={handleLogout} className="w-full text-left px-4 py-2.5 rounded-lg text-[13px] font-semibold text-red-500 hover:bg-red-50 transition-colors flex items-center gap-2">
+            <LogOut className="w-4 h-4 shrink-0 text-red-400" />
+            Sign Out
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }
