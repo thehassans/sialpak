@@ -23,6 +23,7 @@ export default function CartPage() {
   const [paymentMethod, setPaymentMethod] = useState<"cod" | "advance">("cod");
   const [advanceDiscount, setAdvanceDiscount] = useState(200);
   const [whatsappNumber, setWhatsappNumber] = useState("+923001234567");
+  const [advancePaymentNumber, setAdvancePaymentNumber] = useState("03001234567");
   const [copied, setCopied] = useState<string | null>(null);
   const [paySettings, setPaySettings] = useState<any>({
     jazzcash: { enabled: false, displayNumber: "", displayName: "" },
@@ -36,6 +37,7 @@ export default function CartPage() {
       .then(d => {
         if (d.advance_payment_discount) setAdvanceDiscount(Number(d.advance_payment_discount));
         if (d.company_whatsapp) setWhatsappNumber(d.company_whatsapp);
+        if (d.advance_payment_number) setAdvancePaymentNumber(d.advance_payment_number);
       })
       .catch(() => {});
 
@@ -519,61 +521,29 @@ export default function CartPage() {
 
                       {/* Account details revealed when selected */}
                       {paymentMethod === "advance" && (
-                        <div className="mx-4 mb-4 border border-[#f0f0f0] rounded-xl overflow-hidden bg-[#fafbfc]">
-                          {paySettings.jazzcash?.displayNumber && (
-                            <div className="flex items-center justify-between px-4 py-3 border-b border-[#f0f0f0]">
-                              <div className="flex items-center gap-2.5">
-                                <div className="w-7 h-7 rounded-lg overflow-hidden relative bg-white">
-                                  <Image src="/uploads/jazzcash.jpg" alt="JazzCash" fill className="object-contain p-0.5" />
-                                </div>
-                                <div>
-                                  <p className="text-[11px] text-[#94a3b8]">JazzCash</p>
-                                  <p className="text-sm font-bold text-[#1a1f2e]">{paySettings.jazzcash.displayNumber}</p>
-                                  {paySettings.jazzcash.displayName && <p className="text-xs text-[#64748b]">{paySettings.jazzcash.displayName}</p>}
-                                </div>
-                              </div>
-                              <button type="button" onClick={() => copyToClipboard(paySettings.jazzcash.displayNumber, "jc-f")} className="text-[#94a3b8] hover:text-[#1a1f2e] p-1.5 rounded-lg hover:bg-white transition-colors">
-                                {copied === "jc-f" ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-                              </button>
+                        <div className="mx-4 mb-4 border border-[#f0f0f0] rounded-xl overflow-hidden bg-[#fafbfc] p-4">
+                          <p className="text-[13px] font-bold text-[#1a1f2e] mb-2">
+                            Total Amount to Pay: <span className="text-amber-600 font-black">Rs. {total.toLocaleString()}</span>
+                          </p>
+                          <p className="text-[11px] text-[#64748b] mb-4">Please send the payment to the following JazzCash / EasyPaisa / Bank Account number:</p>
+                          
+                          <div className="flex items-center justify-between bg-white border border-[#f0f0f0] p-3 rounded-xl mb-4">
+                            <div className="flex flex-col">
+                               <span className="text-[9px] uppercase text-[#94a3b8] font-black tracking-widest">Account Number</span>
+                               <span className="text-lg font-black text-[#1a1f2e] tracking-wider">{advancePaymentNumber}</span>
                             </div>
-                          )}
-                          {paySettings.easypaisa?.displayNumber && (
-                            <div className="flex items-center justify-between px-4 py-3 border-b border-[#f0f0f0]">
-                              <div className="flex items-center gap-2.5">
-                                <div className="w-7 h-7 rounded-lg overflow-hidden relative bg-white">
-                                  <Image src="/uploads/easypaisa.png" alt="EasyPaisa" fill className="object-contain p-0.5" />
-                                </div>
-                                <div>
-                                  <p className="text-[11px] text-[#94a3b8]">EasyPaisa</p>
-                                  <p className="text-sm font-bold text-[#1a1f2e]">{paySettings.easypaisa.displayNumber}</p>
-                                  {paySettings.easypaisa.displayName && <p className="text-xs text-[#64748b]">{paySettings.easypaisa.displayName}</p>}
-                                </div>
-                              </div>
-                              <button type="button" onClick={() => copyToClipboard(paySettings.easypaisa.displayNumber, "ep-f")} className="text-[#94a3b8] hover:text-[#1a1f2e] p-1.5 rounded-lg hover:bg-white transition-colors">
-                                {copied === "ep-f" ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-                              </button>
+                            <button type="button" onClick={() => copyToClipboard(advancePaymentNumber, "adv-num")} className="text-[#94a3b8] hover:text-[#1a1f2e] p-2 rounded-lg hover:bg-[#f8f9fb] transition-colors flex items-center justify-center">
+                              {copied === "adv-num" ? <Check className="w-5 h-5 text-emerald-500" /> : <Copy className="w-5 h-5" />}
+                            </button>
+                          </div>
+
+                          <div className="bg-emerald-50 border border-emerald-100 p-3 rounded-xl flex items-start gap-3 cursor-pointer hover:bg-emerald-100 transition-colors" onClick={openWhatsApp}>
+                            <MessageCircle className="w-5 h-5 text-[#25d366] shrink-0 mt-0.5 fill-current" />
+                            <div>
+                               <p className="text-[11px] font-bold text-emerald-800">Send screenshot on WhatsApp to confirm order</p>
+                               <p className="text-[10px] text-emerald-600 mt-0.5">Click here to send your payment screenshot directly to our WhatsApp number.</p>
                             </div>
-                          )}
-                          {paySettings.bankTransfer?.accountNumber && (
-                            <div className="flex items-center justify-between px-4 py-3">
-                              <div className="flex items-center gap-2.5">
-                                <div className="w-7 h-7 rounded-lg bg-[#1a1f2e] flex items-center justify-center">
-                                  <span className="text-white text-[8px] font-black">BK</span>
-                                </div>
-                                <div>
-                                  <p className="text-[11px] text-[#94a3b8]">{paySettings.bankTransfer.bankName || "Bank Transfer"}</p>
-                                  <p className="text-sm font-bold text-[#1a1f2e]">{paySettings.bankTransfer.accountNumber}</p>
-                                  {paySettings.bankTransfer.accountTitle && <p className="text-xs text-[#64748b]">{paySettings.bankTransfer.accountTitle}</p>}
-                                </div>
-                              </div>
-                              <button type="button" onClick={() => copyToClipboard(paySettings.bankTransfer.accountNumber, "bank-f")} className="text-[#94a3b8] hover:text-[#1a1f2e] p-1.5 rounded-lg hover:bg-white transition-colors">
-                                {copied === "bank-f" ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-                              </button>
-                            </div>
-                          )}
-                          {!paySettings.jazzcash?.displayNumber && !paySettings.easypaisa?.displayNumber && !paySettings.bankTransfer?.accountNumber && (
-                            <p className="px-4 py-3 text-sm text-[#94a3b8]">Payment details will be confirmed after order placement.</p>
-                          )}
+                          </div>
                         </div>
                       )}
                     </div>
