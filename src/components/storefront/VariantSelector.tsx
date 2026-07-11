@@ -164,36 +164,19 @@ export default function VariantSelector({ product, general }: { product: Product
       </div>
 
       {/* Feature List Box styled like the Hair Factory card */}
-      <div className="border border-black rounded-2xl bg-[#fee5c9]/30 p-6 mb-8 grid grid-cols-2 gap-4">
-        <div className="flex items-start gap-2.5">
-          <span className="text-[#3b2e2a] font-bold mt-0.5">✓</span>
-          <div>
-            <h5 className="text-[11px] font-bold text-black uppercase tracking-wider">COVERS GRAYS</h5>
-            <p className="text-[10px] text-[#6b6b6b]">in just 15 minutes</p>
-          </div>
+      {parsedDesc?.features && Array.isArray(parsedDesc.features) && parsedDesc.features.length > 0 && (
+        <div className="border border-black rounded-2xl bg-[#fee5c9]/30 p-6 mb-8 grid grid-cols-2 gap-4">
+          {parsedDesc.features.map((feat: any, idx: number) => (
+            <div key={idx} className="flex items-start gap-2.5">
+              <span className="text-[#3b2e2a] font-bold mt-0.5">✓</span>
+              <div>
+                <h5 className="text-[11px] font-bold text-black uppercase tracking-wider">{feat.title}</h5>
+                <p className="text-[10px] text-[#6b6b6b]">{feat.desc}</p>
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="flex items-start gap-2.5">
-          <span className="text-[#3b2e2a] font-bold mt-0.5">✓</span>
-          <div>
-            <h5 className="text-[11px] font-bold text-black uppercase tracking-wider">PROTECTS HAIR</h5>
-            <p className="text-[10px] text-[#6b6b6b]">ammonia-free formula</p>
-          </div>
-        </div>
-        <div className="flex items-start gap-2.5">
-          <span className="text-[#3b2e2a] font-bold mt-0.5">✓</span>
-          <div>
-            <h5 className="text-[11px] font-bold text-black uppercase tracking-wider">AS EASY AS</h5>
-            <p className="text-[10px] text-[#6b6b6b]">regular shampoo</p>
-          </div>
-        </div>
-        <div className="flex items-start gap-2.5">
-          <span className="text-[#3b2e2a] font-bold mt-0.5">✓</span>
-          <div>
-            <h5 className="text-[11px] font-bold text-black uppercase tracking-wider">SUITABLE FOR</h5>
-            <p className="text-[10px] text-[#6b6b6b]">ALL hair types</p>
-          </div>
-        </div>
-      </div>
+      )}
 
       {/* Unified Shade Swatch Selector (For Hair Color Shampoo specifically) */}
       {hasShadeAndSize ? (
@@ -313,22 +296,22 @@ export default function VariantSelector({ product, general }: { product: Product
 
       {/* BUNDLE & SAVE SECTION */}
       {showBundleSaveSetting && (
-        <div className="border border-[#c27c24] rounded-2xl bg-[#fee5c9]/10 p-6 mb-8">
+        <div className="border-2 border-black rounded-3xl bg-[#ffebd5] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6 mb-8">
           <div className="flex items-center justify-center gap-4 mb-6">
-            <div className="h-[1px] bg-[#c27c24] flex-1"></div>
+            <div className="h-[2px] bg-black flex-1"></div>
             <h3 className="text-sm font-black text-black uppercase tracking-[0.15em]">BUNDLE & SAVE</h3>
-            <div className="h-[1px] bg-[#c27c24] flex-1"></div>
+            <div className="h-[2px] bg-black flex-1"></div>
           </div>
 
           <div className="space-y-4">
             {/* Box 1: Buy One */}
             <div 
               onClick={() => handleBundleSelect("one")}
-              className={`border-2 rounded-xl overflow-hidden cursor-pointer bg-white transition-all ${
-                selectedBundle === "one" ? 'border-[#c27c24]' : 'border-gray-200'
+              className={`border-2 rounded-2xl overflow-hidden cursor-pointer bg-white transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+                selectedBundle === "one" ? 'border-black ring-2 ring-[#ff5a1f] scale-[1.02]' : 'border-black hover:translate-y-0.5 hover:shadow-none'
               }`}
             >
-              <div className="bg-[#c27c24] text-white text-[9px] font-black uppercase tracking-widest px-4 py-1.5 flex items-center justify-between">
+              <div className={`text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 border-b-2 border-black flex items-center justify-between ${selectedBundle === "one" ? 'bg-[#ff5a1f]' : 'bg-[#3b2e2a]'}`}>
                 <span>MOST POPULAR</span>
               </div>
               <div className="p-4 flex items-start gap-4">
@@ -336,7 +319,7 @@ export default function VariantSelector({ product, general }: { product: Product
                   type="radio" 
                   checked={selectedBundle === "one"} 
                   onChange={() => handleBundleSelect("one")}
-                  className="mt-1 accent-[#c27c24]" 
+                  className="mt-1 accent-[#ff5a1f] w-4 h-4" 
                 />
                 <div className="flex-1">
                   <div className="flex justify-between items-center mb-3">
@@ -368,11 +351,11 @@ export default function VariantSelector({ product, general }: { product: Product
             {/* Box 2: Buy Two */}
             <div 
               onClick={() => handleBundleSelect("two")}
-              className={`border-2 rounded-xl overflow-hidden cursor-pointer bg-white transition-all ${
-                selectedBundle === "two" ? 'border-[#c27c24]' : 'border-gray-200'
+              className={`border-2 rounded-2xl overflow-hidden cursor-pointer bg-white transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+                selectedBundle === "two" ? 'border-black ring-2 ring-[#ff5a1f] scale-[1.02]' : 'border-black hover:translate-y-0.5 hover:shadow-none'
               }`}
             >
-              <div className="bg-[#c27c24] text-white text-[9px] font-black uppercase tracking-widest px-4 py-1.5 flex items-center justify-between">
+              <div className={`text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 border-b-2 border-black flex items-center justify-between ${selectedBundle === "two" ? 'bg-[#ff5a1f]' : 'bg-[#3b2e2a]'}`}>
                 <span>Best Seller!</span>
               </div>
               <div className="p-4 flex items-start gap-4">
@@ -380,7 +363,7 @@ export default function VariantSelector({ product, general }: { product: Product
                   type="radio" 
                   checked={selectedBundle === "two"} 
                   onChange={() => handleBundleSelect("two")}
-                  className="mt-1 accent-[#c27c24]" 
+                  className="mt-1 accent-[#ff5a1f] w-4 h-4" 
                 />
                 <div className="flex-1">
                   <div className="flex justify-between items-center mb-1">
@@ -398,11 +381,11 @@ export default function VariantSelector({ product, general }: { product: Product
             {/* Box 3: Buy Three */}
             <div 
               onClick={() => handleBundleSelect("three")}
-              className={`border-2 rounded-xl overflow-hidden cursor-pointer bg-white transition-all ${
-                selectedBundle === "three" ? 'border-[#c27c24]' : 'border-gray-200'
+              className={`border-2 rounded-2xl overflow-hidden cursor-pointer bg-white transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+                selectedBundle === "three" ? 'border-black ring-2 ring-[#ff5a1f] scale-[1.02]' : 'border-black hover:translate-y-0.5 hover:shadow-none'
               }`}
             >
-              <div className="bg-[#c27c24] text-white text-[9px] font-black uppercase tracking-widest px-4 py-1.5 flex items-center justify-between">
+              <div className={`text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 border-b-2 border-black flex items-center justify-between ${selectedBundle === "three" ? 'bg-[#ff5a1f]' : 'bg-[#3b2e2a]'}`}>
                 <span>Best Value!</span>
               </div>
               <div className="p-4 flex items-start gap-4">
@@ -410,7 +393,7 @@ export default function VariantSelector({ product, general }: { product: Product
                   type="radio" 
                   checked={selectedBundle === "three"} 
                   onChange={() => handleBundleSelect("three")}
-                  className="mt-1 accent-[#c27c24]" 
+                  className="mt-1 accent-[#ff5a1f] w-4 h-4" 
                 />
                 <div className="flex-1">
                   <div className="flex justify-between items-center mb-1">
@@ -453,12 +436,12 @@ export default function VariantSelector({ product, general }: { product: Product
         href={`https://wa.me/${general.supportPhone.replace(/[^0-9]/g, "")}`} 
         target="_blank" 
         rel="noopener noreferrer"
-        className={`fixed right-6 z-50 w-14 h-14 bg-[#25d366] rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 border-2 border-white ${
+        className={`fixed right-6 z-50 transition-all duration-300 hover:scale-110 active:scale-95 ${
           showSticky ? 'bottom-24 lg:bottom-6' : 'bottom-6'
         }`}
         aria-label="Contact on WhatsApp"
       >
-        <Image src="/uploads/whatsapp.png" alt="WhatsApp" width={32} height={32} className="object-contain filter brightness-0 invert" />
+        <Image src="/uploads/whatsapp.png" alt="WhatsApp" width={60} height={60} className="object-contain" />
       </a>
     </div>
   );

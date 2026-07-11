@@ -47,7 +47,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="group flex flex-col relative h-full">
       {/* Product Image Area */}
-      <Link href={`/product/${product.slug}`} className="block relative overflow-hidden aspect-[4/5] bg-[#ffebd5] rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-4">
+      <Link href={`/product/${product.slug}`} className="block relative overflow-hidden aspect-[4/5] bg-white rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-4">
         
         {/* Badges - Premium Theme */}
         <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">

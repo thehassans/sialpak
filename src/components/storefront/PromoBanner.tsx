@@ -197,7 +197,7 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
                     whileHover={{ y: -6 }}
                     className="bg-[#ffebd5] rounded-3xl p-4 flex gap-4 items-center border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 transition-all duration-300"
                   >
-                    <div className="w-[70px] h-[70px] shrink-0 rounded-2xl overflow-hidden relative bg-[#fee5c9] border-2 border-black">
+                    <div className="w-[70px] h-[70px] shrink-0 rounded-2xl overflow-hidden relative bg-white border-2 border-black">
                       <Image 
                         src={primaryImage} 
                         alt={p.name} 

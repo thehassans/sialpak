@@ -150,7 +150,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
             {/* Featured Product */}
             {featuredProduct && (
               <div className="flex flex-col md:flex-row gap-8 items-center group">
-                <Link href={`/product/${featuredProduct.slug}`} className="relative w-full md:w-1/2 aspect-square bg-[#ffebd5] rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+                <Link href={`/product/${featuredProduct.slug}`} className="relative w-full md:w-1/2 aspect-square bg-white rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
                   <Image 
                     src={getPrimaryImage(featuredProduct)} 
                     alt={featuredProduct.name} 
@@ -177,7 +177,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
             <div className="grid grid-cols-2 gap-8">
               {subProducts.map((p) => (
                 <Link key={p.id} href={`/product/${p.slug}`} className="flex flex-col group">
-                  <div className="relative aspect-square bg-[#ffebd5] rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 transition-all duration-300 overflow-hidden mb-4">
+                  <div className="relative aspect-square bg-white rounded-3xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-y-1 transition-all duration-300 overflow-hidden mb-4">
                     <Image 
                       src={getPrimaryImage(p)} 
                       alt={p.name} 

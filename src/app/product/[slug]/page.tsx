@@ -124,8 +124,8 @@ export default async function ProductPage({ params }: { params: { slug: string }
             <div className="mt-8 grid grid-cols-3 gap-4 border-t border-black pt-8 text-center">
               <div className="flex flex-col items-center">
                 <span className="text-xl mb-1">🚚</span>
-                <span className="text-[9px] font-bold uppercase tracking-wider text-black">Free Delivery</span>
-                <span className="text-[8px] text-[#6b6b6b] uppercase tracking-wider mt-0.5">Orders &gt; 2500</span>
+                <span className="text-[9px] font-bold uppercase tracking-wider text-black text-center leading-tight">Free Shipping<br/>Over 2500</span>
+                <span className="text-[8px] text-[#6b6b6b] uppercase tracking-wider mt-0.5 text-center leading-tight">Shipping Across<br/>Pakistan</span>
               </div>
               <div className="flex flex-col items-center">
                 <span className="text-xl mb-1">💵</span>

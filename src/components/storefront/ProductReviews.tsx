@@ -18,6 +18,12 @@ export default function ProductReviews({
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const reviewsPerPage = 15;
+  const totalPages = Math.ceil(reviews.length / reviewsPerPage);
+  
+  const currentReviews = reviews.slice((currentPage - 1) * reviewsPerPage, currentPage * reviewsPerPage);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -112,7 +118,7 @@ export default function ProductReviews({
             </div>
           ) : (
             <div className="space-y-6">
-              {reviews.map((review) => (
+              {currentReviews.map((review: any) => (
                 <div key={review.id} className="border border-black rounded-2xl bg-white p-6 shadow-sm flex flex-col">
                   <div className="flex items-start justify-between mb-4">
                     <div>
@@ -135,6 +141,22 @@ export default function ProductReviews({
                   </div>
                 </div>
               ))}
+              
+              {totalPages > 1 && (
+                <div className="flex justify-center gap-2 mt-8 pt-4">
+                  {Array.from({ length: totalPages }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentPage(i + 1)}
+                      className={`w-8 h-8 flex items-center justify-center rounded-lg border-2 border-black text-[12px] font-bold transition-colors ${
+                        currentPage === i + 1 ? 'bg-[#ff5a1f] text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]' : 'bg-white text-black hover:bg-[#ffebd5]'
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>

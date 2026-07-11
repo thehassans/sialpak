@@ -67,7 +67,7 @@ export default function RecentlyViewed({ products }: { products: Product[] }) {
                   href={`/product/${p.slug}`}
                   className="shrink-0 w-[200px] bg-[#ffebd5] border-2 border-black rounded-3xl overflow-hidden group hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-4px] transition-all block mb-2"
                 >
-                  <div className="relative aspect-square bg-[#fee5c9] overflow-hidden border-b-2 border-black">
+                  <div className="relative aspect-square bg-white overflow-hidden border-b-2 border-black">
                     <Image
                       src={img}
                       alt={p.name}
