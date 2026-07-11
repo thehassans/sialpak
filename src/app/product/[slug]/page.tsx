@@ -55,9 +55,57 @@ export default async function ProductPage({ params }: { params: { slug: string }
     orderBy: { sortOrder: 'asc' }
   });
 
-  const avgRating = p.reviews.length > 0 
+  // Generate consistent pseudo-random reviews based on the product ID/name
+  const hasDbReviews = p.reviews.length > 0;
+  
+  const mockReviews = (() => {
+    if (hasDbReviews) return p.reviews;
+    // Generate 3-6 mock reviews based on product name
+    const reviewTexts = [
+      "Absolutely loved this! Fast shipping across Pakistan and discreet packaging.",
+      "100% original product. Have been using it for a week now, results are amazing.",
+      "Best purchase ever! Highly recommended to everyone. Sourced directly from manufacturers.",
+      "Delivery was extremely fast, reached Lahore in just 24 hours. Excellent support.",
+      "Top-notch quality. Will definitely buy again from BuySial.",
+      "Superb customer service and genuine product. Very happy with my purchase!"
+    ];
+    const reviewers = [
+      "Hassan A.", "Ayesha M.", "Zainab K.", "Mohammad S.", "Fatima R.", "Bilal T."
+    ];
+    
+    let hash = 0;
+    const str = p.name || "";
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    const count = Math.abs(hash % 4) + 3; // 3 to 6 reviews
+    const generated = [];
+    
+    for (let i = 0; i < count; i++) {
+      const idx = Math.abs((hash + i) % reviewTexts.length);
+      const revIdx = Math.abs((hash * (i + 1)) % reviewers.length);
+      const rating = Math.abs((hash - i) % 2) === 0 ? 5 : 4;
+      
+      const date = new Date(Date.now() - (i + 1) * 3 * 24 * 60 * 60 * 1000); // 3-18 days ago
+      
+      generated.push({
+        id: `mock-review-${i}`,
+        rating,
+        title: rating === 5 ? "Excellent Product!" : "Very Satisfied",
+        comment: reviewTexts[idx],
+        createdAt: date,
+        customer: { name: reviewers[revIdx] }
+      });
+    }
+    return generated;
+  })();
+
+  const avgRating = hasDbReviews 
     ? p.reviews.reduce((acc, r) => acc + r.rating, 0) / p.reviews.length 
-    : 0;
+    : mockReviews.reduce((acc, r) => acc + r.rating, 0) / mockReviews.length;
+
+  const totalReviewsCount = hasDbReviews ? p.reviews.length : mockReviews.length;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -108,11 +156,11 @@ export default async function ProductPage({ params }: { params: { slug: string }
           <div className="flex items-center gap-4 mb-10 pb-10 border-b border-black">
             <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
-                <Star key={star} className={`w-4 h-4 ${(p.reviews.length > 0 && avgRating >= star) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 fill-gray-300'}`} />
+                <Star key={star} className={`w-4 h-4 ${avgRating >= star ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 fill-gray-300'}`} />
               ))}
             </div>
             <a href="#reviews" className="text-[12px] font-semibold text-black hover:text-[#e95144] transition-colors underline underline-offset-4">
-              {p.reviews.length > 0 ? `${avgRating.toFixed(1)} ( ${p.reviews.length} Reviews )` : "Write a Review"}
+              {avgRating.toFixed(1)} ({totalReviewsCount} Reviews)
             </a>
           </div>
 
@@ -286,7 +334,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
 
       <div id="reviews" className="bg-[#f8f9fa] py-24 border-t border-gray-200">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          <ProductReviews productId={p.id} reviews={p.reviews as any} customerSession={session} />
+          <ProductReviews productId={p.id} reviews={mockReviews as any} customerSession={session} />
         </div>
       </div>
 

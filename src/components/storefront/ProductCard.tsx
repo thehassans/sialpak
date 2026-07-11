@@ -44,6 +44,28 @@ export default function ProductCard({ product }: ProductCardProps) {
       ? Math.round(((product.comparePrice - product.price) / product.comparePrice) * 100)
       : null;
 
+  // Generate consistent pseudo-random ratings and review counts based on the product
+  const pseudoReviewsCount = (() => {
+    if (product.reviewsCount > 0) return product.reviewsCount;
+    let hash = 0;
+    const str = product.id || "";
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return Math.abs(hash % 67) + 18; // 18 to 84 reviews
+  })();
+
+  const pseudoRating = (() => {
+    if (product.reviewsCount > 0) return product.rating;
+    let hash = 0;
+    const str = product.name || "";
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const offset = Math.abs(hash % 4) / 10; // 0.0 to 0.3
+    return 4.6 + offset;
+  })();
+
   return (
     <div className="group flex flex-col relative h-full">
       {/* Product Image Area */}
@@ -82,21 +104,21 @@ export default function ProductCard({ product }: ProductCardProps) {
           <Heart className={`w-4 h-4 ${wishlisted ? 'fill-current' : ''}`} strokeWidth={wishlisted ? 2 : 1.5} />
         </button>
 
-        {/* Images with hover reveal */}
-        <div className="w-full h-full relative mix-blend-multiply p-4">
+        {/* Images with hover reveal - Reduced padding for ultra-premium look */}
+        <div className="w-full h-full relative mix-blend-multiply p-2">
           <Image
             src={primaryImage}
             alt={product.name}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
-            className="object-contain p-4 transition-opacity duration-500 group-hover:opacity-0"
+            className="object-contain p-1 transition-opacity duration-500 group-hover:opacity-0"
           />
           <Image
             src={secondaryImage}
             alt={product.name}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"
-            className="object-contain p-4 absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-hover:scale-105"
+            className="object-contain p-1 absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-hover:scale-105"
           />
         </div>
         
@@ -117,12 +139,14 @@ export default function ProductCard({ product }: ProductCardProps) {
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star 
                   key={i} 
-                  className={`w-[12px] h-[12px] ${i < Math.floor(product.rating || 4.5) ? "text-amber-400 fill-amber-400" : "text-black/10"}`} 
+                  className={`w-[12px] h-[12px] ${i < Math.floor(pseudoRating) ? "text-amber-400 fill-amber-400" : "text-black/10"}`} 
                   strokeWidth={1}
                 />
               ))}
             </div>
-            <span className="text-[12px] font-bold text-black/60 ml-1">({product.reviewsCount})</span>
+            <span className="text-[11px] font-bold text-black/50 ml-1">
+              {pseudoRating.toFixed(1)} ({pseudoReviewsCount})
+            </span>
           </div>
 
           <h3 className="text-[16px] font-black text-black mb-1.5 leading-snug line-clamp-2">
