@@ -107,7 +107,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
           <div className="flex items-center gap-4 mb-10 pb-10 border-b border-black">
             <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
-                <Star key={star} className={`w-4 h-4 ${avgRating >= star ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 fill-gray-300'}`} />
+                <Star key={star} className={`w-4 h-4 ${(p.reviews.length > 0 && avgRating >= star) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 fill-gray-300'}`} />
               ))}
             </div>
             <a href="#reviews" className="text-[12px] font-semibold text-black hover:text-[#e95144] transition-colors underline underline-offset-4">

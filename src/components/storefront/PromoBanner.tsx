@@ -211,7 +211,7 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
                       </h4>
                       <div className="flex gap-[2px] mb-2">
                         {Array.from({ length: 5 }).map((_, idx) => (
-                          <Star key={idx} className={`w-[13px] h-[13px] ${idx < Math.floor(p.rating) ? "text-[#ff5a1f] fill-[#ff5a1f]" : "text-black/10"}`} />
+                          <Star key={idx} className={`w-[13px] h-[13px] ${idx < (p.reviewsCount > 0 ? Math.floor(p.rating) : 0) ? "text-[#ff5a1f] fill-[#ff5a1f]" : "text-black/10"}`} />
                         ))}
                       </div>
                       <div className="text-[16px] font-black text-[#ff5a1f]">

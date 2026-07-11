@@ -116,7 +116,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             {Array.from({ length: 5 }).map((_, i) => (
               <Star 
                 key={i} 
-                className={`w-[13px] h-[13px] ${i < Math.floor(product.rating) ? "text-[#ff5a1f] fill-[#ff5a1f]" : "text-black/10"}`} 
+                className={`w-[13px] h-[13px] ${i < (product.reviewsCount > 0 ? Math.floor(product.rating) : 0) ? "text-[#ff5a1f] fill-[#ff5a1f]" : "text-black/10"}`} 
                 strokeWidth={1}
               />
             ))}
