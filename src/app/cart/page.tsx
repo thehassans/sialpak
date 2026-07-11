@@ -23,7 +23,8 @@ export default function CartPage() {
   const [paymentMethod, setPaymentMethod] = useState<"cod" | "advance">("cod");
   const [advanceDiscount, setAdvanceDiscount] = useState(200);
   const [whatsappNumber, setWhatsappNumber] = useState("+923001234567");
-  const [advancePaymentNumber, setAdvancePaymentNumber] = useState("03001234567");
+  const [jazzcashNumber, setJazzcashNumber] = useState("03001234567");
+  const [easypaisaNumber, setEasypaisaNumber] = useState("03001234567");
   const [copied, setCopied] = useState<string | null>(null);
   const [paySettings, setPaySettings] = useState<any>({
     jazzcash: { enabled: false, displayNumber: "", displayName: "" },
@@ -37,7 +38,8 @@ export default function CartPage() {
       .then(d => {
         if (d.advance_payment_discount) setAdvanceDiscount(Number(d.advance_payment_discount));
         if (d.company_whatsapp) setWhatsappNumber(d.company_whatsapp);
-        if (d.advance_payment_number) setAdvancePaymentNumber(d.advance_payment_number);
+        if (d.jazzcash_number) setJazzcashNumber(d.jazzcash_number);
+        if (d.easypaisa_number) setEasypaisaNumber(d.easypaisa_number);
       })
       .catch(() => {});
 
@@ -267,9 +269,11 @@ export default function CartPage() {
                 {/* WhatsApp CTA */}
                 <button
                   onClick={openWhatsApp}
-                  className="w-full flex items-center justify-center gap-2.5 bg-[#25d366] hover:bg-[#20b858] text-white font-bold text-sm py-4 rounded-2xl transition-all duration-200 shadow-[0_4px_16px_rgba(37,211,102,0.25)]"
+                  className="w-full flex items-center justify-center gap-2.5 bg-[#25d366] hover:bg-[#20b858] text-white font-bold text-sm py-3.5 rounded-2xl transition-all duration-200 shadow-[0_4px_16px_rgba(37,211,102,0.25)]"
                 >
-                  <MessageCircle className="w-5 h-5" />
+                  <div className="w-6 h-6 relative shrink-0">
+                     <Image src="/uploads/whatsapp.png" alt="WhatsApp" fill className="object-contain filter brightness-0 invert" />
+                  </div>
                   Send Screenshot via WhatsApp
                 </button>
               </div>
@@ -525,23 +529,49 @@ export default function CartPage() {
                           <p className="text-[13px] font-bold text-[#1a1f2e] mb-2">
                             Total Amount to Pay: <span className="text-amber-600 font-black">Rs. {total.toLocaleString()}</span>
                           </p>
-                          <p className="text-[11px] text-[#64748b] mb-4">Please send the payment to the following JazzCash / EasyPaisa / Bank Account number:</p>
+                          <p className="text-[11px] text-[#64748b] mb-4">Please send the payment to any of the following accounts:</p>
                           
-                          <div className="flex items-center justify-between bg-white border border-[#f0f0f0] p-3 rounded-xl mb-4">
-                            <div className="flex flex-col">
-                               <span className="text-[9px] uppercase text-[#94a3b8] font-black tracking-widest">Account Number</span>
-                               <span className="text-lg font-black text-[#1a1f2e] tracking-wider">{advancePaymentNumber}</span>
+                          <div className="flex flex-col gap-3 mb-4">
+                            {/* JazzCash Option */}
+                            <div className="flex items-center justify-between bg-white border border-[#f0f0f0] p-3 rounded-xl shadow-sm">
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-lg overflow-hidden border border-[#f0f0f0] bg-white relative shrink-0">
+                                  <Image src="/uploads/jazzcash_new.jpg" alt="JazzCash" fill className="object-cover" />
+                                </div>
+                                <div className="flex flex-col">
+                                   <span className="text-[10px] uppercase text-[#94a3b8] font-black tracking-widest">JazzCash</span>
+                                   <span className="text-sm font-black text-[#1a1f2e] tracking-wider">{jazzcashNumber}</span>
+                                </div>
+                              </div>
+                              <button type="button" onClick={() => copyToClipboard(jazzcashNumber, "jc")} className="text-[#94a3b8] hover:text-[#1a1f2e] p-2 rounded-lg hover:bg-[#f8f9fb] transition-colors flex items-center justify-center shrink-0">
+                                {copied === "jc" ? <Check className="w-5 h-5 text-emerald-500" /> : <Copy className="w-5 h-5" />}
+                              </button>
                             </div>
-                            <button type="button" onClick={() => copyToClipboard(advancePaymentNumber, "adv-num")} className="text-[#94a3b8] hover:text-[#1a1f2e] p-2 rounded-lg hover:bg-[#f8f9fb] transition-colors flex items-center justify-center">
-                              {copied === "adv-num" ? <Check className="w-5 h-5 text-emerald-500" /> : <Copy className="w-5 h-5" />}
-                            </button>
+
+                            {/* EasyPaisa Option */}
+                            <div className="flex items-center justify-between bg-white border border-[#f0f0f0] p-3 rounded-xl shadow-sm">
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-lg overflow-hidden border border-[#f0f0f0] bg-white relative shrink-0 p-1">
+                                  <Image src="/uploads/easypaisa_new.png" alt="EasyPaisa" fill className="object-contain" />
+                                </div>
+                                <div className="flex flex-col">
+                                   <span className="text-[10px] uppercase text-[#94a3b8] font-black tracking-widest">EasyPaisa</span>
+                                   <span className="text-sm font-black text-[#1a1f2e] tracking-wider">{easypaisaNumber}</span>
+                                </div>
+                              </div>
+                              <button type="button" onClick={() => copyToClipboard(easypaisaNumber, "ep")} className="text-[#94a3b8] hover:text-[#1a1f2e] p-2 rounded-lg hover:bg-[#f8f9fb] transition-colors flex items-center justify-center shrink-0">
+                                {copied === "ep" ? <Check className="w-5 h-5 text-emerald-500" /> : <Copy className="w-5 h-5" />}
+                              </button>
+                            </div>
                           </div>
 
-                          <div className="bg-emerald-50 border border-emerald-100 p-3 rounded-xl flex items-start gap-3 cursor-pointer hover:bg-emerald-100 transition-colors" onClick={openWhatsApp}>
-                            <MessageCircle className="w-5 h-5 text-[#25d366] shrink-0 mt-0.5 fill-current" />
-                            <div>
+                          <div className="bg-emerald-50 border border-emerald-100 p-3 rounded-xl flex items-center gap-3 cursor-pointer hover:bg-emerald-100 transition-colors shadow-sm" onClick={openWhatsApp}>
+                            <div className="w-8 h-8 relative shrink-0">
+                               <Image src="/uploads/whatsapp.png" alt="WhatsApp" fill className="object-contain" />
+                            </div>
+                            <div className="flex-1">
                                <p className="text-[11px] font-bold text-emerald-800">Send screenshot on WhatsApp to confirm order</p>
-                               <p className="text-[10px] text-emerald-600 mt-0.5">Click here to send your payment screenshot directly to our WhatsApp number.</p>
+                               <p className="text-[10px] text-emerald-600 mt-0.5 leading-tight">Click here to send your payment screenshot directly to our WhatsApp number.</p>
                             </div>
                           </div>
                         </div>

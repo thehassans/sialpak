@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { fmtCurrency } from "@/lib/utils";
+import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -457,9 +458,7 @@ export default function VariantSelector({ product, general }: { product: Product
         }`}
         aria-label="Contact on WhatsApp"
       >
-        <svg className="w-8 h-8 text-white fill-current" viewBox="0 0 24 24">
-          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.717-1.458L0 24zm6.59-4.846c1.66.986 3.292 1.503 4.883 1.503 5.394 0 9.782-4.387 9.785-9.78.002-2.612-1.012-5.067-2.859-6.915C16.56 2.114 14.11 1.1 11.498 1.1 6.108 1.1 1.72 5.488 1.716 10.88c-.001 1.622.428 3.209 1.245 4.632l-1.018 3.719 3.823-1.002c.001-.001 0 0 0 0z"/>
-        </svg>
+        <Image src="/uploads/whatsapp.png" alt="WhatsApp" width={32} height={32} className="object-contain filter brightness-0 invert" />
       </a>
     </div>
   );

@@ -9,7 +9,8 @@ export default function StorefrontSettingsForm({ initialSettings }: { initialSet
     marquee_text: initialSettings.marquee_text || "FOLLOW US AND GET A CHANCE TO WIN 80% OFF",
     marquee_speed: initialSettings.marquee_speed || "20",
     advance_payment_discount: initialSettings.advance_payment_discount || "200",
-    advance_payment_number: initialSettings.advance_payment_number || "03001234567",
+    jazzcash_number: initialSettings.jazzcash_number || "03001234567",
+    easypaisa_number: initialSettings.easypaisa_number || "03001234567",
     company_whatsapp: initialSettings.company_whatsapp || "+923001234567",
   });
   const [saving, setSaving] = useState(false);
@@ -87,13 +88,20 @@ export default function StorefrontSettingsForm({ initialSettings }: { initialSet
               <p className="text-xs text-sub mt-1">This amount will be deducted when a customer pays via JazzCash, EasyPaisa, or Bank Transfer.</p>
             </div>
             <div>
-              <label className="admin-label">Account Number (JazzCash / EasyPaisa)</label>
+              <label className="admin-label">JazzCash Number</label>
               <input 
                 className="admin-input" 
-                value={settings.advance_payment_number} 
-                onChange={e => setSettings({ ...settings, advance_payment_number: e.target.value })} 
+                value={settings.jazzcash_number} 
+                onChange={e => setSettings({ ...settings, jazzcash_number: e.target.value })} 
               />
-              <p className="text-xs text-sub mt-1">This number will be displayed at checkout for customers to send payments to.</p>
+            </div>
+            <div>
+              <label className="admin-label">EasyPaisa Number</label>
+              <input 
+                className="admin-input" 
+                value={settings.easypaisa_number} 
+                onChange={e => setSettings({ ...settings, easypaisa_number: e.target.value })} 
+              />
             </div>
             <div>
               <label className="admin-label">Company WhatsApp Number (for payment receipts)</label>
