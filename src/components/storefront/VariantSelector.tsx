@@ -100,20 +100,12 @@ export default function VariantSelector({ product, general }: { product: Product
 
   // Calculate dynamic bundle unit price and total price
   const getBundleUnitPrice = () => {
-    if (currentPrice === 2799) {
-      if (selectedBundle === "two") return 2659.5; // total 5319
-      if (selectedBundle === "three") return 2379.33; // total 7138
-    }
     if (selectedBundle === "two") return currentPrice * 0.95;
     if (selectedBundle === "three") return currentPrice * 0.85;
     return currentPrice;
   };
 
   const getBundleTotalPrice = () => {
-    if (currentPrice === 2799) {
-      if (selectedBundle === "two") return 5319;
-      if (selectedBundle === "three") return 7138;
-    }
     return Math.round(getBundleUnitPrice() * qty);
   };
 
@@ -159,14 +151,14 @@ export default function VariantSelector({ product, general }: { product: Product
         {showCompare && (
           <span className="text-[18px] font-light text-[#969696] line-through tracking-wide">
             Rs.{(selectedBundle === "one" 
-              ? (product.comparePrice || 3499) 
-              : selectedBundle === "two" ? 5598 : 8397).toLocaleString()}
+              ? (product.comparePrice || currentPrice * 1.25) 
+              : selectedBundle === "two" ? (currentPrice * 2) : (currentPrice * 3)).toLocaleString()}
           </span>
         )}
         <span className="bg-[#e95144] text-white text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
           SALE • SAVE RS.{(
-            (selectedBundle === "one" ? (product.comparePrice || 3499) : selectedBundle === "two" ? 5598 : 8397) - getBundleTotalPrice()
-          ).toLocaleString()}
+            (selectedBundle === "one" ? (product.comparePrice || currentPrice * 1.25) : selectedBundle === "two" ? (currentPrice * 2) : (currentPrice * 3)) - getBundleTotalPrice()
+          ).toLocaleString(undefined, { maximumFractionDigits: 0 })}
         </span>
       </div>
 
@@ -348,7 +340,7 @@ export default function VariantSelector({ product, general }: { product: Product
                 <div className="flex-1">
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-xs font-bold text-black">Buy One</span>
-                    <span className="text-xs font-black text-black">Rs.2,799</span>
+                    <span className="text-xs font-black text-black">Rs.{currentPrice.toLocaleString()}</span>
                   </div>
                   {selectedBundle === "one" && options.length > 0 && (
                     <div className="space-y-2 mt-2">
@@ -393,8 +385,8 @@ export default function VariantSelector({ product, general }: { product: Product
                   <div className="flex justify-between items-center mb-1">
                     <span className="text-xs font-bold text-black">Buy Two</span>
                     <div className="text-right">
-                      <span className="text-xs font-black text-black block">Rs.5,319</span>
-                      <span className="text-[10px] text-[#969696] line-through block">Rs.5,598</span>
+                      <span className="text-xs font-black text-black block">Rs.{Math.round(currentPrice * 0.95 * 2).toLocaleString()}</span>
+                      <span className="text-[10px] text-[#969696] line-through block">Rs.{(currentPrice * 2).toLocaleString()}</span>
                     </div>
                   </div>
                   <span className="text-[9px] font-bold text-amber-600 uppercase tracking-wide">Get Extra 5% Discount</span>
@@ -423,8 +415,8 @@ export default function VariantSelector({ product, general }: { product: Product
                   <div className="flex justify-between items-center mb-1">
                     <span className="text-xs font-bold text-black">Buy Three</span>
                     <div className="text-right">
-                      <span className="text-xs font-black text-black block">Rs.7,138</span>
-                      <span className="text-[10px] text-[#969696] line-through block">Rs.8,397</span>
+                      <span className="text-xs font-black text-black block">Rs.{Math.round(currentPrice * 0.85 * 3).toLocaleString()}</span>
+                      <span className="text-[10px] text-[#969696] line-through block">Rs.{(currentPrice * 3).toLocaleString()}</span>
                     </div>
                   </div>
                   <span className="text-[9px] font-bold text-amber-600 uppercase tracking-wide">Get Extra 15% Discount</span>
