@@ -163,7 +163,7 @@ export default function VariantSelector({ product, general }: { product: Product
         </span>
       </div>
 
-      {/* Feature List Box styled like the Hair Factory card */}
+      {/* Feature List Box */}
       {parsedDesc?.features && Array.isArray(parsedDesc.features) && parsedDesc.features.length > 0 && (
         <div className="border border-black rounded-2xl bg-[#f8f9fa]/30 p-6 mb-8 grid grid-cols-2 gap-4">
           {parsedDesc.features.map((feat: any, idx: number) => (

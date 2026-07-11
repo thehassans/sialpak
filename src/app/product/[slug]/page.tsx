@@ -23,6 +23,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 // Client component for the Accordion
 import ProductAccordion from "@/components/storefront/ProductAccordion";
 import CelebrityCarousel from "@/components/storefront/CelebrityCarousel";
+import ProductGallery from "@/components/storefront/ProductGallery";
 
 export default async function ProductPage({ params }: { params: { slug: string } }) {
   const general = await getSetting("general", DEFAULT_SETTINGS.general);
@@ -82,21 +83,9 @@ export default async function ProductPage({ params }: { params: { slug: string }
       
       <main className="max-w-[1440px] mx-auto px-6 lg:px-12 py-12 lg:py-24 grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
         
-        {/* Left: Immersive Sticky Image Gallery */}
-        <div className="lg:sticky lg:top-32 space-y-4">
-          {images.length > 0 ? (
-            <div className="flex flex-col gap-4">
-              {images.map((img, i) => (
-                <div key={i} className="relative aspect-[4/5] bg-[#f4f4f5] w-full overflow-hidden">
-                  <Image src={img} alt={`${p.name} - ${i + 1}`} fill className="object-cover" />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="relative aspect-[4/5] bg-[#f4f4f5] w-full overflow-hidden">
-              <Image src="https://placehold.co/800x1000" alt={p.name} fill className="object-cover" />
-            </div>
-          )}
+        {/* Left: Immersive Image Gallery */}
+        <div className="w-full">
+          <ProductGallery images={images} productName={p.name} />
         </div>
 
         {/* Right: Product Details & Actions */}

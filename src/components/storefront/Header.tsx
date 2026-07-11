@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Search, Heart, ShoppingCart, ChevronDown, Menu, User } from "lucide-react";
+import { Search, Heart, ShoppingCart, ChevronDown, User } from "lucide-react";
 import { getCustomerSession } from "@/lib/auth";
 import LiveSearchBar from "./LiveSearchBar";
+import MobileSidebar from "./MobileSidebar";
 
 export default async function Header({ 
   storeName, tagline, supportPhone, freeShippingText, marqueeText = "Follow us and get a chance to win 80% off", marqueeSpeed = 20
@@ -31,11 +32,9 @@ export default async function Header({
       </div>
 
       {/* Main Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-[0_4px_0px_0px_rgba(0,0,0,1)]">
+      <header className="bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm">
         <div className="max-w-[1280px] mx-auto px-6 flex items-center gap-8 py-5">
-          <button className="md:hidden text-black shrink-0 hover:text-[#ff5a1f] transition-colors">
-            <Menu className="w-6 h-6" strokeWidth={2} />
-          </button>
+          <MobileSidebar />
           
           <Link href="/" className="flex items-center shrink-0">
             <img src="/uploads/logo.png" alt="BuySial" className="h-16 w-auto object-contain" />
@@ -76,15 +75,15 @@ export default async function Header({
         </div>
 
         {/* Navigation Bar - Clean & Minimal */}
-        <nav className="hidden md:block border-t border-gray-200 bg-[#f8f9fa]">
+        <nav className="hidden md:block border-t border-gray-100 bg-white">
           <div className="max-w-[1280px] mx-auto px-6 h-[50px] flex items-center justify-between">
             <div className="flex items-center gap-10">
-              <Link href="/" className="text-[13px] font-black text-black uppercase tracking-widest relative py-4 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] after:bg-[#ff5a1f]">
+              <Link href="/" className="text-[13px] font-bold text-black uppercase tracking-widest relative py-4 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-black">
                 Home
               </Link>
-              <Link href="/search" className="text-[13px] font-black text-black/60 uppercase tracking-widest hover:text-black transition-colors py-4">Shop</Link>
-              <Link href="/wishlist" className="text-[13px] font-black text-black/60 uppercase tracking-widest hover:text-black transition-colors py-4">My Favorites</Link>
-              <Link href="/contact" className="text-[13px] font-black text-black/60 uppercase tracking-widest hover:text-black transition-colors py-4">Contacts</Link>
+              <Link href="/search" className="text-[13px] font-bold text-gray-500 uppercase tracking-widest hover:text-black transition-colors py-4">Shop</Link>
+              <Link href="/wishlist" className="text-[13px] font-bold text-gray-500 uppercase tracking-widest hover:text-black transition-colors py-4">My Favorites</Link>
+              <Link href="/contact" className="text-[13px] font-bold text-gray-500 uppercase tracking-widest hover:text-black transition-colors py-4">Contacts</Link>
             </div>
             
             <div className="flex items-center gap-2 cursor-pointer text-black/60 hover:text-black transition-colors">
