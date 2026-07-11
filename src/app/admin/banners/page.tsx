@@ -10,7 +10,7 @@ export default async function BannersPage() {
   return (
     <div>
       <PageHeader title="Banners" subtitle="Manage homepage banners with instant live preview." />
-      <BannerManager initialBanners={banners as any} collections={collections as any} />
+      <BannerManager />
     </div>
   );
 }
