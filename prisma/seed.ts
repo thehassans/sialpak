@@ -15,13 +15,13 @@ async function main() {
   });
 
   const categories = [
-    { name: "Beauty", slug: "beauty", image: "https://placehold.co/200x200/eef4fd/1f6fdb?text=Beauty" },
-    { name: "Fashion", slug: "fashion", image: "https://placehold.co/200x200/eef4fd/1f6fdb?text=Fashion" },
-    { name: "Electronics", slug: "electronics", image: "https://placehold.co/200x200/eef4fd/1f6fdb?text=Electronics" },
-    { name: "Pet Supplies", slug: "pet-supplies", image: "https://placehold.co/200x200/eef4fd/1f6fdb?text=Pets" },
-    { name: "Home & Kitchen", slug: "home-kitchen", image: "https://placehold.co/200x200/eef4fd/1f6fdb?text=Home" },
-    { name: "Skin Care", slug: "skin-care", image: "https://placehold.co/200x200/eef4fd/1f6fdb?text=Skincare" },
-    { name: "Health", slug: "health", image: "https://placehold.co/200x200/eef4fd/1f6fdb?text=Health" }
+    { name: "Beauty", slug: "beauty", image: "https://placehold.co///.png?text=Beauty" },
+    { name: "Fashion", slug: "fashion", image: "https://placehold.co///.png?text=Fashion" },
+    { name: "Electronics", slug: "electronics", image: "https://placehold.co///.png?text=Electronics" },
+    { name: "Pet Supplies", slug: "pet-supplies", image: "https://placehold.co///.png?text=Pets" },
+    { name: "Home & Kitchen", slug: "home-kitchen", image: "https://placehold.co///.png?text=Home" },
+    { name: "Skin Care", slug: "skin-care", image: "https://placehold.co///.png?text=Skincare" },
+    { name: "Health", slug: "health", image: "https://placehold.co///.png?text=Health" }
   ];
   for (const [i, c] of categories.entries()) {
     await prisma.category.upsert({
@@ -52,10 +52,10 @@ async function main() {
   const newGoods = await prisma.collection.findUnique({ where: { slug: "new-goods" } });
 
   const demoProducts = [
-    { name: "Vitiligo Health Cream", price: 18.99, comparePrice: 24.99, cat: beauty, col: beautySale, img: "https://placehold.co/500x500/eef4fd/122043?text=Vitiligo+Cream" },
-    { name: "Hydrating Facial Serum", price: 14.5, comparePrice: 19.99, cat: beauty, col: bestOffers, img: "https://placehold.co/500x500/eef4fd/122043?text=Facial+Serum" },
-    { name: "Premium Cat Grooming Kit", price: 22.0, comparePrice: null, cat: pets, col: newGoods, img: "https://placehold.co/500x500/eef4fd/122043?text=Cat+Kit" },
-    { name: "Vitamin C Brightening Cleanser", price: 11.25, comparePrice: 15.0, cat: beauty, col: beautySale, img: "https://placehold.co/500x500/eef4fd/122043?text=Cleanser" }
+    { name: "Vitiligo Health Cream", price: 18.99, comparePrice: 24.99, cat: beauty, col: beautySale, img: "https://placehold.co///.png?text=Vitiligo+Cream" },
+    { name: "Hydrating Facial Serum", price: 14.5, comparePrice: 19.99, cat: beauty, col: bestOffers, img: "https://placehold.co///.png?text=Facial+Serum" },
+    { name: "Premium Cat Grooming Kit", price: 22.0, comparePrice: null, cat: pets, col: newGoods, img: "https://placehold.co///.png?text=Cat+Kit" },
+    { name: "Vitamin C Brightening Cleanser", price: 11.25, comparePrice: 15.0, cat: beauty, col: beautySale, img: "https://placehold.co///.png?text=Cleanser" }
   ];
   for (const [i, p] of demoProducts.entries()) {
     const slug = p.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
@@ -84,8 +84,8 @@ async function main() {
   }
 
   const banners = [
-    { title: "Discount on all Skin Care products up to 25%", eyebrow: "SKIN CARE", subtitle: "Shop great deals on serums, cleansers, creams and more.", image: "https://placehold.co/360x420/173a63/ffffff?text=Skincare", position: "hero", bgColorFrom: "#0f2542", bgColorTo: "#173963", sortOrder: 0 },
-    { title: "Premium Cat Care", eyebrow: "PET CARE", subtitle: "Countdown deal — limited time only.", image: "https://placehold.co/220x260/e895b3/5b1c33?text=Cat+Care", position: "hero", bgColorFrom: "#f3b3c6", bgColorTo: "#e895b3", textColor: "#3a1420", sortOrder: 1 }
+    { title: "Discount on all Skin Care products up to 25%", eyebrow: "SKIN CARE", subtitle: "Shop great deals on serums, cleansers, creams and more.", image: "https://placehold.co///.png?text=Skincare", position: "hero", bgColorFrom: "#0f2542", bgColorTo: "#173963", sortOrder: 0 },
+    { title: "Premium Cat Care", eyebrow: "PET CARE", subtitle: "Countdown deal — limited time only.", image: "https://placehold.co///.png?text=Cat+Care", position: "hero", bgColorFrom: "#f3b3c6", bgColorTo: "#e895b3", textColor: "#3a1420", sortOrder: 1 }
   ];
   for (const b of banners) {
     const exists = await prisma.banner.findFirst({ where: { title: b.title } });
@@ -94,7 +94,7 @@ async function main() {
 
   const settings: Record<string, any> = {
     general: { storeName: "BuySial", tagline: "Your Everyday Shopping Destination", supportPhone: "+1 212-334-0212", currency: "USD", freeShippingText: "Worldwide Free Shipping" },
-    seo: { metaTitle: "BuySial — Your Everyday Shopping Destination", metaDescription: "Shop beauty, fashion, electronics and more with fast worldwide shipping.", ogImage: "https://placehold.co/1200x630/122043/ffffff?text=BuySial", robotsIndex: true, sitemapEnabled: true },
+    seo: { metaTitle: "BuySial — Your Everyday Shopping Destination", metaDescription: "Shop beauty, fashion, electronics and more with fast worldwide shipping.", ogImage: "https://placehold.co///.png?text=BuySial", robotsIndex: true, sitemapEnabled: true },
     pixels: { ga4Id: "", metaPixelId: "", tiktokPixelId: "", snapPixelId: "", gtmId: "" },
     payments: {
       codEnabled: true,
