@@ -85,7 +85,7 @@ export default function ProductGrid({
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-50px' }}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 gap-y-8 md:gap-6 md:gap-y-12"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8 md:gap-y-12"
         >
           {products.map((product) => (
             <motion.div key={product.id} variants={itemVariants}>
