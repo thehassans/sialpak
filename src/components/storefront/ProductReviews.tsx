@@ -49,7 +49,7 @@ export default function ProductReviews({
   return (
     <div className="w-full">
       {/* Reviews Header with Sort By Dropdown */}
-      <div className="flex items-center justify-between border-b border-black pb-4 mb-12">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-black pb-4 mb-12">
         <h2 className="text-lg font-black text-black uppercase tracking-wider">
           Reviews ({reviews.length})
         </h2>
@@ -119,8 +119,8 @@ export default function ProductReviews({
           ) : (
             <div className="space-y-6">
               {currentReviews.map((review: any) => (
-                <div key={review.id} className="border border-black rounded-2xl bg-white p-6 shadow-sm flex flex-col">
-                  <div className="flex items-start justify-between mb-4">
+                <div key={review.id} className="bg-white border border-black rounded-2xl p-4 md:p-8 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300">
+                  <div className="flex flex-col sm:flex-row items-start justify-between mb-4">
                     <div>
                       <div className="font-extrabold text-[13px] text-black tracking-wide">{review.customer.name}</div>
                       <div className="flex gap-0.5 mt-1.5">

@@ -129,7 +129,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header storeName={general.storeName} tagline={general.tagline} supportPhone={general.supportPhone} freeShippingText={general.freeShippingText} />
       
-      <main className="max-w-[1440px] mx-auto px-6 lg:px-12 py-12 lg:py-24 grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+      <main className="max-w-[1440px] mx-auto px-4 lg:px-12 py-12 lg:py-24 grid lg:grid-cols-2 gap-8 lg:gap-24 items-start">
         
         {/* Left: Immersive Image Gallery */}
         <div className="w-full">
@@ -333,7 +333,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
       )}
 
       <div id="reviews" className="bg-[#f8f9fa] py-24 border-t border-gray-200">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1440px] mx-auto px-4 lg:px-12">
           <ProductReviews productId={p.id} reviews={mockReviews as any} customerSession={session} />
         </div>
       </div>
