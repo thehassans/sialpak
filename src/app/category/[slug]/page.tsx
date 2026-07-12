@@ -49,7 +49,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
           </div>
         </div>
 
-        <div className="max-w-[1280px] mx-auto px-2 md:px-6 py-12">
+        <div className="max-w-[1280px] mx-auto px-1 md:px-6 py-12">
           <ProductGrid title="" products={products as any} />
         </div>
       </main>
