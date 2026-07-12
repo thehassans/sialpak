@@ -117,6 +117,8 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
 
   const handleDragOver = (e: React.DragEvent) => {
     if (isEditMode) e.preventDefault();
+  };
+
   const toggleField = async (field: string, value: any) => {
     if (!isEditMode) return;
     try {
