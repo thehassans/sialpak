@@ -147,7 +147,7 @@ export default function ProductReviews({
               ))}
               
               {totalPages > 1 && (
-                <div className="flex justify-center gap-2 mt-8 pt-4">
+                <div className="flex flex-wrap justify-center gap-2 mt-8 pt-4">
                   {Array.from({ length: totalPages }).map((_, i) => (
                     <button
                       key={i}
