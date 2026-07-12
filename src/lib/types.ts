@@ -27,11 +27,13 @@ export interface BannerType {
   subtitle: string | null;
   eyebrow: string | null;
   image: string;
+  mobileImage?: string | null;
   link: string;
   bgColorFrom: string;
   bgColorTo: string;
   textColor: string;
   buttonText: string;
+  product?: ProductType | null;
 }
 
 export interface ArticleType {

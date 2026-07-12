@@ -21,6 +21,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   if (data.sortOrder !== undefined) updateData.sortOrder = Number(data.sortOrder);
   if (data.isActive !== undefined) updateData.isActive = data.isActive;
   if (data.collectionId !== undefined) updateData.collectionId = data.collectionId;
+  if (data.productId !== undefined) updateData.productId = data.productId;
 
   if (params.id.startsWith('demo-')) {
     // Instantiate a demo banner as a real one

@@ -109,6 +109,7 @@ model Product {
   reviews         Review[]
   variants        ProductVariant[]    // New
   celebrities     CelebrityRecommendation[]
+  banners         Banner[]
 }
 
 model ProductVariant {
@@ -166,6 +167,8 @@ model Banner {
   endsAt      DateTime?
   collectionId String? @db.ObjectId
   collection   Collection? @relation(fields: [collectionId], references: [id])
+  productId   String? @db.ObjectId
+  product     Product? @relation(fields: [productId], references: [id])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }

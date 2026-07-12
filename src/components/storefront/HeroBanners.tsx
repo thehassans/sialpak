@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { BannerType } from "@/lib/types";
+import BannerProductCard from "./BannerProductCard";
 
 export default function HeroBanners({ banners, isEditMode = false }: { banners: BannerType[], isEditMode?: boolean }) {
   if (!banners || banners.length === 0) return null;
@@ -170,6 +171,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                 </Link>
               </div>
             </div>
+            <BannerProductCard bannerId={leftBanner.id} product={leftBanner.product} isEditMode={isEditMode} />
           </motion.div>
 
           {/* Secondary Hero Banner (Right) */}
@@ -246,6 +248,7 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                   </span>
                 </Link>
               </div>
+              <BannerProductCard bannerId={rightBanner.id} product={rightBanner.product} isEditMode={isEditMode} />
             </motion.div>
           )}
 

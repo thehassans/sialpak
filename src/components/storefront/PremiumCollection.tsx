@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { fmtCurrency } from "@/lib/utils";
 import type { ProductType } from "@/lib/types";
+import BannerProductCard from "./BannerProductCard";
 
 export default function PremiumCollection({ banner, products = [], isEditMode = false }: { banner: any, products?: ProductType[], isEditMode?: boolean }) {
   if (!banner) return null;
@@ -174,6 +175,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
+            <BannerProductCard bannerId={banner.id} product={banner.product} isEditMode={isEditMode} />
           </div>
 
           {/* Right Column - Product List */}

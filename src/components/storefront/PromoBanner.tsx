@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Star, ChevronRight } from "lucide-react";
 import type { ProductType } from "./ProductCard";
 import { fmtCurrency } from "@/lib/utils";
+import BannerProductCard from "./BannerProductCard";
 
 // Ultra Premium Mini Countdown
 function MiniCountdown() {
@@ -207,9 +208,11 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
-            </motion.div>
+
+            <BannerProductCard bannerId={banner.id} product={banner.product} isEditMode={isEditMode} />
           </div>
         </div>
+      </div>
 
         {/* Bottom Overlapping Cards - Ultra Premium Styling */}
         {displayProducts.length > 0 && (
