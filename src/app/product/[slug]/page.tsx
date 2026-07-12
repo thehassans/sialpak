@@ -24,6 +24,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 import ProductAccordion from "@/components/storefront/ProductAccordion";
 import CelebrityCarousel from "@/components/storefront/CelebrityCarousel";
 import ProductGallery from "@/components/storefront/ProductGallery";
+import TrustBadges from "@/components/storefront/TrustBadges";
+import ExpandableDescription from "@/components/storefront/ExpandableDescription";
+
+export const revalidate = 60;
 
 export default async function ProductPage({ params }: { params: { slug: string } }) {
   const general = await getSetting("general", DEFAULT_SETTINGS.general);
@@ -164,7 +168,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
             </a>
           </div>
 
-          <div className="mb-10 text-[15px] font-light leading-relaxed text-[#52525b]" dangerouslySetInnerHTML={{ __html: parsedDesc?.content || p.description }} />
+          <ExpandableDescription html={parsedDesc?.content || p.description} />
           
           <div className="mb-12">
             <VariantSelector product={p as any} general={general} />
