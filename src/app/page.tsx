@@ -19,7 +19,7 @@ export default async function HomePage({ searchParams }: { searchParams: { editM
   const isEditMode = searchParams.editMode === "true";
 
   const [banners, categories, allProducts, rawSettings, articles] = await Promise.all([
-    prisma.banner.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" }, include: { product: true } }),
+    prisma.banner.findMany({ where: isEditMode ? undefined : { isActive: true }, orderBy: { sortOrder: "asc" }, include: { product: true } }),
     prisma.category.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" }, include: { _count: { select: { products: true } } } }),
     prisma.product.findMany({
       where: { status: "active" },

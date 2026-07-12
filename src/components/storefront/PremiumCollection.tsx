@@ -97,49 +97,85 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
     if (isEditMode) e.preventDefault();
   };
 
+  const toggleField = async (field: string, value: any) => {
+    if (!isEditMode) return;
+    try {
+      await fetch(`/api/admin/banners/${banner.id}`, {
+        credentials: "include",
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ [field]: value })
+      });
+      window.location.reload();
+    } catch (err) { console.error(err); }
+  };
+
   return (
-    <section className="py-24 bg-transparent">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+    <section className={`py-16 md:py-24 bg-[#f8f9fa] relative overflow-hidden ${!banner.isActive && !isEditMode ? 'hidden' : ''}`}>
+      {/* Background Decor */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#f1f5f9] rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/3"></div>
+      
+      <div className="max-w-[1280px] mx-auto px-6 relative z-10">
         
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <span className="inline-block text-[#ff5a1f] text-[13px] font-black uppercase tracking-[0.3em] mb-4">
-            The Edit
+        <div className="mb-16">
+          <span className="text-[#ff5a1f] text-[12px] font-black uppercase tracking-[0.3em] mb-4 block text-center lg:text-left">
+            Buysial Exclusives
           </span>
-          <h2 className="text-[36px] md:text-[48px] font-black text-black tracking-tight mb-6">
+          <h2 className="text-3xl md:text-4xl font-black text-[#1a1a1a] tracking-tight uppercase mb-6 text-center lg:text-left">
             Premium Curations
           </h2>
-          <div className="w-12 h-[1px] bg-black"></div>
+          <div className="w-12 h-[1px] bg-black mx-auto lg:mx-0"></div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className={`grid lg:grid-cols-2 gap-12 items-center ${!banner.isActive ? 'opacity-70' : ''}`}>
           
-          {/* Left Column - Large Editorial Image */}
+          {/* Large Editorial Image */}
           <div 
-            className={`relative aspect-[4/5] bg-white overflow-hidden group rounded-3xl border border-gray-200 shadow-sm ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''}`}
+            className={`relative aspect-[4/5] bg-white overflow-hidden group rounded-3xl border border-gray-200 shadow-sm ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''} ${banner.alignLeft ? 'lg:order-2' : ''}`}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onClick={(e) => {
-              if (isEditMode && (e.target as HTMLElement).tagName !== 'SPAN' && (e.target as HTMLElement).tagName !== 'H3' && (e.target as HTMLElement).tagName !== 'P') {
+              if (isEditMode && (e.target as HTMLElement).tagName !== 'SPAN' && (e.target as HTMLElement).tagName !== 'H3' && (e.target as HTMLElement).tagName !== 'P' && (e.target as HTMLElement).tagName !== 'BUTTON') {
                 document.getElementById(`upload-${banner.id}`)?.click();
               }
             }}
           >
             <input type="file" id={`upload-${banner.id}`} className="hidden" accept="image/*" onChange={handleImageUpload} />
-            {isEditMode && <div className="absolute top-4 right-4 z-50 bg-black/70 text-white text-[10px] uppercase font-bold px-2 py-1 rounded shadow-lg pointer-events-none">Click or Drop image</div>}
-            <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+            
+            {isEditMode && (
+              <div className="absolute top-4 right-4 z-50 flex items-center gap-1 bg-black/80 p-1 rounded-lg backdrop-blur-sm shadow-xl">
+                <button onClick={(e) => { e.stopPropagation(); toggleField('isActive', !banner.isActive); }} className={`px-3 py-1.5 text-[10px] font-bold text-white uppercase hover:bg-white/20 rounded transition-colors ${!banner.isActive ? 'text-red-400' : ''}`}>
+                  {banner.isActive ? 'Hide' : 'Show'}
+                </button>
+                <button onClick={(e) => { e.stopPropagation(); toggleField('alignLeft', !banner.alignLeft); }} className="px-3 py-1.5 text-[10px] font-bold text-white uppercase hover:bg-white/20 rounded border-l border-white/20 transition-colors">
+                  {banner.alignLeft ? 'Move Right' : 'Move Left'}
+                </button>
+                <button onClick={(e) => { e.stopPropagation(); toggleField('imageFit', banner.imageFit === 'contain' ? 'cover' : 'contain'); }} className="px-3 py-1.5 text-[10px] font-bold text-white uppercase hover:bg-white/20 rounded border-l border-white/20 transition-colors">
+                  {banner.imageFit === 'contain' ? 'Cover' : 'Contain'}
+                </button>
+              </div>
+            )}
+
+            {!banner.isActive && isEditMode && (
+              <div className="absolute inset-0 bg-black/40 z-40 flex items-center justify-center pointer-events-none">
+                <span className="text-white text-3xl font-black tracking-widest uppercase opacity-50 rotate-[-15deg]">Hidden</span>
+              </div>
+            )}
+
+            <div className="absolute inset-0 w-full h-full pointer-events-none z-0 bg-[#f8f9fa]">
               <Image 
                 src={banner.image || "/placeholder.png"} 
                 alt={banner.title} 
                 fill 
-                className={`object-cover group-hover:scale-105 transition-transform duration-1000 ease-out ${banner.mobileImage ? 'hidden md:block' : ''}`} 
+                className={`${banner.imageFit === 'contain' ? 'object-contain' : 'object-cover'} group-hover:scale-105 transition-transform duration-1000 ease-out ${banner.mobileImage ? 'hidden md:block' : ''}`} 
               />
               {banner.mobileImage && (
                 <Image 
                   src={banner.mobileImage} 
                   alt={banner.title} 
                   fill 
-                  className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out md:hidden" 
+                  className={`${banner.imageFit === 'contain' ? 'object-contain' : 'object-cover'} group-hover:scale-105 transition-transform duration-1000 ease-out md:hidden`} 
                 />
               )}
             </div>

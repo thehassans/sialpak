@@ -165,6 +165,8 @@ model Banner {
   isActive    Boolean   @default(true)
   startsAt    DateTime?
   endsAt      DateTime?
+  alignLeft   Boolean   @default(false)
+  imageFit    String    @default("cover")
   collectionId String? @db.ObjectId
   collection   Collection? @relation(fields: [collectionId], references: [id])
   productId   String? @db.ObjectId

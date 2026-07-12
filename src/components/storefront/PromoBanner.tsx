@@ -117,34 +117,64 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
 
   const handleDragOver = (e: React.DragEvent) => {
     if (isEditMode) e.preventDefault();
+  const toggleField = async (field: string, value: any) => {
+    if (!isEditMode) return;
+    try {
+      await fetch(`/api/admin/banners/${banner.id}`, {
+        credentials: "include",
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ [field]: value })
+      });
+      window.location.reload();
+    } catch (err) { console.error(err); }
   };
 
   return (
-    <section className="py-16 relative overflow-hidden bg-transparent">
+    <section className={`py-16 relative overflow-hidden bg-transparent ${!banner.isActive && !isEditMode ? 'hidden' : ''}`}>
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
         
         {/* Main Ultra Premium Banner */}
         <div 
-          className={`relative min-h-[500px] rounded-3xl overflow-hidden border border-gray-200 shadow-sm ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''}`}
+          className={`relative min-h-[500px] rounded-3xl overflow-hidden border border-gray-200 shadow-sm ${isEditMode ? 'ring-2 ring-transparent hover:ring-[#ff5a1f]/50 transition-all cursor-pointer' : ''} ${!banner.isActive ? 'opacity-70' : ''}`}
           style={{ background: `linear-gradient(90deg, ${banner.bgColorFrom}, ${banner.bgColorTo})`, color: banner.textColor }}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onClick={(e) => {
-            if (isEditMode && (e.target as HTMLElement).tagName !== 'SPAN' && (e.target as HTMLElement).tagName !== 'H2' && (e.target as HTMLElement).tagName !== 'P') {
+            if (isEditMode && (e.target as HTMLElement).tagName !== 'SPAN' && (e.target as HTMLElement).tagName !== 'H2' && (e.target as HTMLElement).tagName !== 'P' && (e.target as HTMLElement).tagName !== 'BUTTON') {
               document.getElementById(`upload-${banner.id}`)?.click();
             }
           }}
         >
           <input type="file" id={`upload-${banner.id}`} className="hidden" accept="image/*" onChange={handleImageUpload} />
-          {isEditMode && <div className="absolute top-4 right-4 z-50 bg-black/70 text-white text-[10px] uppercase font-bold px-2 py-1 rounded shadow-lg pointer-events-none">Click or Drop image</div>}
           
-          {/* Background Image spanning the whole banner but fading out towards the right */}
-          <div className="absolute inset-0 w-full h-full md:w-[65%] z-0 pointer-events-none">
+          {isEditMode && (
+            <div className="absolute top-4 right-4 z-50 flex items-center gap-1 bg-black/80 p-1 rounded-lg backdrop-blur-sm shadow-xl">
+              <button onClick={(e) => { e.stopPropagation(); toggleField('isActive', !banner.isActive); }} className={`px-3 py-1.5 text-[10px] font-bold text-white uppercase hover:bg-white/20 rounded transition-colors ${!banner.isActive ? 'text-red-400' : ''}`}>
+                {banner.isActive ? 'Hide' : 'Show'}
+              </button>
+              <button onClick={(e) => { e.stopPropagation(); toggleField('alignLeft', !banner.alignLeft); }} className="px-3 py-1.5 text-[10px] font-bold text-white uppercase hover:bg-white/20 rounded border-l border-white/20 transition-colors">
+                {banner.alignLeft ? 'Align Right' : 'Align Left'}
+              </button>
+              <button onClick={(e) => { e.stopPropagation(); toggleField('imageFit', banner.imageFit === 'contain' ? 'cover' : 'contain'); }} className="px-3 py-1.5 text-[10px] font-bold text-white uppercase hover:bg-white/20 rounded border-l border-white/20 transition-colors">
+                {banner.imageFit === 'contain' ? 'Cover' : 'Contain'}
+              </button>
+            </div>
+          )}
+
+          {!banner.isActive && isEditMode && (
+            <div className="absolute inset-0 bg-black/40 z-40 flex items-center justify-center pointer-events-none">
+              <span className="text-white text-4xl md:text-6xl font-black tracking-widest uppercase opacity-50 rotate-[-15deg] drop-shadow-xl">Hidden</span>
+            </div>
+          )}
+          
+          {/* Background Image */}
+          <div className={`absolute inset-0 w-full h-full md:w-[65%] z-0 pointer-events-none ${banner.alignLeft ? 'md:left-auto md:right-0' : 'md:left-0 md:right-auto'}`}>
             <Image 
               src={banner.image || "/placeholder.png"} 
               alt={banner.title} 
               fill 
-              className={`object-cover object-center ${banner.mobileImage ? 'hidden md:block' : ''}`} 
+              className={`${banner.imageFit === 'contain' ? 'object-contain' : 'object-cover'} object-center ${banner.mobileImage ? 'hidden md:block' : ''}`} 
               priority
             />
             {banner.mobileImage && (
@@ -152,23 +182,23 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
                 src={banner.mobileImage} 
                 alt={banner.title} 
                 fill 
-                className="object-cover object-center md:hidden" 
+                className={`${banner.imageFit === 'contain' ? 'object-contain' : 'object-cover'} object-center md:hidden`} 
                 priority
               />
             )}
-            {/* Gradient mask to seamlessly blend the image into the dark background on the right */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#0b1221]/80 to-[#0b1221]" style={{ background: `linear-gradient(to right, transparent, ${banner.bgColorTo}80, ${banner.bgColorTo})` }}></div>
+            {/* Gradient mask */}
+            <div className={`absolute inset-0 ${banner.alignLeft ? 'bg-gradient-to-l' : 'bg-gradient-to-r'} from-transparent via-[#0b1221]/80 to-[#0b1221]`} style={{ background: `linear-gradient(to ${banner.alignLeft ? 'left' : 'right'}, transparent, ${banner.bgColorTo}80, ${banner.bgColorTo})` }}></div>
             <div className="absolute inset-0 bg-gradient-to-t from-[#0b1221]/90 via-[#0b1221]/60 to-transparent md:hidden" style={{ background: `linear-gradient(to top, ${banner.bgColorTo}F2, ${banner.bgColorTo}99, transparent)` }}></div>
           </div>
 
-          {/* Right Side - Content */}
-          <div className="relative z-10 flex flex-col justify-center h-full min-h-[500px] px-6 py-12 md:px-16 w-full md:w-[55%] mx-auto md:ml-auto md:mx-0 text-center md:text-left mt-32 md:mt-0">
+          {/* Content */}
+          <div className={`relative z-10 flex flex-col justify-center h-full min-h-[500px] px-6 py-12 md:px-16 w-full md:w-[55%] mx-auto ${banner.alignLeft ? 'md:mr-auto md:ml-0 text-center md:text-left' : 'md:ml-auto md:mx-0 text-center md:text-right'} mt-32 md:mt-0`}>
             
             <motion.div 
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: banner.alignLeft ? -20 : 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="flex flex-col items-center md:items-end text-center md:text-right mx-auto md:ml-auto max-w-xl w-full"
+              className={`flex flex-col items-center ${banner.alignLeft ? 'md:items-start text-center md:text-left md:mr-auto' : 'md:items-end text-center md:text-right mx-auto md:ml-auto'} max-w-xl w-full`}
             >
               {banner.eyebrow && <span 
                 contentEditable={isEditMode}

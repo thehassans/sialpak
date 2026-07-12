@@ -20,6 +20,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   if (data.buttonText !== undefined) updateData.buttonText = data.buttonText;
   if (data.sortOrder !== undefined) updateData.sortOrder = Number(data.sortOrder);
   if (data.isActive !== undefined) updateData.isActive = data.isActive;
+  if (data.alignLeft !== undefined) updateData.alignLeft = data.alignLeft;
+  if (data.imageFit !== undefined) updateData.imageFit = data.imageFit;
   if (data.collectionId !== undefined) updateData.collectionId = data.collectionId;
   if (data.productId !== undefined) updateData.productId = data.productId;
 

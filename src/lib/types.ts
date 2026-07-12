@@ -33,6 +33,9 @@ export interface BannerType {
   bgColorTo: string;
   textColor: string;
   buttonText: string;
+  isActive: boolean;
+  alignLeft: boolean;
+  imageFit: string;
   product?: ProductType | null;
 }
 
