@@ -60,7 +60,7 @@ export default function ProductGrid({
 
   return (
     <section className="pt-6 pb-10 bg-transparent">
-      <div className="max-w-[1280px] mx-auto px-6">
+      <div className="max-w-[1280px] mx-auto px-2 md:px-6">
         
         {/* Premium Centered Header */}
         {title && (
@@ -85,7 +85,7 @@ export default function ProductGrid({
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-50px' }}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8 md:gap-y-12"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 gap-y-6 md:gap-8 md:gap-y-12"
         >
           {products.map((product) => (
             <motion.div key={product.id} variants={itemVariants}>
