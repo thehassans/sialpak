@@ -89,6 +89,8 @@ model Product {
   price           Float
   comparePrice    Float?
   costPrice       Float?
+  price2          Float?
+  price3          Float?
   sku             String?
   stock           Int                 @default(0)
   images          String              @default("[]") // JSON array of URLs
@@ -119,6 +121,8 @@ model ProductVariant {
   sku             String?
   price           Float
   comparePrice    Float?
+  price2          Float?
+  price3          Float?
   stock           Int      @default(0)
   optionChoices   String   // JSON object e.g. {"Size": "M", "Color": "Red"}
   createdAt       DateTime @default(now())

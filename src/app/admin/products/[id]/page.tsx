@@ -21,6 +21,8 @@ export default async function EditProductPage({ params }: { params: { id: string
     price: product.price,
     comparePrice: product.comparePrice ?? undefined,
     costPrice: product.costPrice ?? undefined,
+    price2: product.price2 ?? undefined,
+    price3: product.price3 ?? undefined,
     sku: product.sku ?? "",
     stock: product.stock,
     images: JSON.parse(product.images || "[]"),
@@ -35,6 +37,8 @@ export default async function EditProductPage({ params }: { params: { id: string
     variants: product.variants.map((v) => ({
       ...v,
       price: v.price.toString(),
+      price2: v.price2?.toString() || "",
+      price3: v.price3?.toString() || "",
       stock: v.stock.toString(),
       sku: v.sku || "",
       optionChoices: JSON.parse(v.optionChoices)

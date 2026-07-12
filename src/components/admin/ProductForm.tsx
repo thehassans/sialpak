@@ -32,6 +32,8 @@ export interface ProductFormValues {
   price: string;
   comparePrice: string;
   costPrice: string;
+  price2: string;
+  price3: string;
   sku: string;
   stock: string;
   images: string[];
@@ -41,7 +43,7 @@ export interface ProductFormValues {
   isFeatured: boolean;
   hasVariants: boolean;
   options: { name: string; values: string[] }[];
-  variants: { sku: string; price: string; stock: string; optionChoices: Record<string, string> }[];
+  variants: { sku: string; price: string; price2: string; price3: string; stock: string; optionChoices: Record<string, string> }[];
   seoTitle: string;
   seoDescription: string;
 
@@ -103,6 +105,8 @@ export default function ProductForm({
     price: initial?.price?.toString() || "",
     comparePrice: initial?.comparePrice?.toString() || "",
     costPrice: initial?.costPrice?.toString() || "",
+    price2: initial?.price2?.toString() || "",
+    price3: initial?.price3?.toString() || "",
     sku: initial?.sku || "",
     stock: initial?.stock?.toString() || "0",
     images: initial?.images || [],
@@ -184,7 +188,7 @@ export default function ProductForm({
     const newVariants = combinations.map(combo => {
       const existing = values.variants.find(v => JSON.stringify(v.optionChoices) === JSON.stringify(combo));
       if (existing) return existing;
-      return { sku: "", price: values.price || "0", stock: values.stock || "0", optionChoices: combo };
+      return { sku: "", price: values.price || "0", price2: values.price2 || "", price3: values.price3 || "", stock: values.stock || "0", optionChoices: combo };
     });
 
     setValues(prev => ({ ...prev, variants: newVariants }));
@@ -256,6 +260,8 @@ export default function ProductForm({
         price: parseFloat(values.price || "0"),
         comparePrice: values.comparePrice ? parseFloat(values.comparePrice) : null,
         costPrice: values.costPrice ? parseFloat(values.costPrice) : null,
+        price2: values.price2 ? parseFloat(values.price2) : null,
+        price3: values.price3 ? parseFloat(values.price3) : null,
         stock: parseInt(values.stock || "0", 10),
       })
     });
@@ -490,10 +496,18 @@ export default function ProductForm({
                   <label className="admin-label">Cost Price</label>
                   <input type="number" step="0.01" className="admin-input" value={values.costPrice} onChange={(e) => setValues({ ...values, costPrice: e.target.value })} />
                 </div>
-              </div>
-              <div>
-                <label className="admin-label">Stock Quantity *</label>
-                <input type="number" className="admin-input" required={!values.hasVariants} value={values.stock} onChange={(e) => setValues({ ...values, stock: e.target.value })} />
+                <div>
+                  <label className="admin-label">Buy 2 Price (Each)</label>
+                  <input type="number" step="0.01" className="admin-input" value={values.price2} onChange={(e) => setValues({ ...values, price2: e.target.value })} />
+                </div>
+                <div>
+                  <label className="admin-label">Buy 3 Price (Each)</label>
+                  <input type="number" step="0.01" className="admin-input" value={values.price3} onChange={(e) => setValues({ ...values, price3: e.target.value })} />
+                </div>
+                <div>
+                  <label className="admin-label">Stock Quantity *</label>
+                  <input type="number" className="admin-input" required={!values.hasVariants} value={values.stock} onChange={(e) => setValues({ ...values, stock: e.target.value })} />
+                </div>
               </div>
             </>
           )}
@@ -555,7 +569,9 @@ export default function ProductForm({
                         <thead className="bg-gray-50 border-b border-line">
                           <tr>
                             <th className="p-3 font-semibold text-sub">Variant</th>
-                            <th className="p-3 font-semibold text-sub w-24">Price</th>
+                            <th className="p-3 font-semibold text-sub w-20">Price</th>
+                            <th className="p-3 font-semibold text-sub w-20">Buy 2</th>
+                            <th className="p-3 font-semibold text-sub w-20">Buy 3</th>
                             <th className="p-3 font-semibold text-sub w-20">Stock</th>
                             <th className="p-3 font-semibold text-sub w-28">SKU</th>
                           </tr>
@@ -570,6 +586,20 @@ export default function ProductForm({
                                 <input className="admin-input p-1.5 h-8 text-xs" type="number" required value={v.price} onChange={(e) => {
                                   const newVars = [...values.variants];
                                   newVars[i].price = e.target.value;
+                                  setValues({ ...values, variants: newVars });
+                                }} />
+                              </td>
+                              <td className="p-2">
+                                <input className="admin-input p-1.5 h-8 text-xs" type="number" value={v.price2} onChange={(e) => {
+                                  const newVars = [...values.variants];
+                                  newVars[i].price2 = e.target.value;
+                                  setValues({ ...values, variants: newVars });
+                                }} />
+                              </td>
+                              <td className="p-2">
+                                <input className="admin-input p-1.5 h-8 text-xs" type="number" value={v.price3} onChange={(e) => {
+                                  const newVars = [...values.variants];
+                                  newVars[i].price3 = e.target.value;
                                   setValues({ ...values, variants: newVars });
                                 }} />
                               </td>

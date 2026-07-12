@@ -4,6 +4,8 @@ export interface ProductType {
   slug: string;
   price: number;
   comparePrice: number | null;
+  price2?: number | null;
+  price3?: number | null;
   images: string; // JSON-stringified array
   stock: number;
   rating: number;

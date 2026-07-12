@@ -10,6 +10,8 @@ interface Variant {
   id: string;
   sku: string | null;
   price: number;
+  price2?: number | null;
+  price3?: number | null;
   stock: number;
   optionChoices: string; // JSON string
 }
@@ -18,6 +20,8 @@ interface Product {
   id: string;
   name: string;
   price: number;
+  price2?: number | null;
+  price3?: number | null;
   comparePrice: number | null;
   stock: number;
   options: string | null; // JSON array
@@ -91,6 +95,8 @@ export default function VariantSelector({ product, general }: { product: Product
   }, [selected, variants]);
 
   const currentPrice = matchedVariant ? matchedVariant.price : product.price;
+  const currentPrice2 = matchedVariant ? matchedVariant.price2 : product.price2;
+  const currentPrice3 = matchedVariant ? matchedVariant.price3 : product.price3;
   const currentStock = matchedVariant ? matchedVariant.stock : product.stock;
   const showCompare = matchedVariant ? false : !!product.comparePrice;
 
@@ -112,8 +118,8 @@ export default function VariantSelector({ product, general }: { product: Product
 
   // Calculate dynamic bundle unit price and total price
   const getBundleUnitPrice = () => {
-    if (selectedBundle === "two") return currentPrice * 0.95;
-    if (selectedBundle === "three") return currentPrice * 0.85;
+    if (selectedBundle === "two") return currentPrice2 || (currentPrice * 0.95);
+    if (selectedBundle === "three") return currentPrice3 || (currentPrice * 0.85);
     return currentPrice;
   };
 

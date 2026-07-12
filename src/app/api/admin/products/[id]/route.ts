@@ -28,6 +28,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       price: Number(data.price) || 0,
       comparePrice: data.comparePrice ? Number(data.comparePrice) : null,
       costPrice: data.costPrice ? Number(data.costPrice) : null,
+      price2: data.price2 ? Number(data.price2) : null,
+      price3: data.price3 ? Number(data.price3) : null,
       sku: data.sku || null,
       stock: Number(data.stock) || 0,
       images: JSON.stringify(data.images || []),
@@ -45,6 +47,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         create: (data.hasVariants && data.variants ? data.variants : []).map((v: any) => ({
           sku: v.sku || null,
           price: Number(v.price) || 0,
+          price2: v.price2 ? Number(v.price2) : null,
+          price3: v.price3 ? Number(v.price3) : null,
           stock: Number(v.stock) || 0,
           optionChoices: JSON.stringify(v.optionChoices || {})
         }))
