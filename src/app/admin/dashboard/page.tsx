@@ -15,6 +15,7 @@ export default async function DashboardPage() {
     prisma.category.count()
   ]);
 
+  const lowStock = products.filter(p => p.stock <= 5).length;
   const pendingStatuses = ["processing", "confirmed", "packed", "shipped"];
   const pendingOrdersArr = orders.filter(o => pendingStatuses.includes(o.orderStatus));
   const deliveredOrdersArr = orders.filter(o => o.orderStatus === "delivered");
