@@ -1,35 +1,90 @@
-"use client";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Star, ChevronRight } from "lucide-react";
+import { Star, ChevronRight, Calendar } from "lucide-react";
 import type { ProductType } from "./ProductCard";
 import { fmtCurrency } from "@/lib/utils";
 import BannerProductCard from "./BannerProductCard";
 
 // Ultra Premium Mini Countdown
-function MiniCountdown() {
+function MiniCountdown({ banner, isEditMode }: { banner: any, isEditMode: boolean }) {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, mins: 0, secs: 0 });
+
+  useEffect(() => {
+    if (!banner.endsAt) return;
+    
+    const calculateTimeLeft = () => {
+      const difference = new Date(banner.endsAt).getTime() - new Date().getTime();
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          mins: Math.floor((difference / 1000 / 60) % 60),
+          secs: Math.floor((difference / 1000) % 60)
+        });
+      }
+    };
+
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 1000);
+    return () => clearInterval(timer);
+  }, [banner.endsAt]);
+
+  const handleDateChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      await fetch(`/api/admin/banners/${banner.id}`, {
+        credentials: "include",
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ endsAt: e.target.value ? new Date(e.target.value).toISOString() : null })
+      });
+      window.location.reload();
+    } catch (err) { console.error(err); }
+  };
+
+  if (!banner.endsAt && !isEditMode) return null;
+
   return (
-    <div className="flex items-center justify-center md:justify-end gap-3 md:gap-6 mt-8 mb-10 text-white w-full">
-      <div className="flex flex-col items-center">
-        <span className="text-2xl md:text-4xl font-light tracking-wider">177</span>
-        <span className="text-[10px] md:text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Days</span>
-      </div>
-      <span className="text-xl md:text-2xl font-light text-white/20 -mt-5">:</span>
-      <div className="flex flex-col items-center">
-        <span className="text-2xl md:text-4xl font-light tracking-wider">09</span>
-        <span className="text-[10px] md:text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Hours</span>
-      </div>
-      <span className="text-xl md:text-2xl font-light text-white/20 -mt-5">:</span>
-      <div className="flex flex-col items-center">
-        <span className="text-2xl md:text-4xl font-light tracking-wider">21</span>
-        <span className="text-[10px] md:text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Mins</span>
-      </div>
-      <span className="text-xl md:text-2xl font-light text-white/20 -mt-5">:</span>
-      <div className="flex flex-col items-center">
-        <span className="text-2xl md:text-4xl font-light tracking-wider">56</span>
-        <span className="text-[10px] md:text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Secs</span>
-      </div>
+    <div className={`relative flex items-center justify-center ${banner.alignLeft ? 'md:justify-start' : 'md:justify-end'} gap-3 md:gap-6 mt-8 mb-10 text-white w-full group/countdown`}>
+      {isEditMode && (
+        <div className="absolute -top-6 left-1/2 -translate-x-1/2 md:-top-8 md:translate-x-0 md:left-auto md:right-0 opacity-0 group-hover/countdown:opacity-100 transition-opacity z-50 bg-black/80 rounded p-2 flex items-center gap-2">
+          <Calendar className="w-4 h-4 text-white" />
+          <input 
+            type="datetime-local" 
+            className="bg-transparent text-white text-xs outline-none" 
+            defaultValue={banner.endsAt ? new Date(new Date(banner.endsAt).getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16) : ""}
+            onChange={handleDateChange}
+          />
+        </div>
+      )}
+      {!banner.endsAt && isEditMode ? (
+        <div className="text-white/50 text-sm font-semibold uppercase tracking-widest border border-dashed border-white/30 p-4 rounded-lg">
+          Click calendar icon above to set countdown
+        </div>
+      ) : (
+        <>
+          <div className="flex flex-col items-center">
+            <span className="text-2xl md:text-4xl font-light tracking-wider">{String(timeLeft.days).padStart(2, '0')}</span>
+            <span className="text-[10px] md:text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Days</span>
+          </div>
+          <span className="text-xl md:text-2xl font-light text-white/20 -mt-5">:</span>
+          <div className="flex flex-col items-center">
+            <span className="text-2xl md:text-4xl font-light tracking-wider">{String(timeLeft.hours).padStart(2, '0')}</span>
+            <span className="text-[10px] md:text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Hours</span>
+          </div>
+          <span className="text-xl md:text-2xl font-light text-white/20 -mt-5">:</span>
+          <div className="flex flex-col items-center">
+            <span className="text-2xl md:text-4xl font-light tracking-wider">{String(timeLeft.mins).padStart(2, '0')}</span>
+            <span className="text-[10px] md:text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Mins</span>
+          </div>
+          <span className="text-xl md:text-2xl font-light text-white/20 -mt-5">:</span>
+          <div className="flex flex-col items-center">
+            <span className="text-2xl md:text-4xl font-light tracking-wider">{String(timeLeft.secs).padStart(2, '0')}</span>
+            <span className="text-[10px] md:text-[11px] text-[#a9b6d3] uppercase tracking-[0.2em] mt-1 font-semibold">Secs</span>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -171,7 +226,7 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
           )}
           
           {/* Background Image */}
-          <div className={`absolute inset-0 w-full h-full md:w-[65%] z-0 pointer-events-none ${banner.alignLeft ? 'md:left-auto md:right-0' : 'md:left-0 md:right-auto'}`}>
+          <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
             <Image 
               src={banner.image || "/placeholder.png"} 
               alt={banner.title} 
@@ -225,7 +280,7 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
                 </p>
               )}
               
-              <MiniCountdown />
+              <MiniCountdown banner={banner} isEditMode={isEditMode} />
 
               <div className="mt-8">
                 <Link href={banner.link || "/search"} onClick={(e) => isEditMode && e.preventDefault()} className="group inline-flex items-center gap-3 bg-[#3b2e2a] hover:bg-[#ff5a1f] text-white font-black text-[14px] uppercase tracking-widest px-8 py-4 rounded-xl transition-all duration-300 border border-gray-200 shadow-sm hover:shadow-none hover:translate-y-1">

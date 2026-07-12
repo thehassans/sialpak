@@ -36,6 +36,7 @@ export interface BannerType {
   isActive: boolean;
   alignLeft: boolean;
   imageFit: string;
+  endsAt?: string | Date | null;
   product?: ProductType | null;
 }
 
