@@ -25,22 +25,51 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   if (params.id.startsWith('demo-')) {
     // Instantiate a demo banner as a real one
     let position = "hero";
-    if (params.id.includes('promo')) position = "promo";
-    if (params.id.includes('strip')) position = "strip";
+    let defaultTitle = "Upload Hero Image";
+    let defaultSubtitle = "Click to upload your main hero image";
+    let defaultEyebrow = "Welcome";
+    let defaultBgColorFrom = "transparent";
+    let defaultBgColorTo = "transparent";
+    let defaultTextColor = "#ffffff";
+    let defaultButtonText = "Shop Now";
+
+    if (params.id.includes('promo')) {
+      position = "promo";
+      defaultTitle = "Dermatologist Recommended Melasma & Dark Spot Treatment";
+      defaultSubtitle = "Buysial Tritospot Cream clinically targets hyperpigmentation and restores natural skin radiance.";
+      defaultEyebrow = "Dark Spot Treatment";
+      defaultButtonText = "Shop Tritospot";
+      defaultBgColorFrom = "transparent";
+      defaultBgColorTo = "#0b1221";
+      defaultTextColor = "#ffffff";
+    } else if (params.id.includes('strip')) {
+      position = "strip";
+      defaultTitle = "Discover The Signature Collection";
+      defaultSubtitle = "Curated premium products designed for maximum results and luxury feel.";
+      defaultButtonText = "Explore Collection";
+      defaultBgColorFrom = "transparent";
+      defaultBgColorTo = "transparent";
+      defaultTextColor = "#000000";
+    } else if (params.id === 'demo-hero-2') {
+      defaultTitle = "Secondary Banner";
+      defaultSubtitle = "Upload a secondary image";
+      defaultEyebrow = "Featured";
+      defaultButtonText = "View More";
+    }
     
     const banner = await prisma.banner.create({
       data: {
-        title: updateData.title || "New Banner",
-        subtitle: updateData.subtitle,
-        eyebrow: updateData.eyebrow,
+        title: updateData.title || defaultTitle,
+        subtitle: updateData.subtitle !== undefined ? updateData.subtitle : defaultSubtitle,
+        eyebrow: updateData.eyebrow !== undefined ? updateData.eyebrow : defaultEyebrow,
         image: updateData.image || "/placeholder.png",
         mobileImage: updateData.mobileImage,
         link: updateData.link || "#",
         position: position,
-        bgColorFrom: updateData.bgColorFrom || "#1f2937",
-        bgColorTo: updateData.bgColorTo || "#0b1221",
-        textColor: updateData.textColor || "#ffffff",
-        buttonText: updateData.buttonText || "Shop Now",
+        bgColorFrom: updateData.bgColorFrom || defaultBgColorFrom,
+        bgColorTo: updateData.bgColorTo || defaultBgColorTo,
+        textColor: updateData.textColor || defaultTextColor,
+        buttonText: updateData.buttonText || defaultButtonText,
         sortOrder: 0,
         isActive: true
       }
