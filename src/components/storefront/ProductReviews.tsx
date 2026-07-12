@@ -20,7 +20,7 @@ export default function ProductReviews({
   const [success, setSuccess] = useState(false);
   
   const [currentPage, setCurrentPage] = useState(1);
-  const reviewsPerPage = 15;
+  const reviewsPerPage = 5;
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);
   
   const currentReviews = reviews.slice((currentPage - 1) * reviewsPerPage, currentPage * reviewsPerPage);

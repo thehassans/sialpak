@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowLeft } from "lucide-react";
 
 export default function StorefrontLoginPage() {
   const router = useRouter();
@@ -35,7 +35,11 @@ export default function StorefrontLoginPage() {
       {/* Left side - Login Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12 relative z-10">
         <div className="w-full max-w-[420px]">
-          <Link href="/" className="inline-block mb-12">
+          <button onClick={() => router.back()} className="flex items-center gap-2 text-sub hover:text-ink transition-colors mb-8 text-[13px] font-bold uppercase tracking-wider">
+            <ArrowLeft className="w-4 h-4" /> Back
+          </button>
+
+          <Link href="/" className="inline-block mb-10">
             <img src="/uploads/logo.png" alt="BuySial" className="h-10 w-auto object-contain" />
           </Link>
           

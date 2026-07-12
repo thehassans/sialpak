@@ -53,7 +53,7 @@ export default function MobileSidebar({ supportPhone = "+92 300 1234567" }: { su
 
       {/* Drawer */}
       <div 
-        className={`fixed inset-y-0 left-0 w-[85vw] max-w-[400px] bg-white z-[100000] shadow-2xl transform transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed top-0 left-0 h-[100dvh] w-[85vw] max-w-[400px] bg-white z-[100000] shadow-2xl transform transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <img src="/uploads/logo.png" alt="BuySial" className="h-8 w-auto object-contain" />
@@ -66,7 +66,7 @@ export default function MobileSidebar({ supportPhone = "+92 300 1234567" }: { su
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto py-6 px-4">
+        <div className="flex-1 overflow-y-auto py-6 px-4 bg-white">
           <ul className="space-y-1">
             {navLinks.map((link) => (
               <li key={link.name}>
