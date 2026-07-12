@@ -49,6 +49,27 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
   const handleDrop = async (e: React.DragEvent, id: string) => {
     if (!isEditMode) return;
     e.preventDefault();
+    
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0];
+      const fd = new FormData();
+      fd.append("file", file);
+      try {
+        const res = await fetch("/api/admin/upload", { credentials: "include", method: "POST", body: fd });
+        if (res.ok) {
+          const { url } = await res.json();
+          await fetch(`/api/admin/banners/${id}`, {
+            credentials: "include",
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ image: url })
+          });
+          window.location.reload();
+        }
+      } catch (err) { console.error(err); }
+      return;
+    }
+
     let url = e.dataTransfer.getData("text/plain");
     if (url && url.startsWith("http")) { try { url = new URL(url).pathname; } catch (e) {} }
     if (url && url.startsWith("/")) {

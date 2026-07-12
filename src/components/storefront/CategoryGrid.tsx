@@ -46,6 +46,27 @@ export default function CategoryGrid({ categories, title, isEditMode = false }: 
   const handleDrop = async (e: React.DragEvent, id: string) => {
     if (!isEditMode) return;
     e.preventDefault();
+    
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0];
+      const fd = new FormData();
+      fd.append("file", file);
+      try {
+        const res = await fetch("/api/admin/upload", { credentials: "include", method: "POST", body: fd });
+        if (res.ok) {
+          const { url } = await res.json();
+          await fetch(`/api/admin/categories/${id}`, {
+            credentials: "include",
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ image: url })
+          });
+          window.location.reload();
+        }
+      } catch (err) { console.error(err); }
+      return;
+    }
+
     const url = e.dataTransfer.getData("text/plain");
     let finalUrl = url;
     if (url && url.startsWith("http")) {
