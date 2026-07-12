@@ -6,7 +6,71 @@ import { fmtCurrency } from "@/lib/utils";
 import type { ProductType } from "@/lib/types";
 import BannerProductCard from "./BannerProductCard";
 
-export default function PremiumCollection({ banner, products = [], isEditMode = false }: { banner: any, products?: ProductType[], isEditMode?: boolean }) {
+export default function PremiumCollection({ banners = [], isEditMode = false }: { banners: any[], isEditMode?: boolean }) {
+  const handleAddBanner = async () => {
+    try {
+      await fetch('/api/admin/banners', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: "New Premium Collection",
+          subtitle: "Describe your collection here.",
+          buttonText: "Shop Now",
+          image: "/placeholder.png",
+          position: "strip",
+          bgColorFrom: "#ffffff",
+          bgColorTo: "#f8f9fa",
+          textColor: "#000000",
+          sortOrder: banners.length
+        })
+      });
+      window.location.reload();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  if (!banners.length && !isEditMode) return null;
+
+  return (
+    <section className={`py-16 md:py-24 bg-[#f8f9fa] relative overflow-hidden`}>
+      {/* Background Decor */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#f1f5f9] rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/3"></div>
+      
+      <div className="max-w-[1280px] mx-auto px-6 relative z-10">
+        
+        {/* Section Header */}
+        <div className="mb-16">
+          <span className="text-[#ff5a1f] text-[12px] font-black uppercase tracking-[0.3em] mb-4 block text-center lg:text-left">
+            Buysial Exclusives
+          </span>
+          <h2 className="text-3xl md:text-4xl font-black text-[#1a1a1a] tracking-tight uppercase mb-6 text-center lg:text-left">
+            Premium Curations
+          </h2>
+          <div className="w-12 h-[1px] bg-black mx-auto lg:mx-0"></div>
+        </div>
+
+        <div className="flex flex-col gap-24">
+          {banners.map((banner, i) => {
+            const bannerProducts = banner.collection ? banner.collection.products.map((p: any) => p.product) : banner.product ? [banner.product] : [];
+            return <PremiumCollectionItem key={banner.id} banner={banner} products={bannerProducts} isEditMode={isEditMode} />;
+          })}
+        </div>
+        
+        {isEditMode && (
+          <div className="mt-16 flex justify-center">
+            <button onClick={handleAddBanner} className="bg-black text-white px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-[#ff5a1f] transition-colors border border-gray-200 shadow-sm">
+              + Add Premium Curation
+            </button>
+          </div>
+        )}
+
+      </div>
+    </section>
+  );
+}
+
+function PremiumCollectionItem({ banner, products = [], isEditMode = false }: { banner: any, products?: ProductType[], isEditMode?: boolean }) {
   if (!banner) return null;
   const displayProducts = products.slice(0, 3);
   const featuredProduct = displayProducts[0];
@@ -111,24 +175,8 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
   };
 
   return (
-    <section className={`py-16 md:py-24 bg-[#f8f9fa] relative overflow-hidden ${!banner.isActive && !isEditMode ? 'hidden' : ''}`}>
-      {/* Background Decor */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#f1f5f9] rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/3"></div>
-      
-      <div className="max-w-[1280px] mx-auto px-6 relative z-10">
-        
-        {/* Section Header */}
-        <div className="mb-16">
-          <span className="text-[#ff5a1f] text-[12px] font-black uppercase tracking-[0.3em] mb-4 block text-center lg:text-left">
-            Buysial Exclusives
-          </span>
-          <h2 className="text-3xl md:text-4xl font-black text-[#1a1a1a] tracking-tight uppercase mb-6 text-center lg:text-left">
-            Premium Curations
-          </h2>
-          <div className="w-12 h-[1px] bg-black mx-auto lg:mx-0"></div>
-        </div>
-
-        <div className={`grid lg:grid-cols-2 gap-12 items-center ${!banner.isActive ? 'opacity-70' : ''}`}>
+    <div className={`relative ${!banner.isActive && !isEditMode ? 'hidden' : ''}`}>
+      <div className={`grid lg:grid-cols-2 gap-12 items-center ${!banner.isActive ? 'opacity-70' : ''}`}>
           
           {/* Large Editorial Image */}
           <div 
@@ -211,7 +259,7 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            <BannerProductCard bannerId={banner.id} product={banner.product} isEditMode={isEditMode} />
+            <BannerProductCard bannerId={banner.id} product={banner.product} isEditMode={isEditMode} alignLeft={banner.alignLeft} />
           </div>
 
           {/* Right Column - Product List */}
@@ -259,12 +307,10 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
                   <p className="text-[14px] text-[#ff5a1f] font-black">{fmtCurrency(p.price)}</p>
                 </Link>
               ))}
-            </div>
-
           </div>
 
         </div>
       </div>
-    </section>
+    </div>
   );
 }

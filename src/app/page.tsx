@@ -92,21 +92,24 @@ export default async function HomePage({ searchParams }: { searchParams: { editM
           } as any} products={allProducts.filter(p => p.collections.some(c => c.collection.slug === "beauty-essentials-sale")) as any} />
         )}
         
-        {stripBanners.length > 0 ? stripBanners.map((banner, i) => {
-          const bannerProducts = (banner as any).collection ? (banner as any).collection.products.map((p: any) => p.product) : [];
-          return <PremiumCollection key={banner.id} banner={banner as any} products={bannerProducts as any} isEditMode={isEditMode} />;
-        }) : (
-          <PremiumCollection isEditMode={isEditMode} banner={{
+        {stripBanners.length > 0 ? (
+          <PremiumCollection banners={stripBanners} isEditMode={isEditMode} />
+        ) : (
+          <PremiumCollection isEditMode={isEditMode} banners={[{
             id: 'demo-strip',
             title: "Natural Vitality & Stamina Booster",
             subtitle: "Buysial Biomanix provides ultimate energy and confidence support.",
             eyebrow: "Male Health",
             buttonText: "Shop Biomanix",
             image: "/uploads/banner_biomanix.png",
-            bgColorFrom: "#1f2937",
-            textColor: "#ffffff",
-            link: "/search"
-          } as any} products={allProducts.filter(p => p.collections.some(c => c.collection.slug === "premium-collection")).length > 0 ? allProducts.filter(p => p.collections.some(c => c.collection.slug === "premium-collection")) as any : allProducts.slice(0, 4) as any} />
+            bgColorFrom: "#ffffff",
+            bgColorTo: "#f8f9fa",
+            textColor: "#000000",
+            isActive: true,
+            alignLeft: false,
+            imageFit: "cover",
+            product: allProducts.find(p => p.slug.includes("biomanix")) || null
+          } as any]} />
         )}
         
         <RecentlyViewed products={displayRecentlyViewed as any} />

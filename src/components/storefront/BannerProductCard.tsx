@@ -9,11 +9,13 @@ import type { ProductType } from "@/lib/types";
 export default function BannerProductCard({ 
   bannerId, 
   product, 
-  isEditMode 
+  isEditMode,
+  alignLeft = false
 }: { 
   bannerId: string, 
   product?: ProductType | null, 
-  isEditMode: boolean 
+  isEditMode: boolean,
+  alignLeft?: boolean
 }) {
   const [isSelectorOpen, setIsSelectorOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -63,7 +65,7 @@ export default function BannerProductCard({
   };
 
   return (
-    <div className="absolute bottom-6 right-6 z-40 flex flex-col items-end pointer-events-auto">
+    <div className={`absolute bottom-6 z-40 flex flex-col pointer-events-auto ${alignLeft ? 'left-6 md:left-16 items-start' : 'right-6 md:right-16 items-end'}`}>
       
       {/* Product Card */}
       {product ? (

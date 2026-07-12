@@ -297,7 +297,7 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
                 </Link>
               </div>
             </motion.div>
-            <BannerProductCard bannerId={banner.id} product={banner.product} isEditMode={isEditMode} />
+            <BannerProductCard bannerId={banner.id} product={banner.product} isEditMode={isEditMode} alignLeft={banner.alignLeft} />
           </div>
         </div>
 
