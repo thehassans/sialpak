@@ -61,11 +61,12 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
       const res = await fetch("/api/admin/upload", { credentials: "include", method: "POST", body: fd });
       if (res.ok) {
         const { url } = await res.json();
+        const fieldToUpdate = window.innerWidth < 768 ? "mobileImage" : "image";
         await fetch(`/api/admin/banners/${banner.id}`, {
           credentials: "include",
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ image: url })
+          body: JSON.stringify({ [fieldToUpdate]: url })
         });
         window.location.reload();
       }
@@ -86,11 +87,12 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
         const res = await fetch("/api/admin/upload", { credentials: "include", method: "POST", body: fd });
         if (res.ok) {
           const { url } = await res.json();
+          const fieldToUpdate = window.innerWidth < 768 ? "mobileImage" : "image";
           await fetch(`/api/admin/banners/${banner.id}`, {
             credentials: "include",
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ image: url })
+            body: JSON.stringify({ [fieldToUpdate]: url })
           });
           window.location.reload();
         }
@@ -101,11 +103,12 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
     let url = e.dataTransfer.getData("text/plain");
     if (url && url.startsWith("http")) { try { url = new URL(url).pathname; } catch (e) {} }
     if (url && url.startsWith("/")) {
+      const fieldToUpdate = window.innerWidth < 768 ? "mobileImage" : "image";
       await fetch(`/api/admin/banners/${banner.id}`, {
         credentials: "include",
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: url })
+        body: JSON.stringify({ [fieldToUpdate]: url })
       });
       window.location.reload();
     }
@@ -140,9 +143,18 @@ export default function PromoBanner({ banner, products = [], isEditMode = false 
               src={banner.image || "/placeholder.png"} 
               alt={banner.title} 
               fill 
-              className="object-cover object-center" 
+              className={`object-cover object-center ${banner.mobileImage ? 'hidden md:block' : ''}`} 
               priority
             />
+            {banner.mobileImage && (
+              <Image 
+                src={banner.mobileImage} 
+                alt={banner.title} 
+                fill 
+                className="object-cover object-center md:hidden" 
+                priority
+              />
+            )}
             {/* Gradient mask to seamlessly blend the image into the dark background on the right */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#0b1221]/80 to-[#0b1221]" style={{ background: `linear-gradient(to right, transparent, ${banner.bgColorTo}80, ${banner.bgColorTo})` }}></div>
             <div className="absolute inset-0 bg-gradient-to-t from-[#0b1221]/90 via-[#0b1221]/60 to-transparent md:hidden" style={{ background: `linear-gradient(to top, ${banner.bgColorTo}F2, ${banner.bgColorTo}99, transparent)` }}></div>

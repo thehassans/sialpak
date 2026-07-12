@@ -39,11 +39,12 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
       const res = await fetch("/api/admin/upload", { credentials: "include", method: "POST", body: fd });
       if (res.ok) {
         const { url } = await res.json();
+        const fieldToUpdate = window.innerWidth < 768 ? "mobileImage" : "image";
         await fetch(`/api/admin/banners/${banner.id}`, {
           credentials: "include",
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ image: url })
+          body: JSON.stringify({ [fieldToUpdate]: url })
         });
         window.location.reload();
       }
@@ -64,11 +65,12 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
         const res = await fetch("/api/admin/upload", { credentials: "include", method: "POST", body: fd });
         if (res.ok) {
           const { url } = await res.json();
+          const fieldToUpdate = window.innerWidth < 768 ? "mobileImage" : "image";
           await fetch(`/api/admin/banners/${banner.id}`, {
             credentials: "include",
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ image: url })
+            body: JSON.stringify({ [fieldToUpdate]: url })
           });
           window.location.reload();
         }
@@ -79,11 +81,12 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
     let url = e.dataTransfer.getData("text/plain");
     if (url && url.startsWith("http")) { try { url = new URL(url).pathname; } catch (e) {} }
     if (url && url.startsWith("/")) {
+      const fieldToUpdate = window.innerWidth < 768 ? "mobileImage" : "image";
       await fetch(`/api/admin/banners/${banner.id}`, {
         credentials: "include",
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: url })
+        body: JSON.stringify({ [fieldToUpdate]: url })
       });
       window.location.reload();
     }
@@ -128,8 +131,16 @@ export default function PremiumCollection({ banner, products = [], isEditMode = 
                 src={banner.image || "/placeholder.png"} 
                 alt={banner.title} 
                 fill 
-                className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out" 
+                className={`object-cover group-hover:scale-105 transition-transform duration-1000 ease-out ${banner.mobileImage ? 'hidden md:block' : ''}`} 
               />
+              {banner.mobileImage && (
+                <Image 
+                  src={banner.mobileImage} 
+                  alt={banner.title} 
+                  fill 
+                  className="object-cover group-hover:scale-105 transition-transform duration-1000 ease-out md:hidden" 
+                />
+              )}
             </div>
             {/* Overlay Text */}
             <div className="absolute inset-0 bg-black/20 flex flex-col justify-end p-10 md:p-16">

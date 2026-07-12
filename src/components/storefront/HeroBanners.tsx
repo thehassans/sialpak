@@ -33,11 +33,12 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
       const res = await fetch("/api/admin/upload", { credentials: "include", method: "POST", body: fd });
       if (res.ok) {
         const { url } = await res.json();
+        const fieldToUpdate = window.innerWidth < 768 ? "mobileImage" : "image";
         await fetch(`/api/admin/banners/${id}`, {
           credentials: "include",
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ image: url })
+          body: JSON.stringify({ [fieldToUpdate]: url })
         });
         window.location.reload();
       }
@@ -58,11 +59,12 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
         const res = await fetch("/api/admin/upload", { credentials: "include", method: "POST", body: fd });
         if (res.ok) {
           const { url } = await res.json();
+          const fieldToUpdate = window.innerWidth < 768 ? "mobileImage" : "image";
           await fetch(`/api/admin/banners/${id}`, {
             credentials: "include",
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ image: url })
+            body: JSON.stringify({ [fieldToUpdate]: url })
           });
           window.location.reload();
         }
@@ -73,11 +75,12 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
     let url = e.dataTransfer.getData("text/plain");
     if (url && url.startsWith("http")) { try { url = new URL(url).pathname; } catch (e) {} }
     if (url && url.startsWith("/")) {
+      const fieldToUpdate = window.innerWidth < 768 ? "mobileImage" : "image";
       await fetch(`/api/admin/banners/${id}`, {
         credentials: "include",
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: url })
+        body: JSON.stringify({ [fieldToUpdate]: url })
       });
       window.location.reload();
     }
@@ -113,9 +116,18 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                 src={leftBanner.image || "/placeholder.png"} 
                 alt={leftBanner.title} 
                 fill 
-                className="object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out opacity-80"
+                className={`object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out opacity-80 ${leftBanner.mobileImage ? 'hidden md:block' : ''}`}
                 priority
               />
+              {leftBanner.mobileImage && (
+                <Image 
+                  src={leftBanner.mobileImage} 
+                  alt={leftBanner.title} 
+                  fill 
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out opacity-80 md:hidden"
+                  priority
+                />
+              )}
               {/* Premium Dark Solid Mask */}
               <div className="absolute inset-0 bg-[#3b2e2a]/45 group-hover:bg-black/55 transition-colors duration-500"></div>
             </div>
@@ -182,9 +194,18 @@ export default function HeroBanners({ banners, isEditMode = false }: { banners: 
                   src={rightBanner.image || "/placeholder.png"} 
                   alt={rightBanner.title} 
                   fill 
-                  className="object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out opacity-70"
+                  className={`object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out opacity-70 ${rightBanner.mobileImage ? 'hidden md:block' : ''}`}
                   priority
                 />
+                {rightBanner.mobileImage && (
+                  <Image 
+                    src={rightBanner.mobileImage} 
+                    alt={rightBanner.title} 
+                    fill 
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out opacity-70 md:hidden"
+                    priority
+                  />
+                )}
                 {/* Premium Dark Solid Mask */}
                 <div className="absolute inset-0 bg-[#3b2e2a]/40 group-hover:bg-black/45 transition-colors duration-500"></div>
               </div>
