@@ -4,6 +4,7 @@ import { fmtCurrency } from "@/lib/utils";
 import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { trackViewContent, trackAddToCart } from "@/lib/tracking";
 
 interface Variant {
   id: string;
@@ -69,6 +70,16 @@ export default function VariantSelector({ product, general }: { product: Product
   }, []);
 
   useEffect(() => {
+    // Fire ViewContent pixel on mount
+    trackViewContent({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      currency: general.currency || "PKR"
+    });
+  }, [product.id, product.name, product.price, general.currency]);
+
+  useEffect(() => {
     if (variants.length === 0) return;
     const matched = variants.find(v => {
       for (const [key, val] of Object.entries(selected)) {
@@ -119,10 +130,21 @@ export default function VariantSelector({ product, general }: { product: Product
       } catch {}
     }
     const variantStr = Object.entries(selected).map(([k,v]) => `${k}: ${v}`).join(', ');
+    const finalPrice = getBundleUnitPrice();
+    
+    // Fire AddToCart pixel
+    trackAddToCart({
+      id: product.id,
+      name: product.name,
+      price: finalPrice,
+      currency: general.currency || "PKR",
+      quantity: qty
+    });
+
     const params = new URLSearchParams({
       productId: product.id,
       name: product.name,
-      price: getBundleUnitPrice().toString(),
+      price: finalPrice.toString(),
       image: imgUrl,
       qty: qty.toString(),
       variant: variantStr

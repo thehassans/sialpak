@@ -8,6 +8,7 @@ import {
   Copy, Check
 } from "lucide-react";
 import { createOrder } from "./actions";
+import { trackInitiateCheckout, trackPurchase } from "@/lib/tracking";
 
 export default function CartPage() {
   const [step, setStep] = useState<"cart" | "checkout" | "success">("cart");
@@ -87,6 +88,25 @@ export default function CartPage() {
   const couponDiscount = appliedCoupon?.discountAmount || 0;
   const total = subtotal + shipping - couponDiscount - advanceSaving;
 
+  // Tracking Effect
+  useEffect(() => {
+    if (step === "checkout") {
+      trackInitiateCheckout(total, "PKR", [{
+        productId: cartItem.id,
+        name: cartItem.name,
+        price: cartItem.price,
+        quantity: cartItem.qty
+      }]);
+    } else if (step === "success" && orderNumber) {
+      trackPurchase(orderNumber, total, "PKR", [{
+        productId: cartItem.id,
+        name: cartItem.name,
+        price: cartItem.price,
+        quantity: cartItem.qty
+      }]);
+    }
+  }, [step, orderNumber, total, cartItem]);
+
   function copyToClipboard(text: string, key: string) {
     navigator.clipboard.writeText(text).then(() => {
       setCopied(key);
@@ -135,10 +155,10 @@ export default function CartPage() {
       itemQty: cartItem.qty,
       itemImage: cartItem.image
     });
-    if (res.success) {
-      setOrderNumber(res.orderNumber);
-      setStep("success");
-    } else {
+      if (res.success) {
+        setOrderNumber(res.orderNumber || "");
+        setStep("success");
+      } else {
       alert("Checkout failed. Please try again.");
     }
     setLoading(false);
