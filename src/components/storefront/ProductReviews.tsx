@@ -130,7 +130,11 @@ export default function ProductReviews({
                       </div>
                     </div>
                     <div className="text-[10px] text-gray-500 uppercase tracking-wider font-semibold">
-                      {new Date(review.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                      {(() => {
+                        const d = new Date(review.createdAt);
+                        const months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+                        return `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+                      })()}
                     </div>
                   </div>
                   <h4 className="font-black text-[14px] text-black mb-2 tracking-wide uppercase">{review.title}</h4>

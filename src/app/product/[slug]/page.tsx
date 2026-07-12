@@ -87,7 +87,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
       const revIdx = Math.abs((hash * (i + 1)) % reviewers.length);
       const rating = Math.abs((hash - i) % 2) === 0 ? 5 : 4;
       
-      const date = new Date(Date.now() - (i + 1) * 3 * 24 * 60 * 60 * 1000); // 3-18 days ago
+      const date = new Date(1735689600000 - (i + 1) * 3 * 24 * 60 * 60 * 1000); // 3-18 days ago from fixed base date
       
       generated.push({
         id: `mock-review-${i}`,
@@ -125,7 +125,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
   }
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen text-black font-sans">
+    <div className="bg-[#f8f9fa] min-h-screen text-black font-sans overflow-x-hidden">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header storeName={general.storeName} tagline={general.tagline} supportPhone={general.supportPhone} freeShippingText={general.freeShippingText} />
       
