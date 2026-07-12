@@ -15,11 +15,20 @@ export default async function DashboardPage() {
     prisma.category.count()
   ]);
 
-  const totalRevenue = orders.filter(o => o.paymentStatus === "paid" || o.orderStatus === "delivered").reduce((s, o) => s + o.total, 0);
-  const pendingOrders = orders.filter(o => ["processing", "confirmed", "packed"].includes(o.orderStatus)).length;
-  const deliveredOrders = orders.filter(o => o.orderStatus === "delivered").length;
-  const avgOrderValue = orders.length ? orders.reduce((s, o) => s + o.total, 0) / orders.length : 0;
-  const lowStock = products.filter(p => p.stock <= 5).length;
+  const pendingStatuses = ["processing", "confirmed", "packed", "shipped"];
+  const pendingOrdersArr = orders.filter(o => pendingStatuses.includes(o.orderStatus));
+  const deliveredOrdersArr = orders.filter(o => o.orderStatus === "delivered");
+
+  const totalDeliveredAmount = deliveredOrdersArr.reduce((s, o) => s + o.total, 0);
+  const pendingOrderAmount = pendingOrdersArr.reduce((s, o) => s + o.total, 0);
+
+  const pendingCodOrdersArr = pendingOrdersArr.filter(o => o.paymentMethod === "cod");
+  const pendingAdvanceOrdersArr = pendingOrdersArr.filter(o => o.paymentMethod === "advance");
+
+  const totalCodAmount = orders.filter(o => o.paymentMethod === "cod").reduce((s, o) => s + o.total, 0);
+  const totalAdvanceAmount = orders.filter(o => o.paymentMethod === "advance").reduce((s, o) => s + o.total, 0);
+  const pendingCodAmount = pendingCodOrdersArr.reduce((s, o) => s + o.total, 0);
+  const pendingAdvanceAmount = pendingAdvanceOrdersArr.reduce((s, o) => s + o.total, 0);
 
   // Revenue for last 7 days
   const days: { day: string; revenue: number }[] = [];
@@ -48,10 +57,15 @@ export default async function DashboardPage() {
       <PageHeader title="Dashboard" subtitle="Live overview of your store's performance" />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard label="Total Revenue" value={fmtCurrency(totalRevenue)} sub={`${orders.length} total orders`} tone="brand" />
-        <StatCard label="Pending Orders" value={String(pendingOrders)} sub="Needs action" tone="warn" />
-        <StatCard label="Delivered" value={String(deliveredOrders)} sub="Completed successfully" tone="success" />
-        <StatCard label="Avg. Order Value" value={fmtCurrency(avgOrderValue)} sub={`${products.length} products · ${categories} categories`} tone="brand" />
+        <StatCard label="Total Delivered Revenue" value={fmtCurrency(totalDeliveredAmount)} sub={`${deliveredOrdersArr.length} delivered orders`} tone="success" />
+        <StatCard label="Pending Revenue" value={fmtCurrency(pendingOrderAmount)} sub={`${pendingOrdersArr.length} orders to process`} tone="warn" />
+        <StatCard label="Total COD Amount" value={fmtCurrency(totalCodAmount)} sub="All-time COD" tone="brand" />
+        <StatCard label="Total Advance Amount" value={fmtCurrency(totalAdvanceAmount)} sub="All-time Advance Payment" tone="brand" />
+        
+        <StatCard label="Total Pending Orders" value={String(pendingOrdersArr.length)} sub="Needs action" tone="warn" />
+        <StatCard label="Pending COD Orders" value={String(pendingCodOrdersArr.length)} sub={`Amount: ${fmtCurrency(pendingCodAmount)}`} tone="brand" />
+        <StatCard label="Pending Advance Orders" value={String(pendingAdvanceOrdersArr.length)} sub={`Amount: ${fmtCurrency(pendingAdvanceAmount)}`} tone="brand" />
+        <StatCard label="Delivered Orders" value={String(deliveredOrdersArr.length)} sub="Completed successfully" tone="success" />
       </div>
 
       <div className="grid lg:grid-cols-3 gap-5 mb-6">
