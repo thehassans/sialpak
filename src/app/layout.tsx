@@ -32,12 +32,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const pixels = await getSetting("pixels", DEFAULT_SETTINGS.pixels);
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-x-hidden">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-sans text-ink bg-bg">
+      <body className="font-sans text-ink bg-bg overflow-x-hidden w-full max-w-[100vw]">
         <PixelScripts pixels={pixels} />
         {children}
       </body>

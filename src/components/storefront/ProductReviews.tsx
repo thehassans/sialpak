@@ -103,7 +103,7 @@ export default function ProductReviews({
               </form>
             )
           ) : (
-            <div className="bg-white border border-black p-8 text-center flex flex-col items-center rounded-xl">
+            <div className="bg-white border border-black p-4 md:p-8 text-center flex flex-col items-center rounded-xl">
               <p className="text-gray-600 text-[13px] font-light mb-6">Please log in to share your experience with this product.</p>
               <a href="/login" className="bg-black text-white font-bold text-[10px] uppercase tracking-wider px-8 py-3 hover:bg-[#27272a] transition-colors rounded-lg">Sign In</a>
             </div>
